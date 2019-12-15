@@ -1,7 +1,8 @@
 My 2nd Discord bot project!
 =============================
 
-__I made another discord bot__\ however the original is a more private bot I have with 130+ commands. 
+__I made another discord bot__\ 
+However the original is a private bot I have with 130+ commands. 
 
 These bot's commands are:
 - slap
