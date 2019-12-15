@@ -1,7 +1,7 @@
 My 2nd Discord bot project!
 =============================
 
-__I made another discord bot__\ 
+**I made another discord bot**\
 However the original is a private bot I have with 130+ commands. 
 
 These bot's commands are:
