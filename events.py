@@ -1,4 +1,4 @@
-import discord
+import discord, os
 from discord.ext import commands
 from random import choice, randint
 from random_images import *
@@ -99,6 +99,7 @@ def event_azami():
 def main():
 	commands_azami()
 	event_azami()
-	token = open("token.txt", "r")
-	azami.run(token.read())
+	azami.run(os.environ['DISCORD_TOKEN'])
+	#token = open("token.txt", "r")
+	#azami.run(token.read())
 
