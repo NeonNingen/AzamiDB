@@ -34,7 +34,7 @@ def commands_azami():
 
 	@azami.command()
 	async def d4(ctx):
-		await ctx.send("You rolled:", randint(1, 2))
+		await ctx.send(f"You rolled: {randint(1, 2)}")
 
 	@azami.command()
 	async def d6(ctx):
