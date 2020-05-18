@@ -32,6 +32,34 @@ def commands_azami():
 	async def add(ctx, a: float, b: float):
 		await ctx.send(a + b)
 
+	@azami.command()
+	async def d4(ctx):
+		await ctx.send("You rolled:", randint(1, 2))
+
+	@azami.command()
+	async def d6(ctx):
+		await ctx.send("You rolled:", randint(1, 6))
+
+	@azami.command()
+	async def d8(ctx):
+		await ctx.send("You rolled:", randint(1, 8))
+
+	@azami.command()
+	async def d10(ctx):
+		await ctx.send("You rolled:", randint(1, 10))
+
+	@azami.command()
+	async def d100(ctx):
+		await ctx.send("You rolled: ", randint(1, 100))
+
+	@azami.command()
+	async def d12(ctx):
+		await ctx.send("You rolled: ", randint(1, 12))
+
+	@azami.command()
+	async def d20(ctx):
+		await ctx.send("You rolled: ", randint(1, 20))
+
 	'''
 	@azami.command(aliases = ['subtract', 'takeaway'])
 	async def subtract(ctx, a: float, b: float):
