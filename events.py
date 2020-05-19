@@ -30,11 +30,11 @@ def commands_azami():
 
 	@azami.command()
 	async def add(ctx, a: float, b: float):
-		await ctx.send("{a} + {b} = {a + b}")
+		await ctx.send(f"{a} + {b} = {a + b}")
 
 	@azami.command(aliases = ['takeaway'])
 	async def subtract(ctx, a: float, b: float):
-		await ctx.send("{a} - {b} = {a - b}")
+		await ctx.send(f"{a} - {b} = {a - b}")
 
 	@azami.command(aliases = ['times'])
 	async def multiply(ctx, a: float, b: float):
