@@ -7,19 +7,19 @@ class Maths(commands.Cog):
 		self.azami = azami
 
 	@commands.command()
-	async def add(ctx, a: float, b: float):
+	async def add(self, ctx, a: float, b: float):
 		await ctx.send(f"{a} + {b} = {a + b}")
 
 	@commands.command(aliases = ['takeaway'])
-	async def subtract(ctx, a: float, b: float):
+	async def subtract(self, ctx, a: float, b: float):
 		await ctx.send(f"{a} - {b} = {a - b}")
 
 	@commands.command(aliases = ['times'])
-	async def multiply(ctx, a: float, b: float):
+	async def multiply(self, ctx, a: float, b: float):
 		await ctx.send(a * b)
 
 	@commands.command(aliases = ['division'])
-	async def divide(ctx, a: float, b: float):
+	async def divide(self, ctx, a: float, b: float):
 		await ctx.send(a / b)
 	
 
