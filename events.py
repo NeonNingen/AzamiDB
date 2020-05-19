@@ -1,6 +1,5 @@
 import discord, os
 from discord.ext import commands
-from random import choice, randint
 
 azami = commands.Bot(command_prefix = 'a!')
 
