@@ -27,8 +27,7 @@ class Maths(commands.Cog):
 	async def add_error_1(self, ctx, error):
 		if isinstance(error, MissingRequiredArgument):
 			await ctx.send("Requires an argument")
-			
-	@add.error
+
 	async def add_error_2(self, ctx, error):
 		if isinstance(error, commands.BadArgument):
 			await ctx.send("Invalid arguement, this command only takes floats")
