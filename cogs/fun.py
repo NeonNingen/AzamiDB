@@ -57,11 +57,13 @@ class Fun(commands.Cog):
 	async def slap_error(self, ctx, error):
 		if isinstance(error, commands.CommandError):
 			await ctx.send("Requires an argument")
+			return
 
 	@_8ball.error
 	async def ball8_error(self, ctx, error):
 		if isinstance(error, commands.CommandError):
 			await ctx.send("Requires an argument")
+			return
 	
 
 def setup(azami):
