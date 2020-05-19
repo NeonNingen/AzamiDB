@@ -37,23 +37,36 @@ def commands_azami():
 	async def load(ctx, extension):
 		azami.load_extension(f'cogs.{extension}')
 		print(f"The cog, {extension} has loaded")
+		await ctx.send(f"The cog, {extension} has loaded")
+
+	@azami.command()
+	async def unload(ctx, extension):
+		azami.unload_extension(f'cogs.{extension}')
+		print(f"The cog, {extension} has unloaded")
+		await ctx.send(f"The cog, {extension} has unloaded")
+
+	@azami.command(aliases=['reload'])
+	async def _reload(ctx, extension):
+		azami.unload_extension(f'cogs.{extension}')
+		azami.load_extension(f'cogs.{extension}')
+		print(f"The cog, {extension} has reloaded")
+		await ctx.send(f"The cog, {extension} has reloaded")
 
 	@load.error
 	async def load_error(ctx, error):
 		if isinstance(error, commands.CommandError):
 			await ctx.send("Invalid arguement, did you check if it's lower case?")
 
+	@unload.error
+	async def unload_error(ctx, error):
+		if isinstance(error, commands.CommandError):
+			await ctx.send("Invalid arguement, did you check if it's lower case?")
 
-	@azami.command()
-	async def unload(ctx, extension):
-		azami.unload_extension(f'cogs.{extension}')
-		print(f"The cog, {extension} has unloaded")
+	@_reload.error
+	async def reload_error(ctx, error):
+		if isinstance(error, commands.CommandError):
+			await ctx.send("Invalid arguement, did you check if it's lower case?")
 
-	@azami.command()
-	async def reload(ctx, extension):
-		azami.unload_extension(f'cogs.{extension}')
-		azami.load_extension(f'cogs.{extension}')
-		print(f"The cog, {extension} has reloaded")
 
 def event_azami():
 
@@ -79,12 +92,11 @@ def event_azami():
 	async def on_member_remove(member):
 		print(f"{member} has left/kick the server")
 
-	''' An example of error fixing
+	
 	@azami.event
-	async def on_command_error(ctx, error):
-		if isinstance(error, commands.MissingRequiredArgument):
-			await ctx.send("Please pass in all required arguments")	
-	'''
+	async def invalid_command_error(ctx, error):
+		if isinstance(error, commands.CommandNotFound):
+			await ctx.send("That command does not exist")	
 
 def main():
 	commands_azami()

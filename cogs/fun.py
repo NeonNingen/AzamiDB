@@ -52,6 +52,16 @@ class Fun(commands.Cog):
 	@commands.command()
 	async def up(self, ctx, *, content: to_upper):
 		await ctx.send(content)
+
+	@slap.error
+	async def slap_error(ctx, error):
+		if isinstance(error, commands.MissingRequiredArgument):
+			await ctx.send("Requires an argument")
+
+	@_8ball.error
+	async def _8ball_error(ctx, error):
+		if isinstance(error, commands.MissingRequiredArgument):
+			await ctx.send("Requires an argument")
 	
 
 def setup(azami):

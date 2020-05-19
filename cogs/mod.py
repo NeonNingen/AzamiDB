@@ -37,6 +37,16 @@ class Mod(commands.Cog):
 		if isinstance(error, commands.MissingPermissions):
 			await ctx.send("You cannot use this command")
 
+	@ban.error
+	async def ban_error(self, ctx, error):
+		if isinstance(error, commands.MissingPermissions):
+			await ctx.send("You cannot use this command")
+			
+	@unban.error
+	async def unban_error(self, ctx, error):
+		if isinstance(error, commands.MissingPermissions):
+			await ctx.send("You cannot use this command")	
+
 
 
 def setup(azami):
