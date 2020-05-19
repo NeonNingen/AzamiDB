@@ -1,7 +1,9 @@
 import discord, os
-from discord.ext import commands
+from discord.ext import commands, tasks
+from itertools import cycle
 
 azami = commands.Bot(command_prefix = 'a!')
+status = cycle(["I'm alive!", "I feel amazing!"])
 
 def commands_azami():
 	
@@ -42,8 +44,13 @@ def event_azami():
 
 	@azami.event
 	async def on_ready():
-		await azami.change_presence(status=discord.Status.online, activity=discord.Game("I'm alive!"))
+		change_status.start()
 		print("We have logged in as {0.user}".format(azami))
+
+
+	@tasks.loop(seconds=10)
+	async def change_status():
+		await client.change_presence(activity=discord.Game(next(status)))
 
 	@azami.event
 	async def on_member_join(member):
