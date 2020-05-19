@@ -46,11 +46,11 @@ class Fun(commands.Cog):
         			"Very doubtful."]
 		await ctx.send("Questions: {0}\nAnswer: {1}".format(question, choice(responses)))
 
-	def to_upper(argument):
+	def to_upper(self, argument):
 		return argument.upper()
 
-	@azami.command()
-	async def up(ctx, *, content: to_upper):
+	@commands.command()
+	async def up(self, ctx, *, content: to_upper):
 		await ctx.send(content)
 	
 
