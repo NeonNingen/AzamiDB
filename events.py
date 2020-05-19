@@ -79,11 +79,12 @@ def event_azami():
 	async def on_member_remove(member):
 		print(f"{member} has left/kick the server")
 
+	''' An example of error fixing
 	@azami.event
 	async def on_command_error(ctx, error):
 		if isinstance(error, commands.MissingRequiredArgument):
 			await ctx.send("Please pass in all required arguments")	
-
+	'''
 
 def main():
 	commands_azami()

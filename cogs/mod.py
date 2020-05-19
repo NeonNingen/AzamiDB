@@ -33,7 +33,7 @@ class Mod(commands.Cog):
 				return
 
 	@kick.error
-	async def kick_error(ctx, error):
+	async def kick_error(self, ctx, error):
 		if isinstance(error, commands.MissingPermissions):
 			await ctx.send("You cannot use this command")
 
