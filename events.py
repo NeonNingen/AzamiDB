@@ -93,7 +93,7 @@ def event_azami():
 	async def on_member_remove(member):
 		print(f"{member} has left/kick the server")
 
-	@bot.event
+	@azami.event
 	async def on_command_error(ctx, error):
 		if isinstance(error, CommandNotFound):
 			return
