@@ -95,7 +95,7 @@ def event_azami():
 	
 	@azami.event
 	async def invalid_command_error(ctx, error):
-		if isinstance(error, commands.CommandNotFound):
+		if isinstance(error, commands.errors.CommandNotFound):
 			await ctx.send("That command does not exist")	
 
 def main():
