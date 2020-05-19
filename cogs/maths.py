@@ -27,38 +27,32 @@ class Maths(commands.Cog):
 	async def add_error(self, ctx, error):
 		if isinstance(error, MissingRequiredArgument):
 			await ctx.send("Requires an argument")
+			return
 		elif isinstance(error, commands.BadArgument):
 			await ctx.send("Invalid arguement, this command only takes floats")
+			return
+		return error
 			
 
 	@subtract.error
-	async def subtract_error_1(self, ctx, error):
+	async def subtract_error(self, ctx, error):
 		if isinstance(error, MissingRequiredArgument):
 			await ctx.send("Requires an argument")
-
-	@subtract.error
-	async def subtract_error_2(self, ctx, error):
-		if isinstance(error, commands.BadArgument):
+		elif isinstance(error, commands.BadArgument):
 			await ctx.send("Invalid arguement, this command only takes floats")
 
 	@multiply.error
-	async def multiply_error_1(self, ctx, error):
+	async def multiply_error(self, ctx, error):
 		if isinstance(error, MissingRequiredArgument):
 			await ctx.send("Requires an argument")
-
-	@multiply.error
-	async def multiply_error_2(self, ctx, error):
-		if isinstance(error, commands.BadArgument):
+		elif isinstance(error, commands.BadArgument):
 			await ctx.send("Invalid arguement, this command only takes floats")
 
 	@divide.error
-	async def divide_error_1(self, ctx, error):
+	async def divide_error(self, ctx, error):
 		if isinstance(error, MissingRequiredArgument):
 			await ctx.send("Requires an argument")
-
-	@divide.error
-	async def divide_error_2(self, ctx, error):
-		if isinstance(error, commands.BadArgument):
+		elif isinstance(error, commands.BadArgument):
 			await ctx.send("Invalid arguement, this command only takes floats")
 	
 
