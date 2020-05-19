@@ -35,13 +35,6 @@ def commands_azami():
 	async def ping(self, ctx):
 		await ctx.send(f'Pong! :ping_pong: {round(azami.latency * 1000)}ms.')
 
-	def to_upper(argument):
-		return argument.upper()
-
-	@azami.command()
-	async def up(ctx, *, content: to_upper):
-		await ctx.send(content)
-
 	@azami.command()
 	async def clear(ctx, amount = 5):
 		await ctx.channel.purge(limit = amount + 1)
