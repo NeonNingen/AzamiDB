@@ -142,11 +142,11 @@ def event_azami():
 
 	@azami.event
 	async def on_member_join(member):
-		print(f"{member.author} has joined the server")
+		print(f"{member} has joined the server")
 
 	@azami.event
 	async def on_member_remove(member):
-		print(f"{member.author} has left/kick the server")
+		print(f"{member} has left/kick the server")
 
 
 def main():
