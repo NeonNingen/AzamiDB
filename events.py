@@ -88,11 +88,12 @@ def commands_azami():
 	@commands.has_permissions(ban_members = True)
 	async def unban(ctx, *, member):
 		banned_users = await ctx.guild.bans()
+		member_name, member_discriminator = member.split('#')
 
 		for ban_entry in banned_users:
 			user = ban_entry.user
 
-			if (user.mention) == (member.mention):
+			if(user.name, user.discriminator) == (member_name, member_discriminator):
 				await ctx.guild.unban(user)
 				await ctx.send(f'You have unbanned, {user.mention}')
 				return
