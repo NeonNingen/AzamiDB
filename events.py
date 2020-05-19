@@ -32,6 +32,18 @@ def commands_azami():
 	async def add(ctx, a: float, b: float):
 		await ctx.send(a + b)
 
+	@azami.command(aliases = ['takeaway'])
+	async def subtract(ctx, a: float, b: float):
+		await ctx.send(a - b)
+
+	@azami.command(aliases = ['times'])
+	async def multiply(ctx, a: float, b: float):
+		await ctx.send(a * b)
+
+	@azami.command(aliases = ['division'])
+	async def divide(ctx, a: float, b: float):
+		await ctx.send(a / b)
+
 	@azami.command()
 	async def d4(ctx):
 		await ctx.send(f"You rolled: {randint(1, 4)}")
@@ -61,17 +73,7 @@ def commands_azami():
 		await ctx.send(f"You rolled: {randint(1, 20)}")
 
 	
-	@azami.command(aliases = ['subtract', 'takeaway'])
-	async def subtract(ctx, a: float, b: float):
-		await ctx.send(a - b)
-
-	@azami.command(aliases = ['multiply', 'times'])
-	async def multiply(ctx, a: float, b: float):
-		await ctx.send(a * b)
-
-	@azami.command(aliases = ['division', 'division'])
-	async def divide(ctx, a: float, b: float):
-		await ctx.send(a / b)
+	
 
 	def to_upper(argument):
 		return argument.upper()
