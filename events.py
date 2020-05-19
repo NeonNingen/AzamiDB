@@ -57,30 +57,6 @@ def commands_azami():
 	async def up(ctx, *, content: to_upper):
 		await ctx.send(content)
 
-	@azami.command(aliases=['8ball', '8'])
-	async def _8ball(ctx, *, question):
-		responses = ["It is certain.",
-					"It is decidedly so.",
-        			"Without a doubt.",
-        			"Yes - definitely.",
-        			"You may rely on it.",
-        			"As I see it, yes.",
-        			"Most likely.",
-        			"Outlook good.",
-        			"Yes.",
-        			"Signs point to yes.",
-        			"Reply hazy, try again.",
-        			"Ask again later.",
-        			"Better not tell you now.",
-        			"Cannot predict now.",
-        			"Concentrate and ask again.",
-        			"Don't count on it.",
-        			"My reply is no.",
-        			"My sources say no.",
-        			"Outlook not so good.",
-        			"Very doubtful."]
-		await ctx.send("Questions: {0}\nAnswer: {1}".format(question, choice(responses)))
-
 	@azami.command()
 	async def clear(ctx, amount = 5):
 		await ctx.channel.purge(limit = amount + 1)
