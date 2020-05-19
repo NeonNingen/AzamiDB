@@ -18,7 +18,7 @@ def commands_azami():
 
 	@azami.command()
 	async def slap(ctx, user):
-		await ctx.send(slap_images() + '\n' + '{0.author} slapped {1}'.format(ctx, user))
+		await ctx.send(slap_images() + '\n' + '{0.author.mention} slapped {1}'.format(ctx, user))
 
 	@azami.command()
 	async def ping(ctx):
@@ -26,7 +26,7 @@ def commands_azami():
 
 	@azami.command()
 	async def hello(ctx):
-		await ctx.send(f"Hello!, {ctx.mention}")
+		await ctx.send(f"Hello!, {ctx}")
 
 	@azami.command()
 	async def add(ctx, a: float, b: float):
