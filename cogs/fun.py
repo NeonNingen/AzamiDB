@@ -1,5 +1,6 @@
 import discord, sys
 from discord.ext import commands
+sys.path.insert(1, '../')
 from random_images import *
 
 class Fun(commands.Cog):
