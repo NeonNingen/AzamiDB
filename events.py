@@ -61,7 +61,7 @@ def event_azami():
 		change_status.start()
 		print("We have logged in as {0.user}".format(azami))
 
-	@tasks.loop(seconds=3)
+	@tasks.loop(seconds=3600)
 	async def change_status():
 		await azami.change_presence(activity=discord.Game(next(status)))
 
