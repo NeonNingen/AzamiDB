@@ -1,9 +1,23 @@
 import discord, os
-from discord.ext import commands, tasks
+from discord.ext import commands, tasks, shuffle
 from itertools import cycle
 
 azami = commands.Bot(command_prefix = 'a!')
-status = cycle(["I'm alive!", "I feel amazing!"])
+status_quotes = ["a!help",
+				"Let's try to get along!",
+				"I feel sleepy...",
+				"I'm very unique",
+				"I can compute at the speed of sound",
+				"I'm made out of pure code",
+				"Nya nya!",
+				"https://discord.gg/rRb23dt",
+				"I think therefore I am",
+				"https://discord.com/oauth2/authorize?client_id=639574438794231818&permissions=8&scope=bot",
+				"I was made to learn",
+				"https://github.com/NeonNingen",
+				"Beep Boop"]
+shuffle(status_quotes)
+status = cycle(status_quotes)
 
 def commands_azami():
 	
