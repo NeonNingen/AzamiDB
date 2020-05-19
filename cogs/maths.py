@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+from discord.ext.commands import MissingRequiredArgument
 
 class Maths(commands.Cog):
 
@@ -24,9 +25,9 @@ class Maths(commands.Cog):
 
 	@add.error
 	async def add_error_1(self, ctx, error):
-		if isinstance(error, commands.CommandError):
+		if isinstance(error, MissingRequiredArgument):
 			await ctx.send("Requires an argument")
-
+			
 	@add.error
 	async def add_error_2(self, ctx, error):
 		if isinstance(error, commands.BadArgument):
@@ -34,7 +35,7 @@ class Maths(commands.Cog):
 
 	@subtract.error
 	async def subtract_error_1(self, ctx, error):
-		if isinstance(error, commands.CommandError):
+		if isinstance(error, MissingRequiredArgument):
 			await ctx.send("Requires an argument")
 
 	@subtract.error
@@ -44,7 +45,7 @@ class Maths(commands.Cog):
 
 	@multiply.error
 	async def multiply_error_1(self, ctx, error):
-		if isinstance(error, commands.CommandError):
+		if isinstance(error, MissingRequiredArgument):
 			await ctx.send("Requires an argument")
 
 	@multiply.error
@@ -54,7 +55,7 @@ class Maths(commands.Cog):
 
 	@divide.error
 	async def divide_error_1(self, ctx, error):
-		if isinstance(error, commands.CommandError):
+		if isinstance(error, MissingRequiredArgument):
 			await ctx.send("Requires an argument")
 
 	@divide.error
