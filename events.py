@@ -81,7 +81,7 @@ def commands_azami():
 	@azami.command(ban_members = True)
 	@commands.has_permissions(ban_members = True)
 	async def ban(ctx, member: discord.Member, *, reason=None):
-		await member.ban(reason=reason)
+		await member.ban(f"You have banned, {member.mention}")
 
 	@azami.command(ban_members = True)
 	@commands.has_permissions(ban_members = True)
@@ -94,7 +94,7 @@ def commands_azami():
 
 			if(user.name, user.discriminator) == (member_name, member_discriminator):
 				await ctx.guild.unban(user)
-				await ctx.send(f'Unbanned {user.mention}')
+				await ctx.send(f'You have unbanned, {user.mention}')
 				return
 
 	
@@ -132,7 +132,7 @@ def commands_azami():
 
 	@azami.command()
 	async def clear(ctx, amount = 5):
-		await ctx.channel.purge(limit = amount)
+		await ctx.channel.purge(limit = amount + 1)
 
 def event_azami():
 
