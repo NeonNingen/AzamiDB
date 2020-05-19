@@ -7,11 +7,11 @@ azami = commands.Bot(command_prefix = 'a!')
 
 @azami.command()
 async def load(ctx, extension):
-	azami.load_extension(f'cogs.{extension}', ctx)
+	azami.load_extension(f'cogs.{extension}')
 
 @azami.command()
 async def unload(ctx, extension):
-	azami.unload_extension(f'cogs.{extension}', ctx)
+	azami.unload_extension(f'cogs.{extension}')
 
 for filename in os.listdir('./cogs'):
 	if filename.endswith('.py'):
