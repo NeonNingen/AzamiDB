@@ -18,20 +18,20 @@ def commands_azami():
 		await ctx.channel.purge(limit = amount + 1)
 
 	@azami.command()
-async def load(ctx, extension):
-	azami.load_extension(f'cogs.{extension}')
-	print(f"The cog, {extension} has loaded")
+	async def load(ctx, extension):
+		azami.load_extension(f'cogs.{extension}')
+		print(f"The cog, {extension} has loaded")
 
-@azami.command()
-async def unload(ctx, extension):
-	azami.unload_extension(f'cogs.{extension}')
-	print(f"The cog, {extension} has unloaded")
+	@azami.command()
+	async def unload(ctx, extension):
+		azami.unload_extension(f'cogs.{extension}')
+		print(f"The cog, {extension} has unloaded")
 
-@azami.command()
-async def reload(ctx, extension):
-	azami.unload_extension(f'cogs.{extension}')
-	azami.load_extension(f'cogs.{extension}')
-	print(f"The cog, {extension} has reloaded")
+	@azami.command()
+	async def reload(ctx, extension):
+		azami.unload_extension(f'cogs.{extension}')
+		azami.load_extension(f'cogs.{extension}')
+		print(f"The cog, {extension} has reloaded")
 
 def event_azami():
 
