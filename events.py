@@ -96,8 +96,8 @@ def event_azami():
 	@bot.event
 	async def on_command_error(ctx, error):
 		if isinstance(error, CommandNotFound):
-        	return
-        raise error
+			return
+		raise error
 	'''
 	@azami.event
 	async def invalid_command_error(ctx, error):
