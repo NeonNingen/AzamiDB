@@ -72,7 +72,13 @@ def commands_azami():
 	async def d20(ctx):
 		await ctx.send(f"You rolled: {randint(1, 20)}")
 
-	
+	@azami.command()
+	async def kick(ctx, member: discord.Member, *, reason=None):
+		await member.kick(reason=reason)
+
+	@azami.command()
+	async def ban(ctx, member: discord.Member, *, reason=None):
+		await member.ban(reason=reason)
 	
 
 	def to_upper(argument):
