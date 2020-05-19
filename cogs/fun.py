@@ -53,7 +53,7 @@ class Fun(commands.Cog):
 	async def up(self, ctx, *, content: to_upper):
 		await ctx.send(content)
 
-	@slap.error # Future fix, try discord.ext.commands error
+	@slap.error # Find out how to remove error from console
 	async def slap_error(self, ctx, error):
 		if isinstance(error, commands.CommandError):
 			await ctx.send("Requires an argument")

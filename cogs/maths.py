@@ -24,13 +24,12 @@ class Maths(commands.Cog):
 		await ctx.send(a / b)
 
 	@add.error
-	async def add_error_1(self, ctx, error):
+	async def add_error(self, ctx, error):
 		if isinstance(error, MissingRequiredArgument):
 			await ctx.send("Requires an argument")
-
-	async def add_error_2(self, ctx, error):
-		if isinstance(error, commands.BadArgument):
+		elif isinstance(error, commands.BadArgument):
 			await ctx.send("Invalid arguement, this command only takes floats")
+			
 
 	@subtract.error
 	async def subtract_error_1(self, ctx, error):
