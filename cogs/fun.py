@@ -1,24 +1,24 @@
 import discord, sys
 from discord.ext import commands
-#from random_images import *
+from random_images import *
 
-class Mod(commands.Cog):
+class Fun(commands.Cog):
 
 	def __init__(self, azami):
 		self.azami = azami
 
-	#class Slapper(commands.Converter):
-		#async def convert(self, ctx, argument):
-			#to_slap = choice(ctx.guild.members)
-			#return '{0.author} slapped {1} because *{2}*'.format(ctx, to_slap, argument)
+	class Slapper(commands.Converter):
+		async def convert(self, ctx, argument):
+			to_slap = choice(ctx.guild.members)
+			return '{0.author} slapped {1} because *{2}*'.format(ctx, to_slap, argument)
 
-	#@commands.command()
-	#async def blame(ctx, *, reason: Slapper):
-		#await ctx.send(reason)
+	@commands.command()
+	async def blame(ctx, *, reason: Slapper):
+		await ctx.send(reason)
 
-	#@commands.command()
-	#async def slap(ctx, user):
-		#await ctx.send(slap_images() + '\n' + '{0.author.mention} slapped {1}'.format(ctx, user))
+	@commands.command()
+	async def slap(ctx, user):
+		await ctx.send(slap_images() + '\n' + '{0.author.mention} slapped {1}'.format(ctx, user))
 
 	@commands.command(aliases=['8ball', '8'])
 	async def _8ball(ctx, *, question):
@@ -46,4 +46,4 @@ class Mod(commands.Cog):
 	
 
 def setup(azami):
-	azami.add_cog(Mod(azami))
+	azami.add_cog(Fun(azami))

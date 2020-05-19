@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 
-class Mod(commands.Cog):
+class Maths(commands.Cog):
 
 	def __init__(self, azami):
 		self.azami = azami
@@ -26,4 +26,4 @@ class Mod(commands.Cog):
 
 
 def setup(azami):
-	azami.add_cog(Mod(azami))
+	azami.add_cog(Maths(azami))

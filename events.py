@@ -28,19 +28,6 @@ for filename in os.listdir('./cogs'):
 
 
 def commands_azami():
-
-	class Slapper(commands.Converter):
-		async def convert(self, ctx, argument):
-			to_slap = choice(ctx.guild.members)
-			return '{0.author} slapped {1} because *{2}*'.format(ctx, to_slap, argument)
-
-	@azami.command()
-	async def blame(ctx, *, reason: Slapper):
-		await ctx.send(reason)
-
-	@azami.command()
-	async def slap(ctx, user):
-		await ctx.send(slap_images() + '\n' + '{0.author.mention} slapped {1}'.format(ctx, user))
 	
 	@azami.command()
 	async def hello(ctx):
