@@ -30,13 +30,19 @@ def commands_azami():
 		await ctx.send(f'Pong! :ping_pong: {round(azami.latency * 1000)}ms.')
 
 	@azami.command()
-	async def clear(ctx, amount = 5):
+	async def clear(ctx, amount: int = 5):
 		await ctx.channel.purge(limit = amount + 1)
 
 	@azami.command()
 	async def load(ctx, extension):
 		azami.load_extension(f'cogs.{extension}')
 		print(f"The cog, {extension} has loaded")
+
+	@load.error
+	async def load_error(ctx, error):
+		if isinstance(error, commands.BadArgument):
+			await ctx.send("Invalid arguement, did you check if it's lower case?")
+
 
 	@azami.command()
 	async def unload(ctx, extension):
@@ -59,7 +65,7 @@ def event_azami():
 	@azami.event
 	async def on_ready():
 		change_status.start()
-		print("We have logged in as {0.user}".format(azami))
+		print("We have logged in as {0.user}".format(azami))	
 
 	@tasks.loop(seconds=3600)
 	async def change_status():
@@ -72,6 +78,11 @@ def event_azami():
 	@azami.event
 	async def on_member_remove(member):
 		print(f"{member} has left/kick the server")
+
+	@azami.event
+	async def on_command_error(ctx, error):
+		if isinstance(error, commands.MissingRequiredArgument):
+			await ctx.send("Please pass in all required arguments")	
 
 
 def main():

@@ -32,6 +32,12 @@ class Mod(commands.Cog):
 				await ctx.send(f'You have unbanned, {user.mention}')
 				return
 
+	@kick.error
+	async def kick_error(ctx, error):
+		if isinstance(error, commands.MissingPermissions):
+			await ctx.send("You cannot use this command")
+
+
 
 def setup(azami):
 	azami.add_cog(Mod(azami))
