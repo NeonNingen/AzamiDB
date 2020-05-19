@@ -73,12 +73,30 @@ def commands_azami():
 		await ctx.send(f"You rolled: {randint(1, 20)}")
 
 	@azami.command()
+	@commands.has_permissions(kick_members = True)
 	async def kick(ctx, member: discord.Member, *, reason=None):
 		await member.kick(reason=reason)
+		await ctx.send("You have kicked, {1}". format(member))
 
-	@azami.command()
+	@azami.command(ban_members = True)
+	@commands.has_permissions(ban_members = True)
 	async def ban(ctx, member: discord.Member, *, reason=None):
 		await member.ban(reason=reason)
+
+	@azami.command(ban_members = True)
+	@commands.has_permissions(ban_members = True)
+	async def unban(ctx, *, member):
+		banned_users = await ctx.guild.bans()
+		member_name, member_discriminator = member.split('#')
+
+		for ban_entry in banned_users:
+			user = ban_entry.user
+
+			if(user.name, user.discriminator) == (member_name, member_discriminator):
+				await ctx.guild.unban(user)
+				await ctx.send(f'Unbanned {user.mention}')
+				return
+
 	
 
 	def to_upper(argument):
@@ -124,11 +142,11 @@ def event_azami():
 
 	@azami.event
 	async def on_member_join(member):
-		print("{0.member} has joined the server".format(member))
+		print(f"{member.mention} has joined the server")
 
 	@azami.event
 	async def on_member_remove(member):
-		print("{0.member} has left/kick the server".format(member))
+		print(f"{member.mention} has left/kick the server".format(member))
 
 
 def main():
