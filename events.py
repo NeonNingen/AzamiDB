@@ -26,7 +26,7 @@ def commands_azami():
 
 	@azami.command()
 	async def hello(ctx):
-		await ctx.send("Hello!, {0.mention}".format(ctx))
+		await ctx.send(f"Hello!, {ctx.mention}")
 
 	@azami.command()
 	async def add(ctx, a: float, b: float):
@@ -76,7 +76,7 @@ def commands_azami():
 	@commands.has_permissions(kick_members = True)
 	async def kick(ctx, member: discord.Member, *, reason=None):
 		await member.kick(reason=reason)
-		await ctx.send("You have kicked, {0}".format(member))
+		await ctx.send(f"You have kicked, {member.mention}")
 
 	@azami.command(ban_members = True)
 	@commands.has_permissions(ban_members = True)
@@ -142,11 +142,11 @@ def event_azami():
 
 	@azami.event
 	async def on_member_join(member):
-		print(f"{member.mention} has joined the server")
+		print(f"{member.author} has joined the server")
 
 	@azami.event
 	async def on_member_remove(member):
-		print(f"{member.mention} has left/kick the server".format(member))
+		print(f"{member.author} has left/kick the server")
 
 
 def main():
