@@ -7,7 +7,7 @@ class Mod(commands.Cog):
 		self.azami = azami
 
 	@commands.command()
-	async def ping(ctx):
+	async def ping(self, ctx):
 		await ctx.send(f'Pong! :ping_pong: {round(azami.latency * 1000)}ms.')
 
 
