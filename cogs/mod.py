@@ -3,8 +3,8 @@ from discord.ext import commands
 
 class Mod(commands.Cog):
 
-	def __init__(self, client):
-		self.client = client
+	def __init__(self, azami):
+		self.azami = azami
 
 	@commands.command()
 	async def ping(ctx):
@@ -12,5 +12,5 @@ class Mod(commands.Cog):
 
 
 
-def setup(client):
-	client.add_cog(Mod(client))
+def setup(azami):
+	azami.add_cog(Mod(azami))
