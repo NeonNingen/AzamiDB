@@ -8,14 +8,23 @@ azami = commands.Bot(command_prefix = 'a!')
 @azami.command()
 async def load(ctx, extension):
 	azami.load_extension(f'cogs.{extension}')
+	print(f"The cog, {extension} has loaded")
 
 @azami.command()
 async def unload(ctx, extension):
 	azami.unload_extension(f'cogs.{extension}')
+	print(f"The cog, {extension} has unloaded")
+
+@azami.command()
+async def reload(ctx, extension):
+	azami.unload_extension(f'cogs.{extension}')
+	azami.load_extension(f'cogs.{extension}')
+	print(f"The cog, {extension} has reloaded")
 
 for filename in os.listdir('./cogs'):
 	if filename.endswith('.py'):
 		azami.load_extension(f'cogs.{filename[:-3]}')
+		print(f"The following cog has loaded: {filename}")
 
 
 def commands_azami():
@@ -148,6 +157,7 @@ def event_azami():
 
 	@azami.event
 	async def on_ready():
+		await azami.change_presence(status=discord.Status.online, activity=discord.Game("I'm alive!"))
 		print("We have logged in as {0.user}".format(azami))
 
 	@azami.event
