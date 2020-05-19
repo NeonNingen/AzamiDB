@@ -22,9 +22,9 @@ class Maths(commands.Cog):
 	@commands.command(aliases = ['division', '/'])
 	async def divide(self, ctx, a: float, b: float):
 		await ctx.send(a / b)
-
-	@add.error
+	
 	try:
+		@add.error
 		async def add_error(self, ctx, error):
 			if isinstance(error, MissingRequiredArgument):
 				await ctx.send("Requires an argument")
