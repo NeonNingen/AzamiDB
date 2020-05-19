@@ -5,6 +5,19 @@ from random_images import *
 
 azami = commands.Bot(command_prefix = 'a!')
 
+@azami.command()
+async def load(ctx, extension):
+	client.load_extension(f'cogs.{extension}')
+
+@azami.command()
+async def unload(ctx, extension):
+	client.unload_extension(f'cogs.{extension}')
+
+for filename in os.listdir('./cogs'):
+	if filename.endswith('.py'):
+		client.load_extension(f'cogs.{filename[:-3]}')
+
+
 def commands_azami():
 
 	class Slapper(commands.Converter):
@@ -19,11 +32,7 @@ def commands_azami():
 	@azami.command()
 	async def slap(ctx, user):
 		await ctx.send(slap_images() + '\n' + '{0.author.mention} slapped {1}'.format(ctx, user))
-
-	@azami.command()
-	async def ping(ctx):
-		await ctx.send(f'Pong! :ping_pong: {round(azami.latency * 1000)}ms.')
-
+	
 	@azami.command()
 	async def hello(ctx):
 		await ctx.send(f"Hello!, {ctx}")
