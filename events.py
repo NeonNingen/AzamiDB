@@ -60,7 +60,7 @@ def commands_azami():
 	async def d20(ctx):
 		await ctx.send(f"You rolled: {randint(1, 20)}")
 
-	'''
+	
 	@azami.command(aliases = ['subtract', 'takeaway'])
 	async def subtract(ctx, a: float, b: float):
 		await ctx.send(a - b)
@@ -72,7 +72,6 @@ def commands_azami():
 	@azami.command(aliases = ['division', 'division'])
 	async def divide(ctx, a: float, b: float):
 		await ctx.send(a / b)
-	'''
 
 	def to_upper(argument):
 		return argument.upper()
