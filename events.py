@@ -40,7 +40,7 @@ def commands_azami():
 
 	@load.error
 	async def load_error(ctx, error):
-		if isinstance(error, commands.BadArgument):
+		if isinstance(error, commands.UserInputError):
 			await ctx.send("Invalid arguement, did you check if it's lower case?")
 
 
