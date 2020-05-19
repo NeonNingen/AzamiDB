@@ -3,11 +3,8 @@ from discord.ext import commands
 
 azami = commands.Bot(command_prefix = 'a!')
 
-def to_lower(argument):
-	return argument.lower()
-
 @azami.command()
-async def load(ctx, extension, content: to_lower):
+async def load(ctx, extension):
 	azami.load_extension(f'cogs.{extension}')
 	print(f"The cog, {extension} has loaded")
 
