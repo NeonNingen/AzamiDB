@@ -81,7 +81,8 @@ def commands_azami():
 	@azami.command(ban_members = True)
 	@commands.has_permissions(ban_members = True)
 	async def ban(ctx, member: discord.Member, *, reason=None):
-		await member.ban(f"You have banned, {member.mention}")
+		await member.ban(reason=reason)
+		await ctx.send(f"You have banned, {member.mention}")
 
 	@azami.command(ban_members = True)
 	@commands.has_permissions(ban_members = True)
