@@ -53,14 +53,14 @@ class Fun(commands.Cog):
 	async def up(self, ctx, *, content: to_upper):
 		await ctx.send(content)
 
-	@slap.error
+	@slap.error # Future fix, try discord.ext.commands error
 	async def slap_error(self, ctx, error):
-		if isinstance(error, commands.MissingPermissions):
+		if isinstance(error, commands.CommandError):
 			await ctx.send("Requires an argument")
 
 	@_8ball.error
 	async def ball8_error(self, ctx, error):
-		if isinstance(error, commands.MissingPermissions):
+		if isinstance(error, commands.CommandError):
 			await ctx.send("Requires an argument")
 	
 

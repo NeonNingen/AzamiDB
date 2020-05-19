@@ -24,7 +24,7 @@ class Maths(commands.Cog):
 
 	@add.error
 	async def add_error_1(self, ctx, error):
-		if isinstance(error, commands.MissingPermissions):
+		if isinstance(error, commands.CommandError):
 			await ctx.send("Requires an argument")
 
 	@add.error
@@ -34,7 +34,7 @@ class Maths(commands.Cog):
 
 	@subtract.error
 	async def subtract_error_1(self, ctx, error):
-		if isinstance(error, commands.MissingPermissions):
+		if isinstance(error, commands.CommandError):
 			await ctx.send("Requires an argument")
 
 	@subtract.error
@@ -44,7 +44,7 @@ class Maths(commands.Cog):
 
 	@multiply.error
 	async def multiply_error_1(self, ctx, error):
-		if isinstance(error, commands.MissingPermissions):
+		if isinstance(error, commands.CommandError):
 			await ctx.send("Requires an argument")
 
 	@multiply.error
@@ -54,7 +54,7 @@ class Maths(commands.Cog):
 
 	@divide.error
 	async def divide_error_1(self, ctx, error):
-		if isinstance(error, commands.MissingPermissions):
+		if isinstance(error, commands.CommandError):
 			await ctx.send("Requires an argument")
 
 	@divide.error
