@@ -54,13 +54,13 @@ class Fun(commands.Cog):
 		await ctx.send(content)
 
 	@slap.error
-	async def slap_error(ctx, error):
-		if isinstance(error, commands.MissingRequiredArgument):
+	async def slap_error(self, ctx, error):
+		if isinstance(error, commands.MissingPermissions):
 			await ctx.send("Requires an argument")
 
 	@_8ball.error
-	async def _8ball_error(ctx, error):
-		if isinstance(error, commands.MissingRequiredArgument):
+	async def ball8_error(self, ctx, error):
+		if isinstance(error, commands.MissingPermissions):
 			await ctx.send("Requires an argument")
 	
 

@@ -1,5 +1,6 @@
 import discord, os, random
 from discord.ext import commands, tasks
+from discord.ext.commands import CommandNotFound
 from itertools import cycle
 
 azami = commands.Bot(command_prefix = 'a!')
@@ -18,7 +19,7 @@ status_quotes = ["a!help",
 				"Beep Boop"]
 random.shuffle(status_quotes)
 status = cycle(status_quotes)
-
+# Add JoJo Command, fix errors
 def commands_azami():
 	
 	@azami.command()
@@ -92,11 +93,17 @@ def event_azami():
 	async def on_member_remove(member):
 		print(f"{member} has left/kick the server")
 
-	
+	@bot.event
+	async def on_command_error(ctx, error):
+		if isinstance(error, CommandNotFound):
+        	return
+        raise error
+	'''
 	@azami.event
 	async def invalid_command_error(ctx, error):
-		if isinstance(error, commands.errors.CommandNotFound):
-			await ctx.send("That command does not exist")	
+		if isinstance(error, commands.):
+			await ctx.send("That command does not exist")
+			'''
 
 def main():
 	commands_azami()
