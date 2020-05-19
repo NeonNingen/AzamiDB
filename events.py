@@ -7,7 +7,7 @@ def to_lower(argument):
 	return argument.lower()
 
 @azami.command()
-async def load(ctx, extension, content: to_upper):
+async def load(ctx, extension, content: to_lower):
 	azami.load_extension(f'cogs.{extension}')
 	print(f"The cog, {extension} has loaded")
 
