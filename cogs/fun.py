@@ -1,5 +1,4 @@
 import discord, sys
-print("This is the sys path: ", sys.path)
 from discord.ext import commands
 #from random_images import *
 
