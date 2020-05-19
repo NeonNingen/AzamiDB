@@ -76,7 +76,7 @@ def commands_azami():
 	@commands.has_permissions(kick_members = True)
 	async def kick(ctx, member: discord.Member, *, reason=None):
 		await member.kick(reason=reason)
-		await ctx.send("You have kicked, {1}". format(member))
+		await ctx.send("You have kicked, {1}".format(member))
 
 	@azami.command(ban_members = True)
 	@commands.has_permissions(ban_members = True)
