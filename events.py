@@ -1,5 +1,5 @@
-import discord, os
-from discord.ext import commands, tasks, shuffle
+import discord, os, random
+from discord.ext import commands, tasks
 from itertools import cycle
 
 azami = commands.Bot(command_prefix = 'a!')
@@ -16,7 +16,7 @@ status_quotes = ["a!help",
 				"I was made to learn",
 				"https://github.com/NeonNingen",
 				"Beep Boop"]
-shuffle(status_quotes)
+random.shuffle(status_quotes)
 status = cycle(status_quotes)
 
 def commands_azami():
