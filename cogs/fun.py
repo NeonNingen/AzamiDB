@@ -1,6 +1,7 @@
-import discord, sys
+import discord, sys, io
 from discord.ext import commands
 from random import choice, randint
+from discordbot.cogs.utils import util
 sys.path.insert(1, '../')
 import randomimg
 
@@ -53,7 +54,7 @@ class Fun(commands.Cog):
 	@commands.command()
 	async def up(self, ctx, *, content: to_upper):
 		await ctx.send(content)
-	''' wip
+
 	@commands.command()
 	async def shoot(self, ctx, *members: discord.Member):
 		if not members: # Built in error check
@@ -61,8 +62,22 @@ class Fun(commands.Cog):
 			return
 		for member in members:
 			if member == self.azami.user:
-				file
-	'''
+				file = randomimg.shoot()
+				gif = await util.get_file(file)
+				await ctx.send(
+					f"You attempted to shoot me, {ctx.author.name}, but I dodged it!",
+					file = discord.File(io.BytesIO(gif), filename = "gif.gif"))
+			elif member == ctx.author:
+				gif = await util.get_file("https://media.giphy.com/media/5xaOcLAo1Gg0oRgBz0Y/giphy.gif")
+				await ctx.send(
+					f"{ctx.author.name} committed suicide!",
+					file = discord.File(io.BytesIO(gif), filename = "gif.gif"))
+			else:
+				gif = await util.get_file("https://s-media-cache-ak0.pinimg.com/originals/2d/fa/a9/2dfaa995a09d81a07cad24d3ce18e011.gif")
+				await ctx.send(f"{member.name} was shot dead by the mighty {ctx.author.name}",
+					file = discord.File(io.BytesIO(gif), filename = "gif.gif"))
+
+	
 
 	@slap.error # Find out how to remove error from console
 	async def slap_error(self, ctx, error):
