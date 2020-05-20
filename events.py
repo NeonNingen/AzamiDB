@@ -3,7 +3,10 @@ from discord.ext import commands, tasks
 from discord.ext.commands import CommandNotFound
 from itertools import cycle
 
-azami = commands.Bot(command_prefix = 'a!')
+azami = commands.Bot(command_prefix = 'a!',
+					 description = "Azami, an all purpose bot!",
+					 owner_id = 288022950576390144)
+
 status_quotes = ["a!help",
 				"Let's try to get along!",
 				"I feel sleepy...",
@@ -34,40 +37,6 @@ def commands_azami():
 	async def clear(ctx, amount: int = 5):
 		await ctx.channel.purge(limit = amount + 1)
 
-	@azami.command()
-	async def load(ctx, extension):
-		azami.load_extension(f'cogs.{extension}')
-		print(f"The cog, {extension} has loaded")
-		await ctx.send(f"The cog, {extension} has loaded")
-
-	@azami.command()
-	async def unload(ctx, extension):
-		azami.unload_extension(f'cogs.{extension}')
-		print(f"The cog, {extension} has unloaded")
-		await ctx.send(f"The cog, {extension} has unloaded")
-
-	@azami.command(aliases=['reload'])
-	async def _reload(ctx, extension):
-		azami.unload_extension(f'cogs.{extension}')
-		azami.load_extension(f'cogs.{extension}')
-		print(f"The cog, {extension} has reloaded")
-		await ctx.send(f"The cog, {extension} has reloaded")
-
-	@load.error
-	async def load_error(ctx, error):
-		if isinstance(error, commands.CommandError):
-			await ctx.send("Invalid arguement, did you check if it's lower case?")
-
-	@unload.error
-	async def unload_error(ctx, error):
-		if isinstance(error, commands.CommandError):
-			await ctx.send("Invalid arguement, did you check if it's lower case?")
-
-	@_reload.error
-	async def reload_error(ctx, error):
-		if isinstance(error, commands.CommandError):
-			await ctx.send("Invalid arguement, did you check if it's lower case?")
-
 
 def event_azami():
 
@@ -91,7 +60,7 @@ def event_azami():
 
 	@azami.event
 	async def on_member_remove(member):
-		print(f"{member} has left/kick the server")
+		print(f"{member} has left/kick from the server")
 
 	@azami.event
 	async def on_command_error(ctx, error):
@@ -99,12 +68,6 @@ def event_azami():
 			await ctx.send("Invalid command, did you type that right?")
 			return
 		raise error
-	'''
-	@azami.event
-	async def invalid_command_error(ctx, error):
-		if isinstance(error, commands.):
-			await ctx.send("That command does not exist")
-			'''
 
 def main():
 	commands_azami()
