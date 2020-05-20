@@ -1,4 +1,5 @@
-from random import randint, choice
+import discord
+from random import choice
 
 def slap():
 	slap_list = [
@@ -7,12 +8,21 @@ def slap():
 	'https://media0.giphy.com/media/xUPGcF8xjWmt2CRuo0/giphy.gif',
 	'https://media1.giphy.com/media/JBsgmn8uGR5hm/giphy.gif'
 	]
-	return slap_list[randint(0,2)]
+	return choice(slap_list)
 
-def shoot():
-	shoot_list = [
-	"http://static1.comicvine.com/uploads/original/11127/111275532/5288551-9830962548-latest",
-	"http://i.imgur.com/hPL5TGD.gif"
-	]
-	shoot_img = choice(shoot_list)
-	return shoot_img
+def shoot(num: int):
+	if num == 1:
+		gif_list = [
+			discord.File('gifs/shoot_gif1'),
+			discord.File('gifs/shoot_gif2')
+			]
+		return choice(gif_list)
+	elif num == 2:
+		return discord.File('gifs/shoot_gif3')
+	elif num == 3:
+		return discord.File('gifs/shoot_gif4')
+
+
+		
+
+	

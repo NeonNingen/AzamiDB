@@ -62,20 +62,16 @@ class Fun(commands.Cog):
 			return
 		for member in members:
 			if member == self.azami.user:
-				file = randomimg.shoot()
-				gif = await util.get_file(file)
 				await ctx.send(
 					f"You attempted to shoot me, {ctx.author.name}, but I dodged it!",
-					file = discord.File(io.BytesIO(gif), filename = "gif.gif"))
+					file = randomimg.shoot(1))
 			elif member == ctx.author:
-				gif = await util.get_file("https://media.giphy.com/media/5xaOcLAo1Gg0oRgBz0Y/giphy.gif")
 				await ctx.send(
 					f"{ctx.author.name} committed suicide!",
-					file = discord.File(io.BytesIO(gif), filename = "gif.gif"))
+					file = randomimg.shoot(2))
 			else:
-				gif = await util.get_file("https://s-media-cache-ak0.pinimg.com/originals/2d/fa/a9/2dfaa995a09d81a07cad24d3ce18e011.gif")
 				await ctx.send(f"{member.name} was shot dead by the mighty {ctx.author.name}",
-					file = discord.File(io.BytesIO(gif), filename = "gif.gif"))
+					file = randomimg.shoot(3))
 
 	
 
