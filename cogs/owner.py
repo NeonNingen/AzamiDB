@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-from discord.ext.commands import NotOwner
+from discord.ext.commands import NotOwner, MissingRequiredArgument
 
 class Owner(commands.Cog):
 
@@ -41,13 +41,21 @@ class Owner(commands.Cog):
 
 	@unload.error
 	async def unload_error(self, ctx, error):
-		if isinstance(error, commands.BadArgument):
-			await ctx.send("Invalid arguement, did you check if it's lower case?")
+		if isinstance(error, NotOwner):
+			await ctx. send("You must be the owner of this bot to use this command")
+		elif isinstance(error, commands.BadArgument):
+			await ctx.send("Invalid arguement, did you check if it's lower case or missing an arguement?")
+		elif isinstance(error, MissingRequiredArgument):
+			await ctx.send("Requires an argument")
 
 	@_reload.error
 	async def reload_error(self, ctx, error):
-		if isinstance(error, commands.BadArgument):
-			await ctx.send("Invalid arguement, did you check if it's lower case?")
+		if isinstance(error, NotOwner):
+			await ctx. send("You must be the owner of this bot to use this command")
+		elif isinstance(error, commands.BadArgument):
+			await ctx.send("Invalid arguement, did you check if it's lower case or missing an arguement?")
+		elif isinstance(error, MissingRequiredArgument):
+			await ctx.send("Requires an argument")
 
 
 def setup(azami):

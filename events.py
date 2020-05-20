@@ -30,12 +30,16 @@ def commands_azami():
 		await ctx.send(f"Hello!, {ctx.author.mention}")
 
 	@azami.command()
-	async def ping(self, ctx):
+	async def ping(ctx):
 		await ctx.send(f'Pong! :ping_pong: {round(azami.latency * 1000)}ms.')
 
 	@azami.command()
 	async def clear(ctx, amount: int = 5):
 		await ctx.channel.purge(limit = amount + 1)
+
+	@azami.command()
+	async def invite(ctx):
+		await ctx.send("The server invite: https://discord.gg/rRb23dt")
 
 
 def event_azami():
