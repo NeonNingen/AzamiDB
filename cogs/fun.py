@@ -61,9 +61,16 @@ class Fun(commands.Cog):
 			return
 		for member in members:
 			if member == self.azami.user:
+				embed = discord.embed(
+					title = "Dodged it!",
+					description = "You attempted to shoot me, {ctx.author.mention}, but I dodged it!",
+					colour = discord.Color.blue())
+				embed.set_image(url = "http://static1.comicvine.com/uploads/original/11127/111275532/5288551-9830962548-latest")
+				await ctx.send(embed=embed)
+				'''
 				await ctx.send(
-					randomimg.shoot(1) + f"You attempted to shoot me, {ctx.author.mention}, but I dodged it!")
-			
+					randomimg.shoot(1) + f"\nYou attempted to shoot me, {ctx.author.mention}, but I dodged it!")
+				'''
 			'''
 			elif member == ctx.author:
 				gif = await util.get_file("https://media.giphy.com/media/5xaOcLAo1Gg0oRgBz0Y/giphy.gif")
