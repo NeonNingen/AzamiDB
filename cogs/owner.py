@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-from discord.ext.commands import NotOwner, MissingRequiredArgument
+from discord.ext.commands import NotOwner, MissingRequiredArgument#, CommandInvokeError
 
 class Owner(commands.Cog):
 
@@ -30,11 +30,11 @@ class Owner(commands.Cog):
 		await ctx.send(f"The cog, {extension} has reloaded")
 
 	@load.error
-	async def load_error(self, ctx, error):
+	async def load_error(self, ctx, error, extension):
 		if isinstance(error, NotOwner):
 			await ctx. send("You must be the owner of this bot to use this command")
-		elif isinstance(error, commands.BadArgument):
-			await ctx.send("Invalid arguement, did you check if it's lower case or missing an arguement?")
+		elif isinstance(error, commands.CommandInvokeError):
+			await ctx.send(f"Cog.{extention} doesn't exist")
 		elif isinstance(error, MissingRequiredArgument):
 			await ctx.send("Requires an argument")
 		
