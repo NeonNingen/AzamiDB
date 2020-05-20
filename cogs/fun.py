@@ -63,9 +63,9 @@ class Fun(commands.Cog):
 			if member == self.azami.user:
 				embed = discord.Embed(
 					title = "Dodged it!",
-					description = "You attempted to shoot me, {ctx.author.mention}, but I dodged it!",
+					description = f"You attempted to shoot me, {ctx.author.mention}, but I dodged it!",
 					colour = discord.Color.blue())
-				embed.set_image(url = "http://static1.comicvine.com/uploads/original/11127/111275532/5288551-9830962548-latest")
+				embed.set_image(url = "http://i.imgur.com/hPL5TGD.gif")
 				await ctx.send(embed=embed)
 				'''
 				await ctx.send(
