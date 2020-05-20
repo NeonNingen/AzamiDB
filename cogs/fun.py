@@ -53,7 +53,7 @@ class Fun(commands.Cog):
 	@commands.command()
 	async def up(self, ctx, *, content: to_upper):
 		await ctx.send(content)
-''' wip
+	''' wip
 	@commands.command()
 	async def shoot(self, ctx, *members: discord.Member):
 		if not members: # Built in error check
@@ -62,7 +62,7 @@ class Fun(commands.Cog):
 		for member in members:
 			if member == self.azami.user:
 				file
-'''
+	'''
 
 	@slap.error # Find out how to remove error from console
 	async def slap_error(self, ctx, error):
