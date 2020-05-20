@@ -1,6 +1,6 @@
 from random import randint
 
-def slap_images():
+def slap():
 	slap_list = [
 	'https://media.giphy.com/media/l3vRb8wtvRtW9mOk0/giphy.gif',
 	'https://media.giphy.com/media/l1IYa5UYE8iBLWp6E/giphy.gif',

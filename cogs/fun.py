@@ -2,7 +2,7 @@ import discord, sys
 from discord.ext import commands
 from random import choice, randint
 sys.path.insert(1, '../')
-from random_images import *
+import randomimg
 
 
 def to_upper(argument):
@@ -24,7 +24,7 @@ class Fun(commands.Cog):
 
 	@commands.command()
 	async def slap(self, ctx, user):
-		await ctx.send(slap_images() + '\n' + '{0.author.mention} slapped {1}'.format(ctx, user))
+		await ctx.send(randomimg.slap() + '\n' + '{0.author.mention} slapped {1}'.format(ctx, user))
 
 	@commands.command(aliases=['8ball', '8'])
 	async def _8ball(self, ctx, *, question):
