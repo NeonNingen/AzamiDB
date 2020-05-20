@@ -1,8 +1,10 @@
-import discord, sys, io
+import discord, sys, io, aiohttp
 from discord.ext import commands
 from random import choice, randint
+from discordbot.cogs.utils import util
 sys.path.insert(1, '../')
 import randomimg
+
 
 def to_upper(argument):
 	return argument.upper()
@@ -12,6 +14,13 @@ class Fun(commands.Cog):
 	def __init__(self, azami):
 		self.azami = azami
 
+
+	async def get_file(self, url: str) -> bytes:
+		async with self.azami.session.get(url) as get:
+			assert isinstance(get, aiohttp.ClientResponse)
+			data = await get.read()
+			return data
+
 	class Slapper(commands.Converter):
 		async def convert(self, ctx, argument):
 			to_slap = choice(ctx.guild.members)
@@ -20,6 +29,7 @@ class Fun(commands.Cog):
 	@commands.command()
 	async def blame(self, ctx, *, reason: Slapper):
 		await ctx.send(reason)
+
 
 	@commands.command()
 	async def slap(self, ctx, user):
@@ -60,22 +70,21 @@ class Fun(commands.Cog):
 			return
 		for member in members:
 			if member == self.azami.user:
-				embed = discord.Embed(title="Title", description="Desc", color=0x00ff00)
-				file = discord.File("shoot_gif1.gif", filename="image.gif")
-				embed.set_image(url="attachment://image.gif")
+				file = randomimg.shoot(1)
+				gif = await self.get_file(file)
 				await ctx.send(
 					f"You attempted to shoot me, {ctx.author.name}, but I dodged it!",
-					file=file, embed=embed)
-		'''		
-
+					file = discord.File(io.BytesIO(gif), filename = "gif.gif"))
 			elif member == ctx.author:
+				gif = await self.get_file("https://media.giphy.com/media/5xaOcLAo1Gg0oRgBz0Y/giphy.gif")
 				await ctx.send(
 					f"{ctx.author.name} committed suicide!",
-					file = randomimg.shoot(2))
+					file = discord.File(io.BytesIO(gif), filename = "gif.gif"))
 			else:
+				gif = await self.get_file("https://s-media-cache-ak0.pinimg.com/originals/2d/fa/a9/2dfaa995a09d81a07cad24d3ce18e011.gif")
 				await ctx.send(f"{member.name} was shot dead by the mighty {ctx.author.name}",
-					file = randomimg.shoot(3))
-		'''
+					file = discord.File(io.BytesIO(gif), filename = "gif.gif"))
+
 	
 
 	@slap.error # Find out how to remove error from console
