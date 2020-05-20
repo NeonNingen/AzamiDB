@@ -61,7 +61,7 @@ class Fun(commands.Cog):
 			return
 		for member in members:
 			if member == self.azami.user:
-				embed = discord.embed(
+				embed = discord.Embed(
 					title = "Dodged it!",
 					description = "You attempted to shoot me, {ctx.author.mention}, but I dodged it!",
 					colour = discord.Color.blue())
