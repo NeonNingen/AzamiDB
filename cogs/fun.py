@@ -1,7 +1,6 @@
 import discord, sys, io
 from discord.ext import commands
 from random import choice, randint
-from discordbot.cogs.utils import util
 sys.path.insert(1, '../')
 import randomimg
 
