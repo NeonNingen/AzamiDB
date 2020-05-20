@@ -29,7 +29,7 @@ class Maths(commands.Cog):
 			await ctx.send("Requires an argument")
 			return
 		elif isinstance(error, commands.BadArgument):
-			await ctx.send("Invalid arguement, this command only takes floats")
+			await ctx.send("Invalid arguement, this command only takes integers and floats")
 			return
 		return error
 			
