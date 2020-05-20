@@ -61,7 +61,7 @@ class Fun(commands.Cog):
 		for member in members:
 			if member == self.azami.user:
 				embed = discord.Embed(title="Title", description="Desc", color=0x00ff00)
-				file = discord.File("../randomimg/gifs/shoot_gif1.gif", filename="image.gif")
+				file = discord.File("shoot_gif1.gif", filename="image.gif")
 				embed.set_image(url="attachment://image.gif")
 				await ctx.send(
 					f"You attempted to shoot me, {ctx.author.name}, but I dodged it!",
