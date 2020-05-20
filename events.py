@@ -34,12 +34,18 @@ def commands_azami():
 		await ctx.send(f'Pong! :ping_pong: {round(azami.latency * 1000)}ms.')
 
 	@azami.command()
+	@azami.has_permissions(manage_messages = True)
 	async def clear(ctx, amount: int = 5):
 		await ctx.channel.purge(limit = amount + 1)
 
 	@azami.command()
 	async def invite(ctx):
 		await ctx.send("The server invite: https://discord.gg/rRb23dt")
+
+	@clear.error
+	async def clear_error(self, ctx, error):
+		if isinstance(error, commands.MissingPermissions):
+			await ctx.send("You cannot use this command")
 
 
 def event_azami():

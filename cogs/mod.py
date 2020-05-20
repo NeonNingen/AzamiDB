@@ -20,6 +20,13 @@ class Mod(commands.Cog):
 
 	@commands.command(ban_members = True)
 	@commands.has_permissions(ban_members = True)
+	async def softban(self, ctx, member: discord.Member, *, reason=None):
+		await member.ban(reason=reason)
+        await member.unban(member)
+        await ctx.send(f"I have softbanned {member.mention}")
+
+	@commands.command(ban_members = True)
+	@commands.has_permissions(ban_members = True)
 	async def unban(self, ctx, *, member):
 		banned_users = await ctx.guild.bans()
 		member_name, member_discriminator = member.split('#')
