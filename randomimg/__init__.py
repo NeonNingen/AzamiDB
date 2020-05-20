@@ -14,7 +14,9 @@ def slap():
 	]
 	return choice(slap_list)
 
-def shoot(num: int):
+def shoot():
+	pass
+	'''
 	if num == 1:
 		gif_list = [
 			'gifs/shoot_gif1.gif',
@@ -25,7 +27,7 @@ def shoot(num: int):
 		return 'gifs/shoot_gif3.gif'
 	elif num == 3:
 		return 'gifs/shoot_gif4.gif'
-
+	'''
 
 		
 

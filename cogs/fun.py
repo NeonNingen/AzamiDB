@@ -66,7 +66,7 @@ class Fun(commands.Cog):
 				await ctx.send(
 					f"You attempted to shoot me, {ctx.author.name}, but I dodged it!",
 					file=file, embed=embed)
-				
+		'''		
 
 			elif member == ctx.author:
 				await ctx.send(
@@ -75,7 +75,7 @@ class Fun(commands.Cog):
 			else:
 				await ctx.send(f"{member.name} was shot dead by the mighty {ctx.author.name}",
 					file = randomimg.shoot(3))
-
+		'''
 	
 
 	@slap.error # Find out how to remove error from console
