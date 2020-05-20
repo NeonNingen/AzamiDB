@@ -18,14 +18,14 @@ def slap():
 def shoot(num: int):
 	if num == 1:
 		gif_list = [
-			discord.File('./gifs/shoot_gif1.gif'),
-			discord.File('./gifs/shoot_gif2.gif')
+			discord.File('gifs\\shoot_gif1.gif'),
+			discord.File('gifs\\shoot_gif2.gif')
 			]
 		return choice(gif_list)
 	elif num == 2:
-		return discord.File('./gifs/shoot_gif3.gif')
+		return discord.File('gifs\\shoot_gif3.gif')
 	elif num == 3:
-		return discord.File('./gifs/shoot_gif4.gif')
+		return discord.File('gifs\\shoot_gif4.gif')
 
 
 		
