@@ -10,22 +10,21 @@ def slap():
 	slap_list = [
 	'https://media.giphy.com/media/l3vRb8wtvRtW9mOk0/giphy.gif',
 	'https://media.giphy.com/media/l1IYa5UYE8iBLWp6E/giphy.gif',
-	'https://media0.giphy.com/media/xUPGcF8xjWmt2CRuo0/giphy.gif',
-	'https://media1.giphy.com/media/JBsgmn8uGR5hm/giphy.gif'
+	'https://media0.giphy.com/media/xUPGcF8xjWmt2CRuo0/giphy.gif'
 	]
 	return choice(slap_list)
 
 def shoot(num: int):
 	if num == 1:
 		gif_list = [
-			discord.File('shoot_gif'),
-			discord.File('shoot_gif2.gif')
+			'gifs/shoot_gif1.gif',
+			'gifs/shoot_gif2.gif'
 			]
 		return choice(gif_list)
 	elif num == 2:
-		return discord.File('shoot_gif3.gif')
+		return 'gifs/shoot_gif3.gif'
 	elif num == 3:
-		return discord.File('shoot_gif4.gif')
+		return 'gifs/shoot_gif4.gif'
 
 
 		
