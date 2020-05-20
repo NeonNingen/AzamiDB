@@ -1,6 +1,10 @@
 import discord
 from random import choice
-# Try aiohttp one day
+'''
+Try aiohttp when bot reaches 500mb
+Use this idea:
+https://github.com/KingOfPlagues/ViralBot/blob/master/discordbot/utils/util.py
+'''
 def slap():
 	slap_list = [
 	'https://media.giphy.com/media/l3vRb8wtvRtW9mOk0/giphy.gif',
@@ -13,14 +17,14 @@ def slap():
 def shoot(num: int):
 	if num == 1:
 		gif_list = [
-			discord.File('gifs/shoot_gif1'),
-			discord.File('gifs/shoot_gif2')
+			discord.File('gifs/shoot_gif.gif'),
+			discord.File('gifs/shoot_gif2.gif')
 			]
 		return choice(gif_list)
 	elif num == 2:
-		return discord.File('gifs/shoot_gif3')
+		return discord.File('gifs/shoot_gif3.gif')
 	elif num == 3:
-		return discord.File('gifs/shoot_gif4')
+		return discord.File('gifs/shoot_gif4.gif')
 
 
 		
