@@ -1,4 +1,4 @@
-import discord, sys, io, aiohttp
+import discord, sys, io
 from discord.ext import commands
 from random import choice, randint
 sys.path.insert(1, '../')
@@ -13,13 +13,6 @@ class Fun(commands.Cog):
 	def __init__(self, azami):
 		self.azami = azami
 
-
-	async def get_file(self, url: str) -> bytes:
-		async with self.azami.session.get(url) as get:
-			assert isinstance(get, aiohttp.ClientResponse)
-			data = await get.read()
-			return data
-
 	class Slapper(commands.Converter):
 		async def convert(self, ctx, argument):
 			to_slap = choice(ctx.guild.members)
@@ -28,7 +21,6 @@ class Fun(commands.Cog):
 	@commands.command()
 	async def blame(self, ctx, *, reason: Slapper):
 		await ctx.send(reason)
-
 
 	@commands.command()
 	async def slap(self, ctx, user):
@@ -69,21 +61,20 @@ class Fun(commands.Cog):
 			return
 		for member in members:
 			if member == self.azami.user:
-				file = randomimg.shoot(1)
-				gif = await self.get_file(file)
 				await ctx.send(
-					f"You attempted to shoot me, {ctx.author.name}, but I dodged it!",
-					file = discord.File(io.BytesIO(gif), filename = "gif.gif"))
+					randomimg.shoot(1) + f"You attempted to shoot me, {ctx.author.mention}, but I dodged it!")
+			
+			'''
 			elif member == ctx.author:
-				gif = await self.get_file("https://media.giphy.com/media/5xaOcLAo1Gg0oRgBz0Y/giphy.gif")
+				gif = await util.get_file("https://media.giphy.com/media/5xaOcLAo1Gg0oRgBz0Y/giphy.gif")
 				await ctx.send(
 					f"{ctx.author.name} committed suicide!",
 					file = discord.File(io.BytesIO(gif), filename = "gif.gif"))
 			else:
-				gif = await self.get_file("https://s-media-cache-ak0.pinimg.com/originals/2d/fa/a9/2dfaa995a09d81a07cad24d3ce18e011.gif")
+				gif = await util.get_file("https://s-media-cache-ak0.pinimg.com/originals/2d/fa/a9/2dfaa995a09d81a07cad24d3ce18e011.gif")
 				await ctx.send(f"{member.name} was shot dead by the mighty {ctx.author.name}",
 					file = discord.File(io.BytesIO(gif), filename = "gif.gif"))
-
+			'''
 	
 
 	@slap.error # Find out how to remove error from console

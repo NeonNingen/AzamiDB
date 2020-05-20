@@ -15,7 +15,7 @@ def slap():
 	]
 	return choice(slap_list)
 
-def shoot(num: int):
+def shoot():
 	if num == 1:
 		gif_list = [
 		"http://static1.comicvine.com/uploads/original/11127/111275532/5288551-9830962548-latest",
