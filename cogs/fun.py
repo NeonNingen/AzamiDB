@@ -63,7 +63,7 @@ class Fun(commands.Cog):
 			if member == self.azami.user:
 				await ctx.send(
 					f"You attempted to shoot me, {ctx.author.name}, but I dodged it!",
-					file = randomimg.shoot(1))
+					file = discord.File('shoot_gif.gif'))
 			elif member == ctx.author:
 				await ctx.send(
 					f"{ctx.author.name} committed suicide!",
