@@ -1,5 +1,5 @@
-def random_image_slap():
+def slap():
 	import random_image_slap.py
 
-def random_image_shoot():
+def shoot():
 	import random_image_shoot.py
