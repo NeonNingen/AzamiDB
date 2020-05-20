@@ -1,6 +1,6 @@
 import discord
 from random import choice
-
+# Try aiohttp one day
 def slap():
 	slap_list = [
 	'https://media.giphy.com/media/l3vRb8wtvRtW9mOk0/giphy.gif',
