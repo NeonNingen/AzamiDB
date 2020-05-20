@@ -1,8 +1,9 @@
 import discord, sys
 from discord.ext import commands
 from random import choice, randint
-sys.path.insert(1, '../')
-from random_images import *
+sys.path.insert(1, '../randomimg/')
+from random_images_slap import *
+
 
 def to_upper(argument):
 	return argument.upper()
@@ -52,6 +53,16 @@ class Fun(commands.Cog):
 	@commands.command()
 	async def up(self, ctx, *, content: to_upper):
 		await ctx.send(content)
+''' wip
+	@commands.command()
+	async def shoot(self, ctx, *members: discord.Member):
+		if not members: # Built in error check
+			await ctx.send("You gotta give me someone to shoot!")
+			return
+		for member in members:
+			if member == self.azami.user:
+				file
+'''
 
 	@slap.error # Find out how to remove error from console
 	async def slap_error(self, ctx, error):

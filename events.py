@@ -34,7 +34,7 @@ def commands_azami():
 		await ctx.send(f'Pong! :ping_pong: {round(azami.latency * 1000)}ms.')
 
 	@azami.command()
-	@azami.has_permissions(manage_messages = True)
+	@commands.has_permissions(manage_messages = True)
 	async def clear(ctx, amount: int = 5):
 		await ctx.channel.purge(limit = amount + 1)
 
