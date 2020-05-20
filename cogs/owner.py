@@ -30,11 +30,11 @@ class Owner(commands.Cog):
 		await ctx.send(f"The cog, {extension} has reloaded")
 
 	@load.error
-	async def load_error(self, ctx, error, extension):
+	async def load_error(self, ctx, error):
 		if isinstance(error, NotOwner):
 			await ctx. send("You must be the owner of this bot to use this command")
 		elif isinstance(error, commands.CommandInvokeError):
-			await ctx.send(f"Cog.{extention} doesn't exist")
+			await ctx.send(f"That cog doesn't exist")
 		elif isinstance(error, MissingRequiredArgument):
 			await ctx.send("Requires an argument")
 		
