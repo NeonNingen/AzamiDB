@@ -11,7 +11,8 @@ with open('status_quotes.txt', 'r') as f:
 	status_quotes = f.read().splitlines()
 
 random.shuffle(status_quotes)
-status = cycle(status_quotes)	
+status = cycle(status_quotes)
+azami.remove_command('help')	
 
 def event_azami():
 
