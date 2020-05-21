@@ -24,7 +24,7 @@ class Help(commands.Cog):
 
 		cogs = [c for c in self.azami.cogs.keys()]
 
-		if cog = 'all':
+		if cog == 'all':
 			for cog in cogs:
 				cog_commands = self.azami.get_cog(cog).get_commands()
 				commands_list = ''
