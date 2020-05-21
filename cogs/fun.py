@@ -29,7 +29,7 @@ class Fun(commands.Cog):
 			title = "That hurts!",
 			description = f"{ctx.author.mention} slapped {user}",
 			colour = discord.Color.dark_red())
-		embed.set_image(randomimg.slap())
+		embed.set_image(url = randomimg.slap())
 
 	@commands.command(aliases=['8ball', '8'])
 	async def _8ball(self, ctx, *, question):

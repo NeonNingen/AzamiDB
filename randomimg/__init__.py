@@ -18,7 +18,6 @@ def slap():
 def shoot(num: int):
 	if num == 1:
 		gif_list = [
-		"http://static1.comicvine.com/uploads/original/11127/111275532/5288551-9830962548-latest",
 		"http://i.imgur.com/hPL5TGD.gif",
 		"https://tenor.com/yI0K.gif",
 		"https://i.kym-cdn.com/photos/images/newsfeed/000/695/897/e48.gif"
