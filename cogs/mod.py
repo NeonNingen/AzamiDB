@@ -51,7 +51,7 @@ class Mod(commands.Cog):
 			await ctx.send("You cannot use this command")
 		elif isinstance(error, MissingRequiredArgument):
 			await ctx.send("Requires an argument")
-		raise error
+		
 
 	@ban.error
 	async def ban_error(self, ctx, error):

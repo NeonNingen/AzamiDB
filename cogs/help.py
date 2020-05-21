@@ -1,7 +1,9 @@
 import discord, random
 from discord.ext import commands
 
-color_list = [discord.Color.blue(), discord.Color.green()]
+color_list = [discord.Color.blue(), discord.Color.green(), discord.Color.red(),
+			  discord.Color.orange(), discord.Color.purple(), discord.Color.gold(),
+			  discord.Color.dark_blue(), discord.Color.dark_red()]
 
 class Help(commands.Cog):
 
