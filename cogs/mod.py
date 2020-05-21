@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+from discord.ext.commands import MissingRequiredArgument
 
 class Mod(commands.Cog):
 
@@ -39,6 +40,22 @@ class Mod(commands.Cog):
 				await ctx.send(f'You have unbanned, {user.mention}')
 				return
 
+	@commands.command()
+	@commands.has_permissions(manage_messages = True)
+	async def clear(ctx, amount: int = 5):
+		await ctx.channel.purge(limit = amount + 1)
+
+	@commands.command()
+	@commands.has_permissions(manage_messages = True)
+	async def changeprefix(ctx, prefix):
+		with open('prefix.json', 'r') as fp:
+			prefixes = json.load(fp)
+
+		prefixes[str(ctx.guild.id)] = prefix
+
+		with open('prefix.json', 'w') as fp:
+			json.dump(prefixes, fp, indent=4)
+
 	@kick.error
 	async def kick_error(self, ctx, error):
 		if isinstance(error, commands.MissingPermissions):
@@ -60,6 +77,22 @@ class Mod(commands.Cog):
 			return
 		return error
 
+	@clear.error
+	async def clear_error(self, ctx, error):
+		if isinstance(error, commands.MissingPermissions):
+			await ctx.send("You cannot use this command")
+			return
+		return error
+
+	@changeprefix.error
+	async def changeprefix_error(self, ctx, error):
+		if isinstance(error, commands.MissingPermissions):
+			await ctx.send("You cannot use this command")
+			return
+		elif isinstance(error, MissingRequiredArgument):
+			await ctx.send("Requres an argument")
+			return
+		return error
 
 def setup(azami):
 	azami.add_cog(Mod(azami))

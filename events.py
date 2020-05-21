@@ -1,9 +1,15 @@
-import discord, os, random
+import discord, os, random, json
 from discord.ext import commands, tasks
 from discord.ext.commands import CommandNotFound
 from itertools import cycle
 
-azami = commands.Bot(command_prefix = 'a!',
+def get_prefix(azami, message):
+	with open('prefix.json', 'r') as fp:
+		prefixes = json.load(fp)
+
+	return prefixes[str(message.guild.id)]
+
+azami = commands.Bot(command_prefix = get_prefix,
 					 description = "Azami, an all purpose bot!",
 					 owner_id = 288022950576390144)
 
@@ -11,35 +17,7 @@ with open('status_quotes.txt', 'r') as f:
 	status_quotes = f.read().splitlines()
 
 random.shuffle(status_quotes)
-status = cycle(status_quotes)
-
-# Add JoJo Command, fix errors
-def commands_azami():
-	
-	@azami.command()
-	async def hello(ctx):
-		await ctx.send(f"Hello!, {ctx.author.mention}")
-
-	@azami.command()
-	async def ping(ctx):
-		await ctx.send(f'Pong! :ping_pong: {round(azami.latency * 1000)}ms.')
-
-	@azami.command()
-	@commands.has_permissions(manage_messages = True)
-	async def clear(ctx, amount: int = 5):
-		await ctx.channel.purge(limit = amount + 1)
-
-	@azami.command()
-	async def invite(ctx):
-		await ctx.send("The server invite: https://discord.gg/rRb23dt")
-
-	@clear.error
-	async def clear_error(self, ctx, error):
-		if isinstance(error, commands.MissingPermissions):
-			await ctx.send("You cannot use this command")
-			return
-		return error
-
+status = cycle(status_quotes)	
 
 def event_azami():
 
@@ -66,6 +44,27 @@ def event_azami():
 		print(f"{member} has left/kick from the server")
 
 	@azami.event
+	async def on_guild_join(guild):
+		with open('prefix.json', 'r') as fp:
+			prefixes = json.load(fp)
+
+		prefixes[str(message.guild.id)] = 'a!'
+
+		with open('prefix.json', 'w') as fp:
+			json.dump(prefixes, fp, indent=4)
+
+	@azami.event
+	async def on_guild_remove(guild):
+		with open('prefix.json', 'r') as fp:
+			prefixes = json.load(fp)
+
+		prefixes.pop(str(guild.id))
+
+		with open('prefix.json', 'w') as fp:
+			json.dump(prefixes, fp, indent=4)
+
+
+	@azami.event
 	async def on_command_error(ctx, error):
 		if isinstance(error, CommandNotFound):
 			await ctx.send("Invalid command, did you type that right?")
@@ -73,7 +72,6 @@ def event_azami():
 		raise error
 
 def main():
-	commands_azami()
 	event_azami()
 	azami.run(os.environ['DISCORD_TOKEN'])
 	#token = open("token.txt", "r")
