@@ -49,8 +49,7 @@ class Help(commands.Cog):
 						f'**{command.description}**\n\n'
 
 					if len(commands.aliases) > 0:
-						help_text += f'**Aliases: ** `{"`, `".join(
-													  command.aliases)}\n\n\n'
+						help_text += f'**Aliases: ** `{"`, `".join(command.aliases)}\n\n\n'
 					else:
 						help_text += '\n'
 
