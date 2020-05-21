@@ -63,25 +63,24 @@ class Fun(commands.Cog):
 			if member == self.azami.user:
 				embed = discord.Embed(
 					title = "Dodged it!",
-					description = f"You attempted to shoot me, {ctx.author.mention}, but I dodged it!",
-					colour = discord.Color.blue())
-				embed.set_image(url = "http://i.imgur.com/hPL5TGD.gif")
+					description = f"You attempted to shoot me {ctx.author.mention}, but I dodged it!",
+					colour = discord.Color.green())
+				embed.set_image(url = randomimg.shoot(1))
 				await ctx.send(embed=embed)
-				'''
-				await ctx.send(
-					randomimg.shoot(1) + f"\nYou attempted to shoot me, {ctx.author.mention}, but I dodged it!")
-				'''
-			'''
 			elif member == ctx.author:
-				gif = await util.get_file("https://media.giphy.com/media/5xaOcLAo1Gg0oRgBz0Y/giphy.gif")
-				await ctx.send(
-					f"{ctx.author.name} committed suicide!",
-					file = discord.File(io.BytesIO(gif), filename = "gif.gif"))
+				embed = discord.Embed(
+					title = "You died! Better luck next time!",
+					description = f"{ctx.author.name} committed suicide!",
+					colour = discord.Color.red())
+				embed.set_image(url = randomimg.shoot(2))
+				await ctx.send(embed=embed)
 			else:
-				gif = await util.get_file("https://s-media-cache-ak0.pinimg.com/originals/2d/fa/a9/2dfaa995a09d81a07cad24d3ce18e011.gif")
-				await ctx.send(f"{member.name} was shot dead by the mighty {ctx.author.name}",
-					file = discord.File(io.BytesIO(gif), filename = "gif.gif"))
-			'''
+				embed = discord.Embed(
+					title = "It's a hit!",
+					description = f"{member.name} was shot dead by the mighty {ctx.author.name}",
+					colour = discord.Color.gold())
+				embed.set_image(url = randomimg.shoot(3))
+				await ctx.send(embed=embed)
 	
 
 	@slap.error # Find out how to remove error from console

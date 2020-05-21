@@ -19,15 +19,24 @@ def shoot(num: int):
 	if num == 1:
 		gif_list = [
 		"http://static1.comicvine.com/uploads/original/11127/111275532/5288551-9830962548-latest",
-		"http://i.imgur.com/hPL5TGD.gif"
+		"http://i.imgur.com/hPL5TGD.gif",
+		"https://tenor.com/yI0K.gif",
+		"https://i.kym-cdn.com/photos/images/newsfeed/000/695/897/e48.gif"
 		]
 		return choice(gif_list)
-	'''
 	elif num == 2:
-		return discord.File('gifs/shoot_gif3.gif')
+		gif_list = [
+		"https://media.giphy.com/media/5xaOcLAo1Gg0oRgBz0Y/giphy.gif",
+		"https://i.kym-cdn.com/photos/images/original/000/801/745/825.gif"
+		] # Finish these
+		return choice(gif_list)
 	elif num == 3:
-		return discord.File('gifs/shoot_gif4.gif')
-	'''
+		gif_list = [
+		"https://s-media-cache-ak0.pinimg.com/originals/2d/fa/a9/2dfaa995a09d81a07cad24d3ce18e011.gif",
+		"https://tenor.com/wEop.gif",
+		"https://tenor.com/beSXC.gif"
+		]
+		return choice(gif_list)
 
 		
 
