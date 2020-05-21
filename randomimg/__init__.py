@@ -18,7 +18,7 @@ def shoot(num: int):
 	if num == 1:
 		gif_list = [
 		"http://i.imgur.com/hPL5TGD.gif",
-		"https://i.kym-cdn.com/photos/images/newsfeed/000/695/897/e48.gif"
+		"https://data.whicdn.com/images/207272964/original.gif"
 		]
 		return choice(gif_list)
 	elif num == 2:
