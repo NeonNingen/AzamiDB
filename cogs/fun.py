@@ -28,7 +28,7 @@ class Fun(commands.Cog):
 		embed = discord.Embed(
 					title = "That hurts!",
 					description = f"{ctx.author.mention} slapped {user}"
-					colour = discord.Color.yellow())
+					colour = discord.Color.yellow()
 				embed.set_image(randomimg.slap())
 
 	@commands.command(aliases=['8ball', '8'])
