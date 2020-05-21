@@ -1,15 +1,9 @@
-import discord, os, random, json
+import discord, os, random
 from discord.ext import commands, tasks
 from discord.ext.commands import CommandNotFound
 from itertools import cycle
 
-def get_prefix(azami, message):
-	with open('prefixes.json', 'r') as fp:
-		prefixes = json.load(fp)
-
-	return prefixes[str(message.guild.id)]
-
-azami = commands.Bot(command_prefix = get_prefix,
+azami = commands.Bot(command_prefix = 'a!',
 					 description = "Azami, an all purpose bot!",
 					 owner_id = 288022950576390144)
 
@@ -42,27 +36,6 @@ def event_azami():
 	@azami.event
 	async def on_member_remove(member):
 		print(f"{member} has left/kick from the server")
-
-	@azami.event
-	async def on_guild_join(guild):
-		with open('prefixes.json', 'r') as fp:
-			prefixes = json.load(fp)
-
-		prefixes[str(message.guild.id)] = 'a!'
-
-		with open('prefixes.json', 'w') as fp:
-			json.dump(prefixes, fp, indent=4)
-
-	@azami.event
-	async def on_guild_remove(guild):
-		with open('prefixes.json', 'r') as fp:
-			prefixes = json.load(fp)
-
-		prefixes.pop(str(guild.id))
-
-		with open('prefixes.json', 'w') as fp:
-			json.dump(prefixes, fp, indent=4)
-
 
 	@azami.event
 	async def on_command_error(ctx, error):

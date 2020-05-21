@@ -1,6 +1,5 @@
-import discord, json
+import discord
 from discord.ext import commands
-from discord.ext.commands import MissingRequiredArgument
 
 class Mod(commands.Cog):
 
@@ -45,17 +44,6 @@ class Mod(commands.Cog):
 	async def clear(ctx, amount: int = 5):
 		await ctx.channel.purge(limit = amount + 1)
 
-	@commands.command()
-	@commands.has_permissions(manage_messages = True)
-	async def changeprefix(ctx, prefix):
-		with open('prefixes.json', 'r') as fp:
-			prefixes = json.load(fp)
-
-		prefixes[str(ctx.guild.id)] = prefix
-
-		with open('prefixes.json', 'w') as fp:
-			json.dump(prefixes, fp, indent=4)
-
 	@kick.error
 	async def kick_error(self, ctx, error):
 		if isinstance(error, commands.MissingPermissions):
@@ -81,16 +69,6 @@ class Mod(commands.Cog):
 	async def clear_error(self, ctx, error):
 		if isinstance(error, commands.MissingPermissions):
 			await ctx.send("You cannot use this command")
-			return
-		return error
-
-	@changeprefix.error
-	async def changeprefix_error(self, ctx, error):
-		if isinstance(error, commands.MissingPermissions):
-			await ctx.send("You cannot use this command")
-			return
-		elif isinstance(error, MissingRequiredArgument):
-			await ctx.send("Requres an argument")
 			return
 		return error
 
