@@ -1,4 +1,4 @@
-import discord, os, random
+import discord, os, random, csv
 from discord.ext import commands, tasks
 from discord.ext.commands import CommandNotFound
 from itertools import cycle
@@ -7,6 +7,9 @@ azami = commands.Bot(command_prefix = 'a!',
 					 description = "Azami, an all purpose bot!",
 					 owner_id = 288022950576390144)
 
+with open('status_quotes.txt', 'r') as f:
+	status_quotes = f.read().splitlines()
+''' Incase commit (status_quotes txt test) fails
 status_quotes = ["a!help",
 				"Let's try to get along!",
 				"I feel sleepy...",
@@ -19,7 +22,9 @@ status_quotes = ["a!help",
 				"https://discord.com/oauth2/authorize?client_id=639574438794231818&permissions=8&scope=bot",
 				"I was made to learn",
 				"https://github.com/NeonNingen",
+				"Don't go alone take this!",
 				"Beep Boop"]
+'''
 random.shuffle(status_quotes)
 status = cycle(status_quotes)
 # Add JoJo Command, fix errors
