@@ -43,6 +43,7 @@ def event_azami():
 		if isinstance(error, CommandNotFound):
 			await ctx.send("Invalid command, did you type that right?")
 			return
+		return error
 		
 
 def main():

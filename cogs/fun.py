@@ -5,6 +5,8 @@ from random import choice, randint
 sys.path.insert(1, '../')
 import randomimg
 
+color_list = [discord.Color.blue(), discord.Color.dark_red()]
+
 
 def to_upper(argument):
 	return argument.upper()
@@ -28,7 +30,7 @@ class Fun(commands.Cog):
 		embed = discord.Embed(
 			title = "That hurts!",
 			description = f"{ctx.author.mention} slapped {user}",
-			colour = discord.Color.dark_red())
+			colour = choice(color_list))
 		embed.set_image(url = randomimg.slap())
 		await ctx.send(embed=embed)
 
