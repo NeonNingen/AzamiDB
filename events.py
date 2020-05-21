@@ -1,4 +1,4 @@
-import discord, os, random, csv
+import discord, os, random
 from discord.ext import commands, tasks
 from discord.ext.commands import CommandNotFound
 from itertools import cycle
@@ -12,6 +12,7 @@ with open('status_quotes.txt', 'r') as f:
 
 random.shuffle(status_quotes)
 status = cycle(status_quotes)
+
 # Add JoJo Command, fix errors
 def commands_azami():
 	
@@ -48,7 +49,7 @@ def event_azami():
 	@azami.event
 	async def on_ready():
 		change_status.start()
-		print("We have logged in as {0.user}".format(azami))	
+		print(f"We have logged in as {azami.user}")	
 
 	@tasks.loop(seconds=3600)
 	async def change_status():

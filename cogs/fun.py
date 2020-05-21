@@ -17,7 +17,7 @@ class Fun(commands.Cog):
 	class Slapper(commands.Converter):
 		async def convert(self, ctx, argument):
 			to_slap = choice(ctx.guild.members)
-			return '{0.author} slapped {1} because *{2}*'.format(ctx, to_slap, argument)
+			return f'{ctx.author} slapped {to_slap} because *{argument}*'
 
 	@commands.command()
 	async def blame(self, ctx, *, reason: Slapper):
@@ -34,27 +34,10 @@ class Fun(commands.Cog):
 
 	@commands.command(aliases=['8ball', '8'])
 	async def _8ball(self, ctx, *, question):
-		responses = ["It is certain.",
-					"It is decidedly so.",
-        			"Without a doubt.",
-        			"Yes - definitely.",
-        			"You may rely on it.",
-        			"As I see it, yes.",
-        			"Most likely.",
-        			"Outlook good.",
-        			"Yes.",
-        			"Signs point to yes.",
-        			"Reply hazy, try again.",
-        			"Ask again later.",
-        			"Better not tell you now.",
-        			"Cannot predict now.",
-        			"Concentrate and ask again.",
-        			"Don't count on it.",
-        			"My reply is no.",
-        			"My sources say no.",
-        			"Outlook not so good.",
-        			"Very doubtful."]
-		await ctx.send("Questions: {0}\nAnswer: {1}".format(question, choice(responses)))
+		with open('responses_fun.txt', 'r') as f:
+			responses = f.read().splitlines()
+			# When rehauling use folders for each cog
+		await ctx.send(f"Questions: {question}\nAnswer: {choice(responses)}")
 
 	@commands.command()
 	async def up(self, ctx, *, content: to_upper):
