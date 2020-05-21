@@ -34,7 +34,7 @@ class Fun(commands.Cog):
 
 	@commands.command(aliases=['8ball', '8'])
 	async def _8ball(self, ctx, *, question):
-		with open('responses_fun.txt', 'r') as f:
+		with open('cogs/responses_fun.txt', 'r') as f:
 			responses = f.read().splitlines()
 			# When rehauling use folders for each cog
 		await ctx.send(f"Questions: {question}\nAnswer: {choice(responses)}")
