@@ -72,11 +72,11 @@ class Fun(commands.Cog):
 				await ctx.send(embed=embed)
 	
 
-	@slap.error # Find out how to remove error from console
+	@slap.error 
 	async def slap_error(self, ctx, error):
 		if isinstance(error, MissingRequiredArgument):
 			await ctx.send("Requires an user to hit")
-			return
+
 
 	@_8ball.error
 	async def ball8_error(self, ctx, error):

@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+from discord.ext.commands import MissingRequiredArgument
 
 class Mod(commands.Cog):
 
@@ -48,21 +49,30 @@ class Mod(commands.Cog):
 	async def kick_error(self, ctx, error):
 		if isinstance(error, commands.MissingPermissions):
 			await ctx.send("You cannot use this command")
+		elif isinstance(error, MissingRequiredArgument):
+			await ctx.send("Requires an argument")
+		raise error
 
 	@ban.error
 	async def ban_error(self, ctx, error):
 		if isinstance(error, commands.MissingPermissions):
 			await ctx.send("You cannot use this command")
+		elif isinstance(error, MissingRequiredArgument):
+			await ctx.send("Requires an argument")
 
 	@unban.error
 	async def unban_error(self, ctx, error):
 		if isinstance(error, commands.MissingPermissions):
-			await ctx.send("You cannot use this command")	
+			await ctx.send("You cannot use this command")
+		elif isinstance(error, MissingRequiredArgument):
+			await ctx.send("Requires an argument")
 
 	@clear.error
 	async def clear_error(self, ctx, error):
 		if isinstance(error, commands.MissingPermissions):
 			await ctx.send("You cannot use this command")
+		elif isinstance(error, MissingRequiredArgument):
+			await ctx.send("Requires an argument")
 
 def setup(azami):
 	azami.add_cog(Mod(azami))
