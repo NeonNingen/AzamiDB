@@ -5,7 +5,7 @@ color_list = [discord.Color.red(), discord.Color.green(), discord.Color.blue(),
 			  discord.Color.orange(), discord.Color.purple(), discord.Color.gold(),
 			  discord.Color.blurple(), discord.Color.greyple(), discord.Color.teal(),
 			  discord.Color.dark_red(), discord.Color.dark_green(),
-			  discord.Color.light_blue(), discord.Color.dark_gold()]
+			  discord.Color.light_grey(), discord.Color.dark_gold()]
 
 class Help(commands.Cog):
 
