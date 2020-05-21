@@ -17,7 +17,7 @@ class Help(commands.Cog):
 		self.azami = azami
 
 	@commands.command()
-	def help(self, ctx):
+	async def help(self, ctx):
 		cmds_ = []
 		cogs = ctx.bot.cogs
 		for i in cogs:
