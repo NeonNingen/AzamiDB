@@ -9,22 +9,7 @@ azami = commands.Bot(command_prefix = 'a!',
 
 with open('status_quotes.txt', 'r') as f:
 	status_quotes = f.read().splitlines()
-''' Incase commit (status_quotes txt test) fails
-status_quotes = ["a!help",
-				"Let's try to get along!",
-				"I feel sleepy...",
-				"I'm very unique",
-				"I can compute at the speed of sound",
-				"I'm made out of pure code",
-				"Nya nya!",
-				"https://discord.gg/rRb23dt",
-				"I think therefore I am",
-				"https://discord.com/oauth2/authorize?client_id=639574438794231818&permissions=8&scope=bot",
-				"I was made to learn",
-				"https://github.com/NeonNingen",
-				"Don't go alone take this!",
-				"Beep Boop"]
-'''
+
 random.shuffle(status_quotes)
 status = cycle(status_quotes)
 # Add JoJo Command, fix errors
