@@ -53,10 +53,8 @@ class Help(commands.Cog):
 					else:
 						help_text += '\n'
 
-					help_text += f'Format: `@{self.azami.user.name}#{
-											  self.azami.user.discriminator}' \
-						f' {command.name} {
-						command.usage if command.usage is not None else ""}`\n\n\n\n'
+					help_text += f'Format: `@{self.azami.user.name}#{self.bot.azami.discriminator}' \
+						f' {command.name} {command.usage if command.usage is not None else ""}`\n\n\n\n'
 
 				help_embed.description = help_text
 			else:
