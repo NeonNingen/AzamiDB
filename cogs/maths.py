@@ -31,8 +31,6 @@ class Maths(commands.Cog):
 		elif isinstance(error, commands.BadArgument):
 			await ctx.send("Invalid arguement, this command only takes integers and floats")
 			return
-		return error
-			
 
 	@subtract.error
 	async def subtract_error(self, ctx, error):

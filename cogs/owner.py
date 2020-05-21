@@ -33,40 +33,28 @@ class Owner(commands.Cog):
 	async def load_error(self, ctx, error):
 		if isinstance(error, NotOwner):
 			await ctx. send("You must be the owner of this bot to use this command")
-			return
 		elif isinstance(error, commands.CommandInvokeError):
 			await ctx.send(f"That cog doesn't exist")
-			return
 		elif isinstance(error, MissingRequiredArgument):
 			await ctx.send("Requires an argument")
-			return
-		return error
 
 	@unload.error
 	async def unload_error(self, ctx, error):
 		if isinstance(error, NotOwner):
 			await ctx. send("You must be the owner of this bot to use this command")
-			return
 		elif isinstance(error, commands.CommandInvokeError):
 			await ctx.send("Invalid arguement, did you check if it's lower case or missing an arguement?")
-			return
 		elif isinstance(error, MissingRequiredArgument):
 			await ctx.send("Requires an argument")
-			return
-		return error
 
 	@_reload.error
 	async def reload_error(self, ctx, error):
 		if isinstance(error, NotOwner):
 			await ctx. send("You must be the owner of this bot to use this command")
-			return
 		elif isinstance(error, commands.CommandInvokeError):
 			await ctx.send("Invalid arguement, did you check if it's lower case or missing an arguement?")
-			return
 		elif isinstance(error, MissingRequiredArgument):
 			await ctx.send("Requires an argument")
-			return
-		return error
 		
 def setup(azami):
 	azami.add_cog(Owner(azami))

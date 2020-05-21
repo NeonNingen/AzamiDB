@@ -76,15 +76,11 @@ class Fun(commands.Cog):
 	async def slap_error(self, ctx, error):
 		if isinstance(error, MissingRequiredArgument):
 			await ctx.send("Requires an user to hit")
-			return
-		return error
 
 	@_8ball.error
 	async def ball8_error(self, ctx, error):
 		if isinstance(error, MissingRequiredArgument):
 			await ctx.send("Requires an argument")
-			return
-		return error
 	
 
 def setup(azami):

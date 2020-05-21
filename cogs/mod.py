@@ -48,29 +48,21 @@ class Mod(commands.Cog):
 	async def kick_error(self, ctx, error):
 		if isinstance(error, commands.MissingPermissions):
 			await ctx.send("You cannot use this command")
-			return
-		return error
 
 	@ban.error
 	async def ban_error(self, ctx, error):
 		if isinstance(error, commands.MissingPermissions):
 			await ctx.send("You cannot use this command")
-			return
-		return error
 
 	@unban.error
 	async def unban_error(self, ctx, error):
 		if isinstance(error, commands.MissingPermissions):
 			await ctx.send("You cannot use this command")	
-			return
-		return error
 
 	@clear.error
 	async def clear_error(self, ctx, error):
 		if isinstance(error, commands.MissingPermissions):
 			await ctx.send("You cannot use this command")
-			return
-		return error
 
 def setup(azami):
 	azami.add_cog(Mod(azami))
