@@ -7,64 +7,34 @@ color_list = [discord.Color.red(), discord.Color.green(), discord.Color.blue(),
 			  discord.Color.dark_red(), discord.Color.dark_green(),
 			  discord.Color.light_grey(), discord.Color.dark_gold()]
 
+def chunks(self, l, n):
+	for i in range(0, len(l), n):
+		yield l[i:i + n]
+
 class Help(commands.Cog):
 
 	def __init__(self, azami):
 		self.azami = azami
 
-	
+	@commands.command()
+	def help(self, ctx):
+		cmds_ = []
+		cogs = ctx.bot.cogs
+		for i in cogs:
+			cmd_ = ctx.bot.get_cog(i).get_commands()
+			cmd_ = [x for x in cmd_ if not x.hidden]
+			for x in list(chunks(list(cmd_), 6)):
+				embed = discord.Embed(color=discord.Color.blurple()) 
+				embed.set_author(name=f"{i} Commands ({len(cmd_)})")
+				embed.description = ctx.bot.cogs[i].__doc__
+				for y in x:
+					embed.add_field(name=y.signature, value=y.help, inline=False)
+					cmds_.append(embed)
 
-	@commands.command(name="help", description="The help command!",usage="cog")
-	async def help(self, ctx, cog="all"):
-		help_embed = discord.Embed(title="Help",
-								   color=color_list)
-		help_embed.set_thumbnail(url=self.azami.user.avatar_url)
-		help_embed.set_footer(text=f"Requested by {ctx.author.mention}",
-							  icon_url=self.azami.user.avatar_url)
-
-		cogs = [c for c in self.azami.cogs.keys()]
-
-		if cog == 'all':
-			for cog in cogs:
-				cog_commands = self.azami.get_cog(cog).get_commands()
-				commands_list = ''
-				for comm in cog_commands:
-					commands_list += f'**{comm.name}** - *{comm.description}*\n'
-
-				help_embed.add_field(name=cog, value=commands_list, inline=False
-									).add_field(name='\u200b', value='\u200b', 
-												inline=False)
-			pass
-		else:
-			lower_cogs = [c.lower() for c in cogs]
-
-			if cog.lower() in lower_cogs:
-				commands_list = self.azami.get_cog(cogs[lower_cogs.index(
-															  cog.lower())]
-															  ).get_commands()
-				help_text = ''
-
-				for commands in commands_list:
-					help_text += f'```{command.name}```\n' \
-						f'**{command.description}**\n\n'
-
-					if len(commands.aliases) > 0:
-						help_text += f'**Aliases :** `{"`, `".join(command.aliases)}`\n\n\n'
-					else:
-						help_text += '\n'
-
-					help_text += f'Format: `@{self.azami.user.name}#{self.bot.azami.discriminator}' \
-						f' {command.name} {command.usage if command.usage is not None else ""}`\n\n\n\n'
-
-				help_embed.description = help_text
-			else:
-				await ctx.send(
-					'Invalid cog specified.\nUse `help` command to list all cogs.')
-				return
-
-		await ctx.send(embed=help_embed)
-
-		return
+			for n, a in enumerate(cmds_):
+				a.set_footer(
+					text=f'Page {n+1} of {len(cmds_)} | Type "{ctx.prefix}help <command>" for more information')
+		return cmds_
 
 	@help.error
 	async def help_error(self, ctx, error):
