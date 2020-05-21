@@ -55,12 +55,12 @@ def event_azami():
 
 	@azami.event
 	async def on_guild_remove(guild):
-		with open('prefix.json', 'r') as fp:
+		with open('prefixes.json', 'r') as fp:
 			prefixes = json.load(fp)
 
 		prefixes.pop(str(guild.id))
 
-		with open('prefix.json', 'w') as fp:
+		with open('prefixes.json', 'w') as fp:
 			json.dump(prefixes, fp, indent=4)
 
 
