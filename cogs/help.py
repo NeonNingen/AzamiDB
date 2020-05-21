@@ -206,6 +206,12 @@ class Help(commands.Cog):
             else:
                 await paginate(ctx, cog_helper(thing))
 
+    @help.error
+    async def help_error(self, ctx, error):
+		if isinstance(error, commands.CommandError):
+			await ctx.send("Well there is a issue with this command...")
+		return error
+
 
 def setup(azami):
     azami.remove_command("help")
