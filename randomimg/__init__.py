@@ -18,7 +18,6 @@ def shoot(num: int):
 	if num == 1:
 		gif_list = [
 		"http://i.imgur.com/hPL5TGD.gif",
-		"https://tenor.com/yI0K.gif",
 		"https://i.kym-cdn.com/photos/images/newsfeed/000/695/897/e48.gif"
 		]
 		return choice(gif_list)
@@ -31,8 +30,8 @@ def shoot(num: int):
 	elif num == 3:
 		gif_list = [
 		"https://s-media-cache-ak0.pinimg.com/originals/2d/fa/a9/2dfaa995a09d81a07cad24d3ce18e011.gif",
-		"https://tenor.com/wEop.gif",
-		"https://tenor.com/beSXC.gif"
+		"https://i.imgur.com/W3MY1.gif",
+		"https://media.giphy.com/media/VuKsgBXgjOUtW/giphy.gif"
 		]
 		return choice(gif_list)
 
