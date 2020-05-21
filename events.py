@@ -37,6 +37,8 @@ def commands_azami():
 	async def clear_error(self, ctx, error):
 		if isinstance(error, commands.MissingPermissions):
 			await ctx.send("You cannot use this command")
+			return
+		return error
 
 
 def event_azami():
