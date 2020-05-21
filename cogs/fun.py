@@ -26,10 +26,10 @@ class Fun(commands.Cog):
 	@commands.command()
 	async def slap(self, ctx, user):
 		embed = discord.Embed(
-					title = "That hurts!",
-					description = f"{ctx.author.mention} slapped {user}",
-					colour = discord.Color.dark_red())
-				embed.set_image(randomimg.slap())
+			title = "That hurts!",
+			description = f"{ctx.author.mention} slapped {user}",
+			colour = discord.Color.dark_red())
+		embed.set_image(randomimg.slap())
 
 	@commands.command(aliases=['8ball', '8'])
 	async def _8ball(self, ctx, *, question):
