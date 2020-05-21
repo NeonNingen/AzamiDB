@@ -48,12 +48,12 @@ class Mod(commands.Cog):
 	@commands.command()
 	@commands.has_permissions(manage_messages = True)
 	async def changeprefix(ctx, prefix):
-		with open('prefix.json', 'r') as fp:
+		with open('prefixes.json', 'r') as fp:
 			prefixes = json.load(fp)
 
 		prefixes[str(ctx.guild.id)] = prefix
 
-		with open('prefix.json', 'w') as fp:
+		with open('prefixes.json', 'w') as fp:
 			json.dump(prefixes, fp, indent=4)
 
 	@kick.error

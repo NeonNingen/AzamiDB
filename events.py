@@ -4,7 +4,7 @@ from discord.ext.commands import CommandNotFound
 from itertools import cycle
 
 def get_prefix(azami, message):
-	with open('prefix.json', 'r') as fp:
+	with open('prefixes.json', 'r') as fp:
 		prefixes = json.load(fp)
 
 	return prefixes[str(message.guild.id)]
@@ -45,12 +45,12 @@ def event_azami():
 
 	@azami.event
 	async def on_guild_join(guild):
-		with open('prefix.json', 'r') as fp:
+		with open('prefixes.json', 'r') as fp:
 			prefixes = json.load(fp)
 
 		prefixes[str(message.guild.id)] = 'a!'
 
-		with open('prefix.json', 'w') as fp:
+		with open('prefixes.json', 'w') as fp:
 			json.dump(prefixes, fp, indent=4)
 
 	@azami.event
