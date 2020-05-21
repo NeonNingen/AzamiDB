@@ -66,6 +66,12 @@ class Help(commands.Cog):
 
 		return
 
+	@help.error
+	if isinstance(error, commands.CommandError):
+		await ctx.send("Well there is a issue with this command...")
+		return
+	return error
+
 
 
 	
