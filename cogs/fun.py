@@ -1,5 +1,6 @@
 import discord, sys, io
 from discord.ext import commands
+from discord.ext.commands import MissingRequiredArgument
 from random import choice, randint
 sys.path.insert(1, '../')
 import randomimg
@@ -24,7 +25,11 @@ class Fun(commands.Cog):
 
 	@commands.command()
 	async def slap(self, ctx, user):
-		await ctx.send(randomimg.slap() + '\n' + '{0.author.mention} slapped {1}'.format(ctx, user))
+		embed = discord.Embed(
+					title = "That hurts!",
+					description = f"{ctx.author.mention} slapped {user}"
+					colour = discord.Color.yellow())
+				embed.set_image(randomimg.slap())
 
 	@commands.command(aliases=['8ball', '8'])
 	async def _8ball(self, ctx, *, question):
@@ -85,14 +90,14 @@ class Fun(commands.Cog):
 
 	@slap.error # Find out how to remove error from console
 	async def slap_error(self, ctx, error):
-		if isinstance(error, commands.CommandError):
-			await ctx.send("Requires an argument")
+		if isinstance(error, MissingRequiredArgument):
+			await ctx.send("Requires an user to hit")
 			return
 		return error
 
 	@_8ball.error
 	async def ball8_error(self, ctx, error):
-		if isinstance(error, commands.CommandError):
+		if isinstance(error, MissingRequiredArgument):
 			await ctx.send("Requires an argument")
 			return
 		return error
