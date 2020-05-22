@@ -48,22 +48,22 @@ class Help(commands.Cog):
 															  ).get_commands()
 				help_text = ''
 
-				for commands in commands_list:
+				for command in commands_list:
 					help_text += f'```{command.name}```\n' \
 						f'**{command.description}**\n\n'
 
-					if len(commands.aliases) > 0:
+					if len(command.aliases) > 0:
 						help_text += f'**Aliases: ** `{"`, `".join(command.aliases)}`\n\n\n'
 					else:
 						help_text += '\n'
 
-					help_text += f'Format: `@{self.azami.user.name}#{self.bot.azami.discriminator}' \
+					help_text += f'Format: `@{self.azami.user.name}#{self.azami.user.discriminator}' \
 						f' {command.name} {command.usage if command.usage is not None else ""}`\n\n\n\n'
 
 				help_embed.description = help_text
 			else:
 				await ctx.send(
-					'Invalid cog specified.\nUse `help` command to list all cogs.')
+					'Invalid cog specified.\nUse `a!help` command to list all cogs.')
 				return
 
 		await ctx.send(embed=help_embed)
