@@ -63,11 +63,11 @@ def event_azami():
 									  description=f"{guild.name}, I'm so excited to be here!",
 									  color=discord.Color.gold())
 				embed.set_thumbnail(url=guild.icon_url)
-				embed.set_footer(text=f"{azami.user.name} is the name!")
+				embed.set_footer(text=f"I'm in {len(azami.guilds)} guilds!")
 				value1 = f"I'm an all purpose bot with currently:\n **{len(cogs)} cogs** and **{store} commands**"
 				value2 = f"It's a pleasure to make your Acquaintance, {guild.owner.mention}"
 				embed.add_field(name=f"Hi, my name is {azami.user.name}", value=value1)
-				embed.add_field(name="To read about my commands, do `ab!help`", value=value2)
+				embed.add_field(name=f"To read about my commands, do {azami.command_prefix}help", value=value2)
 				await channel.send(embed=embed)
 			break
 	
