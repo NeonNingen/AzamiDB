@@ -19,11 +19,11 @@ class Fun(commands.Cog):
 			to_slap = choice(ctx.guild.members)
 			return f'{ctx.author} slapped {to_slap} because *{argument}*'
 
-	@commands.command()
+	@commands.command(description="It's your fault!")
 	async def blame(self, ctx, *, reason: Slapper):
 		await ctx.send(reason)
 
-	@commands.command()
+	@commands.command(description="This is gonna hurt!")
 	async def slap(self, ctx, user):
 		embed = discord.Embed(
 			title = "That hurts!",
@@ -32,18 +32,19 @@ class Fun(commands.Cog):
 		embed.set_image(url = randomimg.slap())
 		await ctx.send(embed=embed)
 
-	@commands.command(aliases=['8ball', '8'])
+	@commands.command(name='8 or 8ball', aliases=['8ball', '8'], 
+					  description="What answers do you seek?")
 	async def _8ball(self, ctx, *, question):
 		with open('cogs/responses_fun.txt', 'r') as f:
 			responses = f.read().splitlines()
 			# When rehauling use folders for each cog
 		await ctx.send(f"Questions: {question}\nAnswer: {choice(responses)}")
 
-	@commands.command()
+	@commands.command(description="azami -> AZAMI")
 	async def up(self, ctx, *, content: to_upper):
 		await ctx.send(content)
 
-	@commands.command()
+	@commands.command(description="Bang and the dirt is gone")
 	async def shoot(self, ctx, *members: discord.Member):
 		if not members: # Built in error check
 			await ctx.send("You gotta give me someone to shoot!")
@@ -70,7 +71,11 @@ class Fun(commands.Cog):
 					colour = discord.Color.gold())
 				embed.set_image(url = randomimg.shoot(3))
 				await ctx.send(embed=embed)
-	
+
+	@blame.error
+	async def blame_error(self, ctx, error):
+		if isinstance(error, MissingRequiredArgument):
+			await ctx.send("Requires an user to blame")
 
 	@slap.error 
 	async def slap_error(self, ctx, error):

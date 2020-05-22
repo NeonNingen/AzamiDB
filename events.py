@@ -11,8 +11,7 @@ with open('status_quotes.txt', 'r') as f:
 	status_quotes = f.read().splitlines()
 
 random.shuffle(status_quotes)
-status = cycle(status_quotes)
-azami.remove_command('help')	
+status = cycle(status_quotes)	
 
 def event_azami():
 
@@ -36,19 +35,21 @@ def event_azami():
 
 	@azami.event
 	async def on_member_remove(member):
-		print(f"{member} has left/kick from the server")
+		print(f"{member} has left/kick from the server")	
 
+	'''
 	@azami.event
 	async def on_command_error(ctx, error):
 		if isinstance(error, CommandNotFound):
 			await ctx.send("Invalid command, did you type that right?")
 			return
 		return error
+	'''
 		
 
 def main():
 	event_azami()
-	azami.run(os.environ['DISCORD_TOKEN'])
-	#token = open("token.txt", "r")
-	#azami.run(token.read())
+	#azami.run(os.environ['DISCORD_TOKEN'])
+	token = open("token.txt", "r")
+	azami.run(token.read())
 
