@@ -2,6 +2,7 @@ import discord, os, random
 from discord.ext import commands, tasks
 from discord.ext.commands import CommandNotFound
 from itertools import cycle
+from asyncio import sleep
 
 azami = commands.Bot(command_prefix = 'a!',
 					 description = "Azami, an all purpose bot!",
@@ -25,8 +26,12 @@ def event_azami():
 		change_status.start()
 		print(f"We have logged in as {azami.user}")	
 
-	@tasks.loop(seconds=3600)
+	@tasks.loop(seconds=3700)
 	async def change_status():
+		await azami.change_presence(activity=discord.Activity(
+			name=(
+			f"{len(azami.guilds)} servers"), type=discord.ActivityType.watching))
+		await sleep(600)
 		await azami.change_presence(activity=discord.Game(next(status)))
 
 	@azami.event
@@ -44,6 +49,27 @@ def event_azami():
 			await ctx.send("Invalid command, did you type that right?")
 			return
 		return error
+
+	@azami.event
+	async def on_guild_join(guild: discord.Guild):
+		cogs = [c for c in azami.cogs.keys()]
+		store = 0
+		for cog in cogs:
+			cogc = azami.get_cog(cog).get_commands()
+			store += len(cogc)
+		for channel in guild.text_channels: # cogc = cog commands
+			if channel.permissions_for(guild.me).send_messages:
+				embed = discord.Embed(title="Hi there!",
+									  description=f"{guild.name}, I'm so excited to be here!",
+									  color=discord.Color.gold())
+				embed.set_thumbnail(url=guild.icon_url)
+				embed.set_footer(text=f"{azami.user.name} is the name!")
+				value1 = f"I'm an all purpose bot with currently:\n **{len(cogs)} cogs** and **{store} commands**"
+				value2 = f"It's a pleasure to make your Acquaintance, {guild.owner.mention}"
+				embed.add_field(name=f"Hi, my name is {azami.user.name}", value=value1)
+				embed.add_field(name="To read about my commands, do `ab!help`", value=value2)
+				await channel.send(embed=embed)
+			break
 	
 		
 
