@@ -49,7 +49,7 @@ def event_azami():
 
 def main():
 	event_azami()
-	#azami.run(os.environ['DISCORD_TOKEN'])
-	token = open("token.txt", "r")
-	azami.run(token.read())
+	azami.run(os.environ['DISCORD_TOKEN'])
+	#token = open("token.txt", "r")
+	#azami.run(token.read())
 
