@@ -37,14 +37,14 @@ def event_azami():
 	async def on_member_remove(member):
 		print(f"{member} has left/kick from the server")	
 
-	'''
+	
 	@azami.event
 	async def on_command_error(ctx, error):
 		if isinstance(error, CommandNotFound):
 			await ctx.send("Invalid command, did you type that right?")
 			return
 		return error
-	'''
+	
 		
 
 def main():
