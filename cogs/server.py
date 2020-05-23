@@ -1,4 +1,4 @@
-import discord, aiohttp
+import discord, aiohttp, time
 from discord.ext import commands
 from random import choice
 
@@ -7,15 +7,15 @@ color_list = [discord.Color.red(), discord.Color.green(), discord.Color.blue()]
 # In Azami 2.0: Use a import system for the colours like eg. from cogs.color import color_list
 
 async def hastebin(content, session=None): # Move to cogs/utils/check in future
-	if not session:
-		session = aiohttp.ClientSession()
+	session = aiohttp.ClientSession()
 	async with session.post("https://hastebin.com/documents", data=content.encode('utf-8')) as resp:
 		if resp.status == 200:
 			result = await resp.json()
 			await session.close()
 			return "https://hastebin.com/" + result["key"]
 		else:
-			return f"Error with creating Hastebin, Status: {resp.status}" 
+			return f"Error with creating Hastebin, Status: {resp.status}"
+	
 		
 
 class Server(commands.Cog):
@@ -56,9 +56,44 @@ class Server(commands.Cog):
 		em.add_field(name='Users', value=hastebin_of_users)
 		em.add_field(name='Created At', value=server.created_at.__format__('%A, %d. %B %Y @ %H:%M:%S'))
 		em.set_thumbnail(url=server.icon_url)
-		em.set_author(name='Server Info', icon_url='https://i.imgur.com/RHagTDg.png')
+		em.set_author(name='Server Info', icon_url=self.azami.user.avatar_url)
 		em.set_footer(text='Server ID: %s' % server.id)
 		await ctx.send(embed=em)
+
+		
+
+	@commands.command(description="This will display info about user or another user", aliases=["ui"])
+	async def userinfo(self, ctx, *, name=""):
+		if name:
+			user = user = ctx.message.mentions[0]
+		else:
+			user = ctx.message.author
+
+		if isinstance(user, discord.Member):
+			role = user.top_role.name
+			if role == "@everyone":
+				role = 'N/A'
+
+		em = discord.Embed(name="User Info",
+						   description= f"Information on: {user}",
+						   color=choice(color_list))
+		em.add_field(name='User ID', value=user.id, inline=True)
+		if isinstance(user, discord.Member):
+			voice_state = None if not user.voice else user.voice.channel
+			em.add_field(name='Nickname', value=user.nick, inline=True)
+			em.add_field(name='Status', value=user.status, inline=True)
+			em.add_field(name='In Voice', value=voice_state, inline=True)
+			em.add_field(name='Activity', value=user.activity, inline=True)
+			em.add_field(name='Highest Role', value=role, inline=True)
+		em.add_field(name='Account Created', value=user.created_at.__format__('%A, %d. %B %Y @ %H:%M:%S'))
+		if isinstance(user, discord.Member):
+			em.add_field(name='Join Date', value=user.joined_at.__format__('%A, %d. %B %Y @ %H:%M:%S'))
+		em.set_thumbnail(url=user.avatar_url)
+		em.set_author(name=user, icon_url=self.azami.user.avatar_url)
+		em.set_footer(text=f"Requested by {ctx.message.author.name} - Today at: " + (
+							  time.strftime("%I:%M %p")))
+		await ctx.send(embed=em)
+
 
 		
 
