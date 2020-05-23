@@ -18,7 +18,7 @@ class Help(commands.Cog):
 	@commands.command(name="help", description="The help command!",usage="cog")
 	async def help(self, ctx, cog="all"):
 		help_embed = discord.Embed(title="Help",
-								   description="Remember to use `a!{commandname}`",
+								   description="Remember to use " + f"{self.azami.command_prefix}" + "`{commandname}`",
 								   color=choice(color_list))
 		help_embed.set_thumbnail(url=self.azami.user.avatar_url)
 		help_embed.set_footer(text=f"Requested by {ctx.message.author.name} - Today at: " + (
@@ -26,6 +26,7 @@ class Help(commands.Cog):
 							  icon_url=self.azami.user.avatar_url)
 
 		cogs = [c for c in self.azami.cogs.keys()]
+		cogs.remove('Owner')
 
 		if cog == 'all':
 			for cog in cogs:
@@ -37,7 +38,7 @@ class Help(commands.Cog):
 				help_embed.add_field(name='\n' + cog, value=commands_list, inline=False)
 
 			pass
-			help_extra = "**Use a!help `{cog}` for more information on a cog**"
+			help_extra = "**Use " + f"{self.azami.command_prefix}" + "help `{cog}` for more information on a cog**"
 			help_embed.add_field(name="Need more help?", value=help_extra)
 		else:
 			lower_cogs = [c.lower() for c in cogs]
@@ -63,7 +64,7 @@ class Help(commands.Cog):
 				help_embed.description = help_text
 			else:
 				await ctx.send(
-					'Invalid cog specified.\nUse `a!help` command to list all cogs.')
+					f'Invalid cog specified.\nUse `{self.azami.command_prefix}help` command to list all cogs.')
 				return
 
 		await ctx.send(embed=help_embed)
