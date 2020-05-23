@@ -1,4 +1,4 @@
-import discord,aiohttp
+import discord, aiohttp
 from discord.ext import commands
 from random import choice
 
@@ -12,6 +12,7 @@ async def hastebin(content, session=None): # Move to cogs/utils/check in future
 	async with session.post("https://hastebin.com/documents", data=content.encode('utf-8')) as resp:
 		if resp.status == 200:
 			result = await resp.json()
+			await session.close()
 			return "https://hastebin.com/" + result["key"]
 		else:
 			return f"Error with creating Hastebin, Status: {resp.status}" 
