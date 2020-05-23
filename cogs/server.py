@@ -38,7 +38,7 @@ class Server(commands.Cog):
 		role_count = len(server.roles)
 		emoji_count = len(server.emojis)
 		em = discord.Embed(name="Server Info",
-						   description= "For the server: {server.name}",
+						   description= f"For the server: {server.name}",
 						   color=choice(color_list))
 		em.add_field(name='Name', value=server.name)
 		em.add_field(name='Owner', value=server.owner, inline=False)
