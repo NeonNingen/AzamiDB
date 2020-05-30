@@ -1,7 +1,6 @@
 import discord
 from discord.ext import commands
 from discord.ext.commands import MissingRequiredArgument
-from asyncio import sleep
 
 class Mod(commands.Cog):
 
@@ -35,7 +34,7 @@ class Mod(commands.Cog):
 				await ctx.send(f'You have unbanned, {user.mention}')
 				return
 
-	@commands.command(aliases=['hban'], description="You can ban anyone, even if they're not in the server", pass_context=True)
+	@commands.command(aliases=['hban'], description="You can ban anyone, even if they're not in the server")
 	@commands.has_permissions(ban_members=True)
 	async def hackban(self, ctx, user_id: int):
 		author = ctx.message.author
