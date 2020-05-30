@@ -1,6 +1,6 @@
 import discord, os, random
 from discord.ext import commands, tasks
-from discord.ext.commands import CommandNotFound
+from discord.ext.commands import CommandNotFound, NoPrivateMessage
 from itertools import cycle
 from asyncio import sleep
 
@@ -48,6 +48,8 @@ def event_azami():
 		if isinstance(error, CommandNotFound):
 			await ctx.send("Invalid command, did you type that right?")
 			return
+		elif isinstance(error, NoPrivateMessage):
+			return
 		return error
 
 	@azami.event
@@ -71,6 +73,9 @@ def event_azami():
 				await channel.send(embed=embed)
 			break
 	
+	@azami.check
+	async def globally_block_dms(ctx):
+		await ctx.send("Sorry I cannot do commands in DMs")
 		
 
 def main():
