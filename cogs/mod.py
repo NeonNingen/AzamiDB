@@ -88,13 +88,13 @@ class Mod(commands.Cog):
 	@commands.has_permissions(manage_roles = True)
 	async def addrole(self, ctx, user: discord.Member, role: discord.Role):
 		await user.add_roles(role)
-		await ctx.send(f"Hey {ctx.author.name}, {user.name} has been giving a role called: {role.name}")
+		await ctx.send(f"Hey {ctx.author.name}, {user.name} has been given a role called: {role.name}")
 
 	@commands.command(description="I'll leach your role!", aliases=["rr"])
 	@commands.has_permissions(manage_roles = True)
 	async def removerole(self, ctx, user: discord.Member, role: discord.Role):
 		await user.remove_roles(role)
-		await ctx.send(f"Hey {ctx.author.name}, {user.name} has been lost a role called: {role.name}")
+		await ctx.send(f"Hey {ctx.author.name}, {user.name} has lost a role called: {role.name}")
 
 	@commands.command(description="I'll add/remove this role", aliases=["sr"])
 	@commands.has_permissions(manage_roles = True)

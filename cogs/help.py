@@ -54,12 +54,12 @@ class Help(commands.Cog):
 						f'**{command.description}**\n\n'
 
 					if len(command.aliases) > 0:
-						help_text += f'**Aliases: ** `{"`, `".join(command.aliases)}`\n\n\n'
+						help_text += f'**Aliases: ** `{"`, `".join(command.aliases)}`\n'
 					else:
 						help_text += '\n'
 
 					help_text += f'Format: `@{self.azami.user.name}#{self.azami.user.discriminator}' \
-						f' {command.name} {command.usage if command.usage is not None else ""}`\n\n\n\n'
+						f' {command.name} {command.usage if command.usage is not None else ""}`\n\n'
 
 				help_embed.description = help_text
 			else:

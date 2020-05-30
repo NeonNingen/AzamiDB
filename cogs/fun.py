@@ -72,21 +72,96 @@ class Fun(commands.Cog):
 				embed.set_image(url = randomimg.shoot(3))
 				await ctx.send(embed=embed)
 
+	@commands.command(description="And your next line is!")
+	async def say(self, ctx, content):
+		await ctx.send(content)
+
+	@commands.command(description="Let's play a game of Jan Ken Pon!",
+					  aliases=['rockpaperscissors', 'rock'])
+	async def rps(self, ctx):
+		await ctx.send("Hello " + ctx.message.author.mention + (
+			" Let's begin a game of rock, paper, scissors"))
+
+		wins = 0
+		losses = 0
+		ties = 0
+
+		while True:
+			await ctx.send(f'Wins: {wins}, Losses: {losses}, Ties: {ties}')
+			while True:
+				await ctx.send("What do you choose (r)ock, (p)aper, (s)cissors or (q)uit")
+				player = await self.azami.wait_for('message')
+				if player.content == 'q':
+					return
+				if player.content == 'r' or player.content == 'p' or player.content == 's':
+					break
+				await ctx.send('Write r, p, s or q!')
+
+			if player.content == 'r':
+				await ctx.send('Rock against...')
+			elif player.content == 'p':
+				await ctx.send('Paper against...')
+			elif player.content == 's':
+				await ctx.send('Scissors against...')
+
+			randomnum = randint(1, 3)
+			if randomnum == 1:
+				computer = 'r'
+				await ctx.send('Rock!')
+			elif randomnum == 2:
+				computer = 'p'
+				await ctx.send('Paper!')
+			elif randomnum == 3:
+				computer = 's'
+				await ctx.send('Scissors!')
+
+			if player.content == computer:
+				await ctx.send('Tie!')
+				ties += 1
+			elif player.content == 'r' and computer == 's':
+				await ctx.send('You win!')
+				wins += 1
+			elif player.content == 'r' and computer == 'p':
+				await ctx.send('You lose...')
+				losses += 1
+			elif player.content == 'p' and computer == 'r':
+				await ctx.send('You win!')
+				wins += 1
+			elif player.content == 'p' and computer == 's':
+				await ctx.send('You lose...')
+				losses += 1
+			elif player.content == 's' and computer == 'p':
+				await ctx.send('You win!')
+				wins += 1
+			elif player.content == 's' and computer == 'r':
+				await ctx.send('You lose...')
+				losses += 1
+
+
 	@blame.error
 	async def blame_error(self, ctx, error):
 		if isinstance(error, MissingRequiredArgument):
-			await ctx.send("Requires an user to blame")
+			await ctx.send("Requires a user to blame")
 
 	@slap.error 
 	async def slap_error(self, ctx, error):
 		if isinstance(error, MissingRequiredArgument):
-			await ctx.send("Requires an user to hit")
-
+			await ctx.send("Requires a user to hit")
 
 	@_8ball.error
 	async def ball8_error(self, ctx, error):
 		if isinstance(error, MissingRequiredArgument):
-			await ctx.send("Requires an argument")
+			await ctx.send("Please write a question for me to respond to")
+
+	@up.error
+	async def up_error(self, ctx, error):
+		if isinstance(error, MissingRequiredArgument):
+			await ctx.send("Please give me a word or sentence")
+
+	@say.error
+	async def say_error(self, ctx, error):
+		if isinstance(error, MissingRequiredArgument):
+			await ctx.send("Please give me a word or sentence")
 	
 
 def setup(azami):
