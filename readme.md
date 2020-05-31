@@ -9,7 +9,7 @@ This bot is open source!
 __Update log:__
 
 ```python
-Update #1 (31/05/2020) Making my discord bot repo public, I'm working on a V2 for this bot
+Update #1 (31/05/2020) Keeping this private, working on V2
 ```
 
 ### This bot is hosted on Heroku and is up 24/7.
