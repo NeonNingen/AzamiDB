@@ -4,9 +4,10 @@ My Discord bot project!
 **I have made a discord bot with discord py rewrite**\
 This bot is open source!
 
-#### Use a!help to learn all the bots commands
+### Use a!help to learn all the bots commands
 
-### If you want to add the bot to your server: https://discord.com/oauth2/authorize?client_id=639574438794231818&permissions=8&scope=bot
+##### If you want to add the bot to your server: 
+###### https://discord.com/oauth2/authorize?client_id=639574438794231818&permissions=8&scope=bot
 
 __Update log:__
 
