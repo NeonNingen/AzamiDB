@@ -18,7 +18,7 @@ def return_results(limit, rolls):
 		result_em.set_image(url=dicepic)
 		return result_em
 
-class Dnd(commands.Cog): # Work on Embed Rolls also modifier addon
+class Dnd(commands.Cog): # Work on Embed Rolls also modifier addon. Update
 
 	def __init__(self, azami):
 		self.azami = azami
@@ -109,7 +109,6 @@ class Dnd(commands.Cog): # Work on Embed Rolls also modifier addon
 			result_em = return_results(limit, rolls)
 			result_em.set_thumbnail(url=ctx.message.author.avatar_url)
 			await ctx.send(embed=result_em)
-
 		
 
 
