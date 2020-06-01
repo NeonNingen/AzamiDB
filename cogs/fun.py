@@ -74,7 +74,7 @@ class Fun(commands.Cog):
 				await ctx.send(embed=embed)
 
 	@commands.command(description="And your next line is!")
-	async def say(self, ctx, content):
+	async def say(self, ctx, *, content):
 		await ctx.send(content)
 
 	@commands.command(description="Let's play a game of Jan Ken Pon!",
