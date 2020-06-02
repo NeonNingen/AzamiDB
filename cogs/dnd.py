@@ -33,21 +33,20 @@ def return_results(limit, rolls, mod, i=0):
 			limit = limit + mod
 
 		if limit > 20:
-			return multi_em
+			return multi_em.add_field(name=f"Roll {i + 1}", value=f"This your value: {limit}")
 		else:
 			dicepic = diceroll(limit)
 			multi_em.add_field(name=f"Roll {i + 1}", value=f"This your value: {limit}")
 			multi_em.set_image(url=dicepic)
 			return multi_em
-				
-
 
 class Dnd(commands.Cog): # Work on Embed Rolls also modifier addon
 
 	def __init__(self, azami):
 		self.azami = azami
 
-	@commands.command(description=f'To roll do `prefixroll NdN`')
+	@commands.command(description=f'To roll do `prefixroll NdN`',
+					  usage="To roll any dice with any amount of times")
 	async def roll(self, ctx, dice: str, mod=0):
 		try:
 			rolls, limit = map(int, dice.split('d'))

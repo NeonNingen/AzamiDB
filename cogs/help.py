@@ -51,15 +51,16 @@ class Help(commands.Cog):
 
 				for command in commands_list:
 					help_text += f'```{command.name}```\n' \
-						f'**{command.description}**\n\n'
+						f'**Description: {command.description}**\n' \
+						f'{"**Usage: " + command.usage + "**" if command.usage is not None else ""}'
 
 					if len(command.aliases) > 0:
 						help_text += f'**Aliases: ** `{"`, `".join(command.aliases)}`\n'
 					else:
 						help_text += '\n'
 
-					help_text += f'Format: `@{self.azami.user.name}#{self.azami.user.discriminator}' \
-						f' {command.name} {command.usage if command.usage is not None else ""}`\n\n'
+					help_text += f'Format: `{self.azami.command_prefix}' \
+						f'{command.name}`\n\n'
 
 				help_embed.description = help_text
 			else:
