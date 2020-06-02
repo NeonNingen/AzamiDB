@@ -86,7 +86,7 @@ class Dnd(commands.Cog): # Work on Embed Rolls also modifier addon
 				await msg.delete()
 				for i in range(0, rolls):
 					result_em = return_results(limit, rolls, mod, i)
-
+					result_em.set_thumbnail(url=ctx.message.author.avatar_url)
 					await ctx.send(embed=result_em)
 			else:
 				await msg.edit(embed=result_em)
