@@ -1,4 +1,4 @@
-import discord
+import discord, sys
 from discord.ext import commands
 from discord.ext.commands import NotOwner, MissingRequiredArgument
 
@@ -61,6 +61,28 @@ class Owner(commands.Cog, command_attrs=dict(hidden=True)):
 		await ctx.send("Here's the bot invite:\n" \
 		"https://discord.com/oauth2/authorize?client_id=639574438794231818&permissions=8&scope=bot")
 
+	@commands.command(description='Owner of Azami Only', aliases=['leave'])
+	@commands.is_owner()
+	async def guildleave(self, ctx, *, guild_name):
+		guild = discord.utils.get(self.azami.guilds, name=guild_name)
+		if guild is None:
+			await ctx.send("I don't recongize this guild")
+		to_leave = ctx.bot.get_guild(guild.id)
+		await to_leave.leave()
+		await ctx.send(f":ok_hand: Left guild: {guild.name}")
+
+	@commands.command(description='Owner of Azami Only', aliases=['gl'])
+	@commands.is_owner()
+	async def guildlist(self, ctx):
+		async for guild in self.azami.fetch_guilds():
+			await ctx.send(f"Currently in these guilds:\n{guild.name}\n")
+
+	@commands.command(description='Owner of Azami Only', aliases=['die'])
+	@commands.is_owner()
+	async def shutdown(self, ctx):
+		await ctx.send("Goodbye!")
+		await ctx.bot.close()
+
 	@commands.command(description='Owner of Azami Only', 
 					  aliases=['ownerhelp', 'oh', 'ownerh'])
 	@commands.is_owner()
@@ -116,6 +138,33 @@ class Owner(commands.Cog, command_attrs=dict(hidden=True)):
 
 	@owner.error
 	async def owner_error(self, ctx, error):
+		if isinstance(error, NotOwner):
+			await ctx.send("You must be the owner of this bot to use this command")
+		elif isinstance(error, commands.CommandInvokeError):
+			await ctx.send("Invalid arguement, did you check if it's lower case or missing an arguement?")
+		elif isinstance(error, MissingRequiredArgument):
+			await ctx.send("Requires an argument")
+
+	@guildleave.error
+	async def guildleave_error(self, ctx, error):
+		if isinstance(error, NotOwner):
+			await ctx.send("You must be the owner of this bot to use this command")
+		elif isinstance(error, commands.CommandInvokeError):
+			await ctx.send("Invalid arguement, did you check if it's lower case or missing an arguement?")
+		elif isinstance(error, MissingRequiredArgument):
+			await ctx.send("Requires an argument")
+
+	@guildlist.error
+	async def guildlist_error(self, ctx, error):
+		if isinstance(error, NotOwner):
+			await ctx.send("You must be the owner of this bot to use this command")
+		elif isinstance(error, commands.CommandInvokeError):
+			await ctx.send("Invalid arguement, did you check if it's lower case or missing an arguement?")
+		elif isinstance(error, MissingRequiredArgument):
+			await ctx.send("Requires an argument")
+
+	@shutdown.error
+	async def shutdown_error(self, ctx, error):
 		if isinstance(error, NotOwner):
 			await ctx.send("You must be the owner of this bot to use this command")
 		elif isinstance(error, commands.CommandInvokeError):
