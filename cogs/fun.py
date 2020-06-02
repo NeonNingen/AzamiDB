@@ -24,7 +24,7 @@ class Fun(commands.Cog):
 	async def blame(self, ctx, *, reason: Slapper):
 		await ctx.send(reason)
 
-	@commands.command(description="This is gonna hurt!")
+	@commands.command(description='This is gonna hurt!')
 	async def slap(self, ctx, user):
 		embed = discord.Embed(
 			title = "That hurts!",
@@ -34,18 +34,21 @@ class Fun(commands.Cog):
 		await ctx.send(embed=embed)
 
 	@commands.command(name='8 or 8ball', aliases=['8ball', '8'], 
-					  description="What answers do you seek?")
+					  description='What answers do you seek?',
+					  usage='Have your questions answered!')
 	async def _8ball(self, ctx, *, question):
 		with open('cogs/responses_fun.txt', 'r') as f:
 			responses = f.read().splitlines()
 			# When rehauling use folders for each cog
 		await ctx.send(f"Questions: {question}\nAnswer: {choice(responses)}")
 
-	@commands.command(description="azami -> AZAMI")
+	@commands.command(description='azami -> AZAMI',
+					  usage='Basically capitalizes anything you say')
 	async def up(self, ctx, *, content: to_upper):
 		await ctx.send(content)
 
-	@commands.command(description="Bang and the dirt is gone")
+	@commands.command(description='Bang and the dirt is gone',
+					  usage='You can suicide, shoot others or shoot Azami!')
 	async def shoot(self, ctx, *members: discord.Member):
 		if not members: # Built in error check
 			await ctx.send("You gotta give me someone to shoot!")
@@ -73,7 +76,7 @@ class Fun(commands.Cog):
 				embed.set_image(url = randomimg.shoot(3))
 				await ctx.send(embed=embed)
 
-	@commands.command(description="And your next line is!")
+	@commands.command(description='And your next line is!')
 	async def say(self, ctx, *, content):
 		await ctx.send(content)
 

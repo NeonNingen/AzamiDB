@@ -14,7 +14,7 @@ class Basic(commands.Cog):
 	async def ping(self, ctx):
 		await ctx.send(f'Pong! :ping_pong: {round(self.azami.latency * 1000)}ms.')
 
-	@commands.command(description='Get the Wholesome Society invite link')
+	@commands.command(description='Gets the Wholesome Society invite link')
 	async def invite(self, ctx):
 		await ctx.send("The server invite: https://discord.gg/rRb23dt")
 

@@ -8,7 +8,8 @@ class Jojo(commands.Cog):
 
 	@commands.has_permissions(manage_messages = True)
 	@commands.guild_only()
-	@commands.command(description="Oh? You're Approaching me?")
+	@commands.command(description="Oh? You're Approaching me?",
+					  usage="Jotaro! This is ZA WARUDO! TOKIYO TOMARE!")
 	async def tomare(self, ctx, time: int = 0):
 		if time < 0 or time > 12:
 			await ctx.send("Invalid time value. Time must be between 0 and 12 (inclusive)")

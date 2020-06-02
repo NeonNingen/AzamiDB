@@ -23,7 +23,7 @@ class Server(commands.Cog):
 	def __init__(self, azami):
 		self.azami = azami
 
-	@commands.command(description="This will display info about the server", aliases=["si"])
+	@commands.command(description='This will display info about the server', aliases=["si"])
 	async def serverinfo(self, ctx):
 		server = ctx.message.guild
 		online = 0
@@ -62,7 +62,7 @@ class Server(commands.Cog):
 
 		
 
-	@commands.command(description="This will display info about user or another user", aliases=["ui"])
+	@commands.command(description='This will display info about user or another user', aliases=["ui"])
 	async def userinfo(self, ctx, *, name=""):
 		if name:
 			user = user = ctx.message.mentions[0]
@@ -93,19 +93,6 @@ class Server(commands.Cog):
 		em.set_footer(text=f"Requested by {ctx.message.author.name} - Today at: " + (
 							  time.strftime("%I:%M %p")))
 		await ctx.send(embed=em)
-
-
-		
-
-
-		'''
-		await ctx.send(f"This the amount of members online: {online}\n{_all}" \
-			f"\nThis is the channel count: {channel_count}\nThis is the role count: {role_count}" \
-			f"\nThis is the emoji count: {emoji_count}")
-		'''
-
-
-
 
 
 

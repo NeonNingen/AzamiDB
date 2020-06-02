@@ -55,7 +55,7 @@ class Help(commands.Cog):
 						f'{"**Usage: " + command.usage + "**" if command.usage is not None else ""}'
 
 					if len(command.aliases) > 0:
-						help_text += f'**Aliases: ** `{"`, `".join(command.aliases)}`\n'
+						help_text += f'\n**Aliases: ** `{"`, `".join(command.aliases)}`\n'
 					else:
 						help_text += '\n'
 

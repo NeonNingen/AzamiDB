@@ -45,8 +45,8 @@ class Dnd(commands.Cog): # Work on Embed Rolls also modifier addon
 	def __init__(self, azami):
 		self.azami = azami
 
-	@commands.command(description=f'To roll do `prefixroll NdN`',
-					  usage="To roll any dice with any amount of times")
+	@commands.command(description=f'The format must be NdN',
+					  usage='To roll any dice, any amount of times')
 	async def roll(self, ctx, dice: str, mod=0):
 		try:
 			rolls, limit = map(int, dice.split('d'))
@@ -179,7 +179,8 @@ class Dnd(commands.Cog): # Work on Embed Rolls also modifier addon
 			else:
 				await msg.edit(embed=result_em)
 
-	@commands.command(description='Rolling initiative', hidden=True)
+	@commands.command(description='Rolling initiative',
+					  usage='This will decide who gets to attack first')
 	async def initiative(self, ctx, dice: str):
 		try:
 			rolls, limit = map(int, dice.split('d'))
@@ -189,8 +190,9 @@ class Dnd(commands.Cog): # Work on Embed Rolls also modifier addon
 		result = ', '.join(str(randint(1, limit)) for r in range(rolls))
 		return int(result)
 
-	@commands.command(name="dnd menu", description=f'A DND Menu, do `prefixdndmenu`',
-					  aliases=['dndm', 'mdnd'])
+	@commands.command(name='dnd menu', description=f'A DND Menu',
+					  aliases=['dndm', 'mdnd'],
+					  usage='dndmenu is written together when using the command')
 	async def dndmenu(self, ctx):
 		menu_em = discord.Embed(title="Welcome to the DND Menu, traveller!",
 								description="So what would you like adventurer?",
