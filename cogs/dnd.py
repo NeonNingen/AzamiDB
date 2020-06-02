@@ -1,11 +1,11 @@
-import discord, sys, time
+import discord, sys, time, aiohttp
 from discord.ext import commands
 from random import randint
 from asyncio import sleep
 sys.path.insert(1, '../')
 from diceimg import diceroll
 
-def return_results(limit, rolls, mod, i=0):
+def return_results(limit, rolls, mod, i=0): # Future update: Embed all commands
 	if rolls == 1:
 		result = ', '.join(str(randint(1, limit)) for r in range(rolls))
 		result = int(result)
@@ -47,6 +47,16 @@ def hiddenrolls(mod=0):
 	result = int(result)
 	result += mod
 	return result
+
+async def hastebin(content, session=None): # Move to cogs/utils/check in future
+	session = aiohttp.ClientSession()
+	async with session.post("https://hastebin.com/documents", data=content.encode('utf-8')) as resp:
+		if resp.status == 200:
+			result = await resp.json()
+			await session.close()
+			return "https://hastebin.com/" + result["key"]
+		else:
+			return f"Error with creating Hastebin, Status: {resp.status}"
 
 class Dnd(commands.Cog): # Work on Embed Rolls also modifier addon
 
@@ -234,9 +244,18 @@ class Dnd(commands.Cog): # Work on Embed Rolls also modifier addon
 				order.sort(key=lambda x: x[1], reverse=True)
 				break
 					
-
+		hastebin_list = []
 		for name, score in order:
-			await ctx.send(f"{name}, {score}")
+			line = f"{name}, {score}"
+			await ctx.send(line)
+			hastebin_list.append(line)
+		_all = '\n'.join(hastebin_list)
+		url = await hastebin(str(_all), None)
+		hastebin_of_players = f'[List of all players in order]({url})'
+		em = discord.Embed(name="Link for the player order!", # When working on 2.0 make a general embed function
+						   description= hastebin_of_players,
+						   color= discord.Color.blurple())
+		await ctx.send(embed=em)
 
 	@commands.command(name='dnd menu', description=f'A DND Menu',
 					  aliases=['dndm', 'mdnd'],
