@@ -88,7 +88,7 @@ class Owner(commands.Cog, command_attrs=dict(hidden=True)):
 		elif isinstance(error, commands.MissingPermissions):
 			await ctx.send("You cannot use this command")
 		elif isinstance(error, MissingRequiredArgument):
-			await ctx.send("Enter as follows: `ab!hackban {user_id}`")
+			await ctx.send("Enter as follows: `a!hackban {user_id}`")
 		
 def setup(azami):
 	azami.add_cog(Owner(azami))
