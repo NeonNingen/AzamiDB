@@ -11,7 +11,7 @@ def return_results(limit, rolls, mod, i=0):
 		result = int(result)
 
 		if mod > 0:
-			result = result + mod
+			result += mod
 
 		result_em = discord.Embed(title=f"Here's your result!",
 							  	  description=f"You got: {result}!",
@@ -30,7 +30,7 @@ def return_results(limit, rolls, mod, i=0):
 		limit = randint(1, limit)
 
 		if mod > 0:
-			limit = limit + mod
+			limit += mod
 
 		if limit > 20:
 			return multi_em.add_field(name=f"Roll {i + 1}", value=f"This your value: {limit}")
@@ -39,6 +39,14 @@ def return_results(limit, rolls, mod, i=0):
 			multi_em.add_field(name=f"Roll {i + 1}", value=f"This your value: {limit}")
 			multi_em.set_image(url=dicepic)
 			return multi_em
+
+def hiddenrolls(mod=0):
+	dice = '1d20'
+	rolls, limit = map(int, dice.split('d'))
+	result = ', '.join(str(randint(1, limit)) for r in range(rolls))
+	result = int(result)
+	result += mod
+	return result
 
 class Dnd(commands.Cog): # Work on Embed Rolls also modifier addon
 
@@ -189,14 +197,46 @@ class Dnd(commands.Cog): # Work on Embed Rolls also modifier addon
 
 	@commands.command(description='Rolling initiative',
 					  usage='This will decide who gets to attack first')
-	async def initiative(self, ctx, dice: str):
-		try:
-			rolls, limit = map(int, dice.split('d'))
-		except Exception:
-			await ctx.send('The format has to be in NdN!')
-			return
-		result = ', '.join(str(randint(1, limit)) for r in range(rolls))
-		return int(result)
+	async def initiative(self, ctx):
+		await ctx.send("How many players are playing?")
+		while True:
+			try:
+				player = await self.azami.wait_for('message')
+				playercont = int(player.content)
+				await player.delete()
+				break
+			except Exception:
+				await ctx.send("Please enter a integer")
+		order = []
+		for i in range(0, playercont):
+			msg = await ctx.send(f'Player {i + 1}')
+			msg2 = await ctx.send("Enter your name!")
+			player_name = await self.azami.wait_for('message')
+			player_namecont = player_name.content
+			msg3 = await ctx.send("Enter your dex modifier")
+			while True:
+				while True:
+					try:
+						mod = await self.azami.wait_for('message')
+						modcont = int(mod.content)
+						break
+					except Exception:
+						await ctx.send("Please enter an integer")
+				result = hiddenrolls(modcont)
+				line = f"{player_namecont},"+str(result)
+				name, score = line.split(',')
+				score = int(score)
+				order.append((name, score))
+				await mod.delete()
+				await msg.delete()
+				await msg2.delete()
+				await msg3.delete()
+				order.sort(key=lambda x: x[1], reverse=True)
+				break
+					
+
+		for name, score in order:
+			await ctx.send(f"{name}, {score}")
 
 	@commands.command(name='dnd menu', description=f'A DND Menu',
 					  aliases=['dndm', 'mdnd'],
@@ -251,42 +291,11 @@ class Dnd(commands.Cog): # Work on Embed Rolls also modifier addon
 				dice = str(rolls) + "d" + str(limit)
 				await self.roll(ctx, dice, mod)
 				break
-			elif player.content == "3": # Add more try and except catches
+			elif player.content == "3":
 				await msg.delete()
 				await msg2.delete()
-				await ctx.send("How many players are playing?")
-				while True:
-					try:
-						player = await self.azami.wait_for('message')
-						player = int(player.content)
-						break
-					except Exception:
-						await ctx.send("Please enter a integer")
-				order = []
-				for i in range(0, player):
-					msg = await ctx.send(f'Player {i + 1}')
-					msg2  = await ctx.send("Enter your name!")
-					player_name = await self.azami.wait_for('message')
-					player_name = player_name.content
-					dice = '1d20'
-					result = await self.initiative(ctx, dice)
-					line = f"{player_name},"+str(result)
-					name, score = line.split(',')
-					score = int(score)
-					order.append((name, score))
-					await msg.delete()
-					await msg2.delete()
-				order.sort(key=lambda x: x[1], reverse=True)
-
-				for name, score in order:
-					await ctx.send(f"{name}, {score}")
+				await self.initiative(ctx)
 				break
-
-
-
-
-
-
 
 
 def setup(azami):
