@@ -74,8 +74,9 @@ class Owner(commands.Cog, command_attrs=dict(hidden=True)):
 	@commands.command(description='Owner of Azami Only', aliases=['gl'])
 	@commands.is_owner()
 	async def guildlist(self, ctx):
+		await ctx.send("Currently in these guilds:\n")
 		async for guild in self.azami.fetch_guilds():
-			await ctx.send(f"Currently in these guilds:\n{guild.name}\n")
+			await ctx.send(f"{guild.name}\n")
 
 	@commands.command(description='Owner of Azami Only', aliases=['die'])
 	@commands.is_owner()
