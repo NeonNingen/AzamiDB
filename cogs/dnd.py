@@ -6,7 +6,7 @@ sys.path.insert(1, '../')
 from diceimg import diceroll
 
 def return_results(limit, rolls, mod, i=0):
-	if limit == 1:
+	if rolls == 1:
 		result = ', '.join(str(randint(1, limit)) for r in range(rolls))
 		result = int(result)
 
