@@ -34,6 +34,7 @@ class Owner(commands.Cog, command_attrs=dict(hidden=True)):
 		await ctx.send(f"The cog, {extension.capitalize()} has reloaded")
 
 	@commands.command(aliases=['hban'], description="You can ban anyone, even if they're not in the server")
+	@commands.is_owner()
 	@commands.has_permissions(ban_members=True)
 	async def hackban(self, ctx, user_id: int):
 		author = ctx.message.author
