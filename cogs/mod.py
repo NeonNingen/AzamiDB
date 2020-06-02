@@ -37,27 +37,6 @@ class Mod(commands.Cog):
 				await ctx.send(f'You have unbanned, {user.mention}')
 				return
 
-	@commands.command(aliases=['hban'], description="You can ban anyone, even if they're not in the server")
-	@commands.has_permissions(ban_members=True)
-	async def hackban(self, ctx, user_id: int):
-		author = ctx.message.author
-		guild = author.guild
-
-		user = guild.get_member(user_id)
-		if user is not None:
-			return await ctx.invoke(self.ban, user=user)
-
-		try:
-			await self.azami.http.ban(user_id, guild.id, 0)
-			await ctx.send(f'User: <@{user_id}> has been banned')
-			await ctx.message.delete()
-		except discord.NotFound:
-			await ctx.message.delete()
-			await ctx.send(f'User: <@{user_id}> has cannot be found')
-		except discord.errors.Forbidden:
-			await ctx.message.delete()
-			await ctx.send(f'User: <@{user_id}> has not been banned due to your permissions')
-
 	@commands.command(description='Silence!',
 					  usage='This command only works for moderators')
 	@commands.has_permissions(manage_roles=True)
@@ -139,13 +118,6 @@ class Mod(commands.Cog):
 			await ctx.send("You cannot use this command")
 		elif isinstance(error, MissingRequiredArgument):
 			await ctx.send("Requires a banned user in your server")
-
-	@hackban.error
-	async def hackban_error(self, ctx, error):
-		if isinstance(error, commands.MissingPermissions):
-			await ctx.send("You cannot use this command")
-		elif isinstance(error, MissingRequiredArgument):
-			await ctx.send("Enter as follows: `ab!hackban {user_id}`")
 
 	@mute.error
 	async def mute_error(self, ctx, error):
