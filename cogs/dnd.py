@@ -8,8 +8,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 sys.path.insert(1, '../')
 from diceimg import diceroll
-from driver import get_driver
-from searchjson import startEquipment, levelling
+from searchjson import startEquipment, levelling, spellfind, simpleclassfind, classfind
 
 color_list = [discord.Color.red(), discord.Color.green(), discord.Color.blue(),
 			  discord.Color.orange(), discord.Color.purple(), discord.Color.gold(),
@@ -399,12 +398,6 @@ class Dnd(commands.Cog): # Work on Embed Rolls also modifier addon
 		body = self.driver.find_element_by_xpath('/html/body/pre').text
 		y = json.loads(body)
 
-		# valueDesc = y['desc']
-		# valueDesc = '\n\n'.join(p for p in valueDesc)
-		# valueHighLvl = y['higher_level']
-		# valueHighLvl = '\n\n'.join(p for p in valueHighLvl)
-		# valueComp = y['components']
-		# valueComp = ', '.join(p for p in valueComp)
 		valueProfSpells = [y['proficiency_choices'][0]['from'][x]['name'] for x in range(len(y['proficiency_choices'][0]['from']))]
 		valueProfSpells = '\n'.join(p for p in valueProfSpells)
 		try:
@@ -440,7 +433,7 @@ class Dnd(commands.Cog): # Work on Embed Rolls also modifier addon
 		class_em.add_field(name="(Starting Equipment) Choose up to: ", value=valueStartEquipmentChoose)
 		class_em.add_field(name="Starting Equipment Choice 1", value=valueStartEquipmentChoiceA)
 		class_em.add_field(name="Starting Equipment Choice 2", value=valueStartEquipmentChoiceB)
-		class_em.add_field(name="Starting Equipment Choice 3", value=valueStartEquipmentChoiceC)	
+		class_em.add_field(name="Starting Equipment Choice 3", value=valueStartEquipmentChoiceC)
 		if content != 'warlock':
 			class_em.add_field(name="Class Levels", value=valueLevel1)
 		class_em.add_field(name="Ability Score per Level", value=valueLevel2)
@@ -463,7 +456,10 @@ class Dnd(commands.Cog): # Work on Embed Rolls also modifier addon
 		"1) a!roll - Simple Roll Command\n" \
 		"2) a!modroll - Simple Roll with modifier\n" \
 		"3) a!initiative - Rolling for initiative\n" \
-		"4) Quit - Exit Menu"
+		"4) a!spellsearch - Search for any spell in DND 5e\n" \
+		"5) a!classessearch - Search for any class in DND 5e\n" \
+		"6) a!simpleclassessearch - A cleaner way to search for classes in 5e\n" \
+		"7) Quit - Exit Menu"
 
 		menu_em.add_field(name="Menu Commands", value=menumessage)
 
@@ -474,7 +470,7 @@ class Dnd(commands.Cog): # Work on Embed Rolls also modifier addon
 			await ctx.send(f"Waiting for you command, {ctx.message.author.name}", delete_after=3)
 			msg2 = await ctx.send("Please enter a number 1 - 4")
 			player = await self.azami.wait_for('message', timeout=120.00)
-			if player.content == "4":
+			if player.content == "7":
 				await msg.delete()
 				await msg2.delete()
 				await ctx.send("See you next time!")
@@ -505,7 +501,38 @@ class Dnd(commands.Cog): # Work on Embed Rolls also modifier addon
 				await msg2.delete()
 				await self.initiative(ctx)
 				break
+			elif player.content == "4":
+				await msg.delete()
+				await msg2.delete()
+				await ctx.send("Enter the spell you want to search for: ")
+				player = await self.azami.wait_for('message')
+				playercont = player.content
+				await player.delete()
+				spell_em = spellfind(self.driver, playercont, ctx, self.azami)
+				await ctx.send(embed=spell_em)
+				break
+			elif player.content == "5":
+				await msg.delete()
+				await msg2.delete()
+				await ctx.send("Enter the class you want to search for: ")
+				player = await self.azami.wait_for('message')
+				playercont = player.content
+				await player.delete()
+				class_em = classfind(self.driver, playercont, ctx, self.azami)
+				await ctx.send(embed=class_em)
+				break
+			elif player.content == "6":
+				await msg.delete()
+				await msg2.delete()
+				await ctx.send("Enter the class you want to search for: ")
+				player = await self.azami.wait_for('message')
+				playercont = player.content
+				await player.delete()
+				spell_em = await simpleclassfind(self.driver, playercont, ctx, self.azami)
+				await ctx.send(embed=spell_em)
+				break
 
+	'''
 	@spellsearch.error
 	async def spellsearch_error(self, ctx, error):
 		if isinstance(error, commands.CommandInvokeError):
@@ -528,7 +555,7 @@ class Dnd(commands.Cog): # Work on Embed Rolls also modifier addon
 			print(error)
 		elif isinstance(error, MissingRequiredArgument):
 			await ctx.send("Requires an argument")
-
+	'''
 
 def setup(azami):
 	azami.add_cog(Dnd(azami))
