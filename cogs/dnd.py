@@ -469,7 +469,7 @@ class Dnd(commands.Cog): # Work on Embed Rolls also modifier addon
 
 		while True:
 			await ctx.send(f"Waiting for you command, {ctx.message.author.name}", delete_after=3)
-			msg2 = await ctx.send("Please enter a number 1 - 4")
+			msg2 = await ctx.send("Please enter a number 1 - 7")
 			player = await self.azami.wait_for('message', timeout=120.00)
 			if player.content == "7":
 				await msg.delete()
