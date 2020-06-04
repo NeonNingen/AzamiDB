@@ -9,6 +9,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 sys.path.insert(1, '../')
 from diceimg import diceroll
 from searchjson import startEquipment, levelling, spellfind, simpleclassfind, classfind
+from driver import get_driver
 
 color_list = [discord.Color.red(), discord.Color.green(), discord.Color.blue(),
 			  discord.Color.orange(), discord.Color.purple(), discord.Color.gold(),
