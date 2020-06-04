@@ -59,7 +59,11 @@ def levelling(driver, body):
 	level_list2 = []
 	level_list3 = []
 	for i in range(0, 23):
-		valueLevel1 = [y2[i]['features'][x]['name'] for x in range(len(y2[i]['features']))]
+		try:
+			valueLevel1 = [y2[i]['features'][x]['name'] for x in range(len(y2[i]['features']))]
+		except:
+			for i in range(0, 20):
+				valueLevel1 = [y2[i]['features'][x]['name'] for x in range(len(y2[i]['features']))]
 		valueLevel2 = [y2[i]['feature_choices'][x]['name'] for x in range(len(y2[i]['feature_choices']))]
 		valueLevel2 += '\n'
 		valueLevel1 = str(f"Level {y2[i]['level']} -> ") + (', ').join(p for p in valueLevel1) + " " + (', ').join(p for p in valueLevel2)
