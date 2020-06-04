@@ -532,7 +532,7 @@ class Dnd(commands.Cog): # Work on Embed Rolls also modifier addon
 				await ctx.send(embed=spell_em)
 				break
 
-	'''
+	
 	@spellsearch.error
 	async def spellsearch_error(self, ctx, error):
 		if isinstance(error, commands.CommandInvokeError):
@@ -555,7 +555,7 @@ class Dnd(commands.Cog): # Work on Embed Rolls also modifier addon
 			print(error)
 		elif isinstance(error, MissingRequiredArgument):
 			await ctx.send("Requires an argument")
-	'''
+
 
 def setup(azami):
 	azami.add_cog(Dnd(azami))
