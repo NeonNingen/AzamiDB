@@ -306,7 +306,6 @@ class Dnd(commands.Cog): # Work on Embed Rolls also modifier addon
 		spell_em.add_field(name="Concentration", value=y['concentration'])
 		spell_em.add_field(name="Casting time", value=y['casting_time'])
 		spell_em.add_field(name="Level", value=y['level'])
-		
 		spell_em.add_field(name="Classes", value=valueClasses)
 		await ctx.send(embed=spell_em)
 
@@ -442,7 +441,8 @@ class Dnd(commands.Cog): # Work on Embed Rolls also modifier addon
 		class_em.add_field(name="Starting Equipment Choice 1", value=valueStartEquipmentChoiceA)
 		class_em.add_field(name="Starting Equipment Choice 2", value=valueStartEquipmentChoiceB)
 		class_em.add_field(name="Starting Equipment Choice 3", value=valueStartEquipmentChoiceC)	
-		class_em.add_field(name="Class Levels", value=valueLevel1)
+		if content != 'warlock':
+			class_em.add_field(name="Class Levels", value=valueLevel1)
 		class_em.add_field(name="Ability Score per Level", value=valueLevel2)
 		class_em.add_field(name="Proficiencies per Level", value=valueLevel3)
 		await ctx.send(embed=class_em)
