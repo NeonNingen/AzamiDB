@@ -14,7 +14,7 @@ def heroku_check():
 	except KeyError:
 		heroku = False
 
-	if heroku:
+	if heroku == True:
 		print("Heroku Detected, Heroku Enabled")
 		return token
 	else:
