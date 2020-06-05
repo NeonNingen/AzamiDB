@@ -9,12 +9,12 @@ def create_bot():
 
 def heroku_check():
 	try:
-		token = os.environ['TOKEN']
+		token = os.environ['DISCORD_TOKEN']
 		heroku = True
 	except KeyError:
 		heroku = False
 
-	if heroku == True:
+	if heroku:
 		print("Heroku Detected, Heroku Enabled")
 		return token
 	else:
