@@ -2,16 +2,7 @@ import discord, json, aiohttp
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
-
-async def hastebin(content, session=None): # Move to cogs/utils/check in future
-	session = aiohttp.ClientSession()
-	async with session.post("https://hastebin.com/documents", data=content.encode('utf-8')) as resp:
-		if resp.status == 200:
-			result = await resp.json()
-			await session.close()
-			return "https://hastebin.com/" + result["key"]
-		else:
-			return f"Error with creating Hastebin, Status: {resp.status}"
+from AzamiDX.core.utils import hastebin
 
 def startEquipment(driver, body):
 	y = json.loads(body)
@@ -84,11 +75,14 @@ def levelling(driver, body):
 			valueLevel4 = f"Level {y2[i]['level']} -> {y2[i]['prof_bonus']}"
 			level_list3.append(valueLevel4)
 		level_list.append(valueLevel1)
+	for i in range(0, 1):
+		valueLevel4 = f"{y2[i]['prof_bonus']}"
+
 
 	level_list = '\n'.join(p for p in level_list)
 	level_list2 = '\n'.join(p for p in level_list2)
 	level_list3 = '\n'.join(p for p in level_list3)
-	return level_list, level_list2, level_list3
+	return level_list, level_list2, level_list3, valueLevel4
 
 
 def spellfind(driver, content, ctx, azami):
@@ -140,8 +134,12 @@ async def simpleclassfind(driver, content, ctx, azami):
 	y = json.loads(body)
 
 	try:
-		valueProfSpells = [y['proficiency_choices'][0]['from'][x]['name'] for x in range(len(y['proficiency_choices'][0]['from']))]
-		valueProfSpells = '\n'.join(p for p in valueProfSpells)
+		if content == "monk":
+			valueProfSpells = [y['proficiency_choices'][2]['from'][x]['name'] for x in range(len(y['proficiency_choices'][2]['from']))]
+			valueProfSpells = '\n'.join(p for p in valueProfSpells)
+		else:
+			valueProfSpells = [y['proficiency_choices'][0]['from'][x]['name'] for x in range(len(y['proficiency_choices'][0]['from']))]
+			valueProfSpells = '\n'.join(p for p in valueProfSpells)
 	except:
 		class_em = discord.Embed(title="Incorrect Class Given",
 								 description="Error Occurred!",
@@ -149,8 +147,13 @@ async def simpleclassfind(driver, content, ctx, azami):
 		class_em.set_thumbnail(url=azami.user.avatar_url)
 		return class_em
 	try:
-		valueProfItems = [y['proficiency_choices'][1]['from'][x]['name'] for x in range(len(y['proficiency_choices'][1]['from']))]
-		valueProfItems = '\n'.join(p for p in valueProfItems)
+		if content == "monk":
+			valueProfItems1 = [y['proficiency_choices'][1]['from'][x]['name'] for x in range(len(y['proficiency_choices'][1]['from']))]
+			valueProfItems2 = [y['proficiency_choices'][0]['from'][x]['name'] for x in range(len(y['proficiency_choices'][0]['from']))]
+			valueProfItems = '\n'.join(p for p in valueProfItems1) + "\nor\n" + '\n'.join(p for p in valueProfItems2)
+		else:
+			valueProfItems = [y['proficiency_choices'][1]['from'][x]['name'] for x in range(len(y['proficiency_choices'][1]['from']))]
+			valueProfItems = '\n'.join(p for p in valueProfItems)
 	except:
 		valueProfItems = 'N/A'
 	valueProfGeneral = [y['proficiencies'][x]['name'] for x in range(len(y['proficiencies']))]
@@ -158,7 +161,7 @@ async def simpleclassfind(driver, content, ctx, azami):
 	savingThrow = [y['saving_throws'][x]['name'] for x in range(len(y['saving_throws']))]
 	savingThrow = ', '.join(p for p in savingThrow)
 	valueStartEquipmentDef, valueStartEquipmentChoose, valueStartEquipmentChoiceA, valueStartEquipmentChoiceB, valueStartEquipmentChoiceC = startEquipment(driver, body)
-	valueLevel1, valueLevel2, valueLevel3 = levelling(driver, body)
+	valueLevel1, valueLevel2, valueLevel3, valueLevel4 = levelling(driver, body)
 
 	url1 = await hastebin(str(valueProfSpells), None)
 	url2 = await hastebin(str(valueProfGeneral), None)
@@ -188,10 +191,7 @@ async def simpleclassfind(driver, content, ctx, azami):
 	class_em.add_field(name="Name", value=y['name'])
 		
 	class_em.add_field(name="Hit Die", value=y['hit_die'])
-	try:
-		class_em.add_field(name="(Proficient in skills) Choose up to", value=y['proficiency_choices'][1]['choose'])
-	except:
-		class_em.add_field(name="(Proficient in skills) Choose up to", value=y['proficiency_choices'][0]['choose'])
+	class_em.add_field(name="(Proficient in skills) Choose up to", value=valueLevel4)
 	class_em.add_field(name="Proficiencies in Skills", value=url1)
 	class_em.add_field(name="(Proficient in Items) Choose up to", value=y['proficiency_choices'][0]['choose'])
 	class_em.add_field(name="Proficiencies in Items", value=url2)
@@ -235,7 +235,7 @@ def classfind(driver, content, ctx, azami):
 	savingThrow = [y['saving_throws'][x]['name'] for x in range(len(y['saving_throws']))]
 	savingThrow = ', '.join(p for p in savingThrow)
 	valueStartEquipmentDef, valueStartEquipmentChoose, valueStartEquipmentChoiceA, valueStartEquipmentChoiceB, valueStartEquipmentChoiceC = startEquipment(driver, body)
-	valueLevel1, valueLevel2, valueLevel3 = levelling(driver, body)
+	valueLevel1, valueLevel2, valueLevel3, valueLevel4 = levelling(driver, body)
 
 	class_em = discord.Embed(title="So here's the class Information, traveller!",
 							 description=f"Information on: {y['name']}",
@@ -244,13 +244,21 @@ def classfind(driver, content, ctx, azami):
 	class_em.add_field(name="Name", value=y['name'])
 		
 	class_em.add_field(name="Hit Die", value=y['hit_die'])
-	try:
-		class_em.add_field(name="(Proficient in skills) Choose up to", value=y['proficiency_choices'][1]['choose'])
-	except:
-		class_em.add_field(name="(Proficient in skills) Choose up to", value=y['proficiency_choices'][0]['choose'])
-	class_em.add_field(name="Proficiencies in Skills", value=valueProfSpells)
+	class_em.add_field(name="(Proficient in skills) Choose up to", value=valueLevel4)
+	if content == "monk":
+		valueProfSpells = [y['proficiency_choices'][2]['from'][x]['name'] for x in range(len(y['proficiency_choices'][2]['from']))]
+		valueProfSpells = '\n'.join(p for p in valueProfSpells)
+		class_em.add_field(name="Proficiencies in Skills", value=valueProfSpells)
+	else:
+		class_em.add_field(name="Proficiencies in Skills", value=valueProfSpells)
 	class_em.add_field(name="(Proficient in Items) Choose up to", value=y['proficiency_choices'][0]['choose'])
-	class_em.add_field(name="Proficiencies in Items", value=valueProfItems)
+	if content == "monk":
+		valueProfItems1 = [y['proficiency_choices'][1]['from'][x]['name'] for x in range(len(y['proficiency_choices'][1]['from']))]
+		valueProfItems2 = [y['proficiency_choices'][0]['from'][x]['name'] for x in range(len(y['proficiency_choices'][0]['from']))]
+		valueProfItems = '\n'.join(p for p in valueProfItems1) + "\nor\n" + '\n'.join(p for p in valueProfItems2)
+		class_em.add_field(name="Proficiencies in Items", value=valueProfItems)
+	else:
+		class_em.add_field(name="Proficiencies in Items", value=valueProfItems)
 	class_em.add_field(name="Proficient in Armour and Weapons", value=valueProfGeneral)
 	class_em.add_field(name="Saving Throws", value=savingThrow)
 	if content != 'fighter':

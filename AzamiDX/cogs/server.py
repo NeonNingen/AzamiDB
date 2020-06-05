@@ -1,22 +1,8 @@
 import discord, aiohttp, time
 from discord.ext import commands
 from random import choice
-
-color_list = [discord.Color.red(), discord.Color.green(), discord.Color.blue()]
-
-# In Azami 2.0: Use a import system for the colours like eg. from cogs.color import color_list
-
-async def hastebin(content, session=None): # Move to cogs/utils/check in future
-	session = aiohttp.ClientSession()
-	async with session.post("https://hastebin.com/documents", data=content.encode('utf-8')) as resp:
-		if resp.status == 200:
-			result = await resp.json()
-			await session.close()
-			return "https://hastebin.com/" + result["key"]
-		else:
-			return f"Error with creating Hastebin, Status: {resp.status}"
-	
-		
+from AzamiDX.core.utils import hastebin, color_list, edit
+color_list = color_list()
 
 class Server(commands.Cog):
 
@@ -40,7 +26,7 @@ class Server(commands.Cog):
 		emoji_count = len(server.emojis)
 		em = discord.Embed(name="Server Info",
 						   description= f"For the server: {server.name}",
-						   color=choice(color_list))
+						   color=color_list)
 		em.add_field(name='Name', value=server.name)
 		em.add_field(name='Owner', value=server.owner, inline=False)
 		em.add_field(name='Members', value=server.member_count)
@@ -58,7 +44,7 @@ class Server(commands.Cog):
 		em.set_thumbnail(url=server.icon_url)
 		em.set_author(name='Server Info', icon_url=self.azami.user.avatar_url)
 		em.set_footer(text='Server ID: %s' % server.id)
-		await ctx.send(embed=em)
+		await edit(ctx, embed=em)
 
 		
 
@@ -76,7 +62,7 @@ class Server(commands.Cog):
 
 		em = discord.Embed(name="User Info",
 						   description= f"Information on: {user}",
-						   color=choice(color_list))
+						   color=color_list)
 		em.add_field(name='User ID', value=user.id, inline=True)
 		if isinstance(user, discord.Member):
 			voice_state = None if not user.voice else user.voice.channel
@@ -92,7 +78,7 @@ class Server(commands.Cog):
 		em.set_author(name=user, icon_url=self.azami.user.avatar_url)
 		em.set_footer(text=f"Requested by {ctx.message.author.name} - Today at: " + (
 							  time.strftime("%I:%M %p")))
-		await ctx.send(embed=em)
+		await edit(ctx, embed=em)
 
 
 

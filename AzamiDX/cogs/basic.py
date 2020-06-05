@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+from AzamiDX.core.utils import edit
 
 class Basic(commands.Cog):
 
@@ -8,15 +9,15 @@ class Basic(commands.Cog):
 
 	@commands.command(description='Hi!')
 	async def hello(self, ctx):
-		await ctx.send(f"Hello!, {ctx.author.mention}")
+		await edit(ctx, content=f"Hello!, {ctx.author.mention}")
 
 	@commands.command(description='Get the latency of the bot')
 	async def ping(self, ctx):
-		await ctx.send(f'Pong! :ping_pong: {round(self.azami.latency * 1000)}ms.')
+		await edit(ctx, content=f'Pong! :ping_pong: {round(self.azami.latency * 1000)}ms.')
 
 	@commands.command(description='Gets the Wholesome Society invite link')
 	async def invite(self, ctx):
-		await ctx.send("The server invite: https://discord.gg/rRb23dt")
+		await edit(ctx, content="The server invite: https://discord.gg/rRb23dt")
 
 def setup(azami):
 	azami.add_cog(Basic(azami))

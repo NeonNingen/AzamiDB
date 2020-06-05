@@ -1,12 +1,9 @@
 import discord, time
 from discord.ext import commands
 from random import choice
+from AzamiDX.core.utils import color_list, edit
 
-color_list = [discord.Color.red(), discord.Color.green(), discord.Color.blue(),
-			  discord.Color.orange(), discord.Color.purple(), discord.Color.gold(),
-			  discord.Color.blurple(), discord.Color.greyple(), discord.Color.teal(),
-			  discord.Color.dark_red(), discord.Color.dark_green(),
-			  discord.Color.light_grey(), discord.Color.dark_gold()]
+color_list = color_list()
 
 class Help(commands.Cog):
 
@@ -19,7 +16,7 @@ class Help(commands.Cog):
 	async def help(self, ctx, cog="all"):
 		help_embed = discord.Embed(title="Help",
 								   description="Remember to use " + f"{self.azami.command_prefix}" + "`{commandname}`",
-								   color=choice(color_list))
+								   color=color_list)
 		help_embed.set_thumbnail(url=self.azami.user.avatar_url)
 		help_embed.set_footer(text=f"Requested by {ctx.message.author.name} - Today at: " + (
 							  time.strftime("%I:%M %p")),
@@ -64,11 +61,11 @@ class Help(commands.Cog):
 
 				help_embed.description = help_text
 			else:
-				await ctx.send(
-					f'Invalid cog specified.\nUse `{self.azami.command_prefix}help` command to list all cogs.')
+				await edit(ctx,
+					content=f'Invalid cog specified.\nUse `{self.azami.command_prefix}help` command to list all cogs.')
 				return
 
-		await ctx.send(embed=help_embed)
+		await edit(ctx, embed=help_embed)
 
 		return
 
