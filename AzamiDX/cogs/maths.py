@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 from discord.ext.commands import MissingRequiredArgument
+from AzamiDX.core.utils import edit
 
 class Maths(commands.Cog):
 
@@ -11,25 +12,25 @@ class Maths(commands.Cog):
 					  description='9 + 10 = ?',
 					  usage='Adding two numbers together')
 	async def add(self, ctx, a: float, b: float):
-		await ctx.send(f"{a} + {b} = {a + b}")
+		await edit(ctx, content=f"{a} + {b} = {a + b}")
 
 	@commands.command(aliases = ['takeaway', 'minus', '-'], 
 					  description='9 - 11 = ?',
 					  usage='Subtracting two numbers from each other')
 	async def subtract(self, ctx, a: float, b: float):
-		await ctx.send(f"{a} - {b} = {a - b}")
+		await edit(ctx, content=f"{a} - {b} = {a - b}")
 
 	@commands.command(aliases = ['times', '*'], 
 					  description='9 x 11 = ?',
 					  usage='Multiply two numbers together')
 	async def multiply(self, ctx, a: float, b: float):
-		await ctx.send(a * b)
+		await edit(ctx, content=a * b)
 
 	@commands.command(aliases = ['division', '/'], 
 					  description='9 / 11 = ?',
 					  usage='Divide two numbers from each other')
 	async def divide(self, ctx, a: float, b: float):
-		await ctx.send(a / b)
+		await edit(ctx, content=a / b)
 
 	@add.error
 	async def add_error(self, ctx, error):
