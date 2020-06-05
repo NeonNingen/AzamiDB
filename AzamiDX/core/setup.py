@@ -21,4 +21,3 @@ def heroku_check():
 		print("Heroku Not-Detected, Commence Local Token")
 		token = open("token.txt", "r").read()
 		return token
-
