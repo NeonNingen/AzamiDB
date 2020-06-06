@@ -64,7 +64,7 @@ class Music(commands.Cog):
 				raise commands.CommandInvokeError('You need to be in my voicechannel')
 
 	@commands.command(description="Let's play some music")
-	async def play(self, ctx, *, query): # Add Pause, stop, dc and ensure_voice check
+	async def play(self, ctx, *, query): 
 		def check(m):
 			return m.author == ctx.author and m.channel == ctx.channel
 		j = 0
