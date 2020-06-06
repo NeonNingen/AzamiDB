@@ -10,7 +10,7 @@
 
   <name>AzamiDB</name>
   <!-- FIXME change it to the project's website -->
-  <url>https://discordapp.com/oauth2/authorize?client_id=639574438794231818&permissions=8&scope=bot</url>
+  <url>www.example.com</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
