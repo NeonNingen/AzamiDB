@@ -1,2 +1,2 @@
 worker: python main.py
-worker: run-lavalink.bat
+worker: java Lavalink.jar
