@@ -74,7 +74,7 @@ class Mod(commands.Cog):
 	@commands.command(description='Watch me purge away!',
 					  usage='This command only works for moderators')
 	@commands.has_permissions(manage_messages=True)
-	async def clear(self, ctx, amount: int = 5):
+	async def purge(self, ctx, amount: int = 5):
 		await ctx.channel.purge(limit = amount + 1)
 
 	@commands.command(description='Give a role!', aliases=["ar", "giverole", "gr"],
