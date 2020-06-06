@@ -236,8 +236,8 @@ class Fun(commands.Cog):
 				await msg.edit(embed=you_lose_em)
 				losses += 1
 
-	@commands.command(aliases=['me'])
-	async def makeembed(self, ctx):
+	@commands.command(aliases=['me'], description="Make your own custom embed!")
+	async def makeembed(self, ctx): # Add parameters in the future 1 for like 1 add field
 		await edit(ctx, content="Welcome to custom embed maker!", ttl=5)
 		await edit(ctx, content="Please follow each instuction to make your own embed!", ttl=10)
 		await edit(ctx, content="IMPORTANT: Make sure your url ends with .png, .jpg or .gif", ttl=20)
