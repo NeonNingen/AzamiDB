@@ -9,7 +9,7 @@ class AzamiBot(commands.AutoShardedBot):
 	# Subclassing Bot allows for more unique event handling
 
 	def __init__(self):
-		self.command_prefix = "ab!"
+		self.command_prefix = "a!"
 		self.description = "Azami, An all purpose bot!"
 		self.owner_id = 288022950576390144
 		super().__init__(self.command_prefix)
