@@ -1,2 +1,3 @@
 discord
 selenium
+psycopg2
