@@ -80,6 +80,14 @@ class Fun(commands.Cog):
 	async def say(self, ctx, *, content):
 		await edit(ctx, content=content)
 
+	@commands.command(name="1h",
+					  description='Used as a hour reminder')
+	async def _1h(self, ctx):
+		msg = await ctx.send("Oki see you in an hour!")
+		await sleep(3600)
+		await msg.delete()
+		await ctx.send(f"{ctx.message.author.mention}, an hour is up!")
+
 	@commands.command(description='Nice avatar bro')
 	async def avatar(self, ctx, *, user: discord.User):
 		em = await pre_embed(titl=f"{user.name}'s avatar",
