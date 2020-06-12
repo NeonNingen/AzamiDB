@@ -1,4 +1,4 @@
-import discord, os, random, time
+import discord, os, psycopg2, random, time
 from discord.ext import commands, tasks
 from discord.ext.commands import CommandNotFound, CheckFailure, NoPrivateMessage, MissingRequiredArgument
 from asyncio import sleep
@@ -13,7 +13,12 @@ class AzamiBot(commands.AutoShardedBot):
 		self.description = "Azami, An all purpose bot!"
 		self.owner_id = 288022950576390144
 		super().__init__(self.command_prefix)
-
+		self.db = psycopg2.connect(
+			host="ec2-54-247-169-129.eu-west-1.compute.amazonaws.com",
+			database="dfjlvlcd4d8rh4",
+			user="pustxbwqtzxjbc",
+			password="7d746eeaa1de5ec2f6b6d5a24dd4fb138b8a8a8f53f7d63836831aec78cf4c84")
+		self.mycursor = self.db.cursor()
 
 		self.modules = []
 
@@ -78,7 +83,6 @@ class AzamiBot(commands.AutoShardedBot):
 	async def on_member_leave(self, member):
 		print(f"{member} has left/kick from the guild")
 
-	'''
 	async def on_command_error(self, ctx, error):
 		if isinstance(error, NoPrivateMessage):
 			await edit(ctx, content='\N{HEAVY EXCLAMATION MARK SYMBOL} Only usable on Servers', ttl=5)
@@ -88,7 +92,8 @@ class AzamiBot(commands.AutoShardedBot):
 			await edit(ctx, content='\N{HEAVY EXCLAMATION MARK SYMBOL} Missing Argument', ttl=5)
 		elif isinstance(error, CommandNotFound):
 			await edit(ctx, content='Invalid command, did you type that right?', ttl=10)
-	'''
+
+
 	async def on_message(self, message):
 		if not message.author.bot:
 			if message.guild == None:
