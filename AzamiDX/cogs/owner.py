@@ -5,7 +5,7 @@ from pathlib import Path
 
 class Owner(commands.Cog, command_attrs=dict(hidden=True)):
 
-	def __init__(self, azami):
+	def __init__(self, azami): # Idea clear cash in db
 		self.azami = azami
 		self.hidden = True
 
@@ -101,7 +101,7 @@ class Owner(commands.Cog, command_attrs=dict(hidden=True)):
 			await ctx.message.delete()
 			await ctx.send(f'User: <@{user_id}> has not been banned due to your permissions')
 
-	@commands.command(description='Owner of Azami Only', aliases=['bi', 'boti'])
+	@commands.command(description='Owner of Azami Only', aliases=['bin', 'botin'])
 	@commands.is_owner()
 	async def botinvite(self, ctx):
 		await edit(ctx, content="Here's the bot invite:\n" \

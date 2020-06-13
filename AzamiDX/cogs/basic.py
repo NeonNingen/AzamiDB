@@ -28,7 +28,7 @@ class Basic(commands.Cog):
 			await edit(ctx, content=f"This guild's invite link: {invite}")
 
 	@commands.command(description="Gets the Azami's Society invite link",
-					  aliases=['ss', 'supportinvite'])
+					  aliases=['sserv', 'supportinvite'])
 	async def supportserver(self, ctx):
 		await edit(ctx, content="The support server invite: https://discord.gg/rRb23dt")
 
