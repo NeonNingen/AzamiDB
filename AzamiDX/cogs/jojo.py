@@ -20,5 +20,10 @@ class Jojo(commands.Cog):
 		else:
 			await ctx.send(f"**Time resume for {ctx.channel.mention}**")
 
+	@invite.error
+	async def invite_error(self, ctx, error):
+		if isinstance(error, commands.CommandInvokeError):
+			await ctx.send("Please assign 'manage_messages' permissions to this bot")
+
 def setup(azami):
 	azami.add_cog(Jojo(azami))

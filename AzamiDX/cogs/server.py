@@ -24,8 +24,7 @@ class Server(commands.Cog):
 		channel_count = len([x for x in server.channels if type(x) == discord.channel.TextChannel])
 		role_count = len(server.roles)
 		emoji_count = len(server.emojis)
-		em = discord.Embed(name="Server Info",
-						   description= f"For the server: {server.name}",
+		em = discord.Embed(description= f"For the server: {server.name}",
 						   color=color_list)
 		em.add_field(name='Name', value=server.name)
 		em.add_field(name='Owner', value=server.owner, inline=False)
@@ -60,8 +59,7 @@ class Server(commands.Cog):
 			if role == "@everyone":
 				role = 'N/A'
 
-		em = discord.Embed(name="User Info",
-						   description= f"Information on: {user}",
+		em = discord.Embed(description= f"Information on: {user}",
 						   color=color_list)
 		em.add_field(name='User ID', value=user.id, inline=True)
 		if isinstance(user, discord.Member):
@@ -79,6 +77,23 @@ class Server(commands.Cog):
 		em.set_footer(text=f"Requested by {ctx.message.author.name} - Today at: " + (
 							  time.strftime("%I:%M %p")))
 		await edit(ctx, embed=em)
+
+	@commands.command(description='This will display info about Azami!', aliases=["bi"])
+	async def botinfo(self, ctx):
+		guild_url = "https://discord.gg/rRb23dt"
+		em = discord.Embed(title=self.azami.user.name,
+						   description="My name is Azami, please to meet you! I hope we can get along!",
+						   color=discord.Color.gold())
+		em.add_field(name="Azami's ID", value=self.azami.user.id, inline=True)
+		em.add_field(name='Owner of Azami', value="El Clear#9765", inline=True)
+		em.add_field(name="Azami's Guild", value=f"[Azami's Society]({guild_url})", inline=True)
+		em.add_field(name="Azami's Default Prefix", value="a!", inline=True)
+		em.add_field(name="Azami's Guild Prefix", value=self.azami.command_prefix, inline=True)
+		em.add_field(name="Azami's Help Command", value=f"{self.azami.command_prefix}help", inline=True)
+		em.set_thumbnail(url=self.azami.user.avatar_url)
+		em.set_footer(text=f"Requested by {ctx.message.author.name} - Today at: " + (
+							  time.strftime("%I:%M %p")))
+		await ctx.send(embed=em)
 
 
 

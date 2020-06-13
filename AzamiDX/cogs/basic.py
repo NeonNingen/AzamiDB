@@ -15,9 +15,28 @@ class Basic(commands.Cog):
 	async def ping(self, ctx):
 		await edit(ctx, content=f'Pong! :ping_pong: {round(self.azami.latency * 1000)}ms.')
 
-	@commands.command(description='Gets the Wholesome Society invite link')
+	@commands.command(description="Gets your Guild's invite link")
 	async def invite(self, ctx):
-		await edit(ctx, content="The server invite: https://discord.gg/rRb23dt")
+		server = ctx.message.guild
+		try:
+			invite = await server.invites()
+			invite = invite[0]
+			await edit(ctx, content=f"This guild's invite link: {invite}")
+		except:
+			invite = await ctx.channel.create_invite(reason="A server invite "\
+						   "was created due to no existing server invite")
+			await edit(ctx, content=f"This guild's invite link: {invite}")
+
+	@commands.command(description="Gets the Azami's Society invite link",
+					  aliases=['ss', 'supportinvite'])
+	async def supportserver(self, ctx):
+		await edit(ctx, content="The support server invite: https://discord.gg/rRb23dt")
+
+
+	@invite.error
+	async def invite_error(self, ctx, error):
+		if isinstance(error, commands.CommandInvokeError):
+			await ctx.send("Please assign 'create_invite' permissions to this bot")
 
 def setup(azami):
 	azami.add_cog(Basic(azami))
