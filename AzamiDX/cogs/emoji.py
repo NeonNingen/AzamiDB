@@ -9,6 +9,7 @@ class Emoji(commands.Cog):
 
 	@commands.command(description="List the emojis' icons and names on the server!",
 					  aliases=['el'])
+	@commands.has_permissions(manage_emojis=True)
 	async def emojilist(self, ctx):
 		server = ctx.message.guild
 		emoji_count = len(server.emojis)
@@ -26,6 +27,7 @@ class Emoji(commands.Cog):
 
 	@commands.command(description="List the emojis' names on the server!",
 					  aliases=['eln'])
+	@commands.has_permissions(manage_emojis=True)
 	async def emojilistname(self, ctx):
 		server = ctx.message.guild
 		emoji_count = len(server.emojis)
