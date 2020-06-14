@@ -14,8 +14,7 @@ class Help(commands.Cog):
 
 	@commands.command(name="help", description="The help command!",usage="cog")
 	async def help(self, ctx, cog="all"):
-		command_prefix = await get_prefix(self.azami, ctx)
-		command_prefix = command_prefix[2]
+		command_prefix = "a!"
 		help_embed = discord.Embed(title="Help",
 								   description="Remember to use " + f"{command_prefix}" + "`{commandname}`",
 								   color=color_list)
