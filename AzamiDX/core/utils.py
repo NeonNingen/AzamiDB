@@ -91,11 +91,6 @@ async def get_prefix(azami, msg):
 		custom_prefix = "a!"
 	return commands.when_mentioned_or(custom_prefix)(azami, msg)
 
-def db():
-	return db
-
-def mycursor():
-	return mycursor
 
 
 

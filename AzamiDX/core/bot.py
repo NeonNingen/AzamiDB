@@ -3,15 +3,22 @@ from discord.ext import commands, tasks
 from discord.ext.commands import CommandNotFound, CheckFailure, NoPrivateMessage, MissingRequiredArgument
 from asyncio import sleep
 from pathlib import Path
-from AzamiDX.core.utils import edit, error_on_message, pre_embed, color_list, get_prefix, db, mycursor
+from AzamiDX.core.utils import edit, error_on_message, pre_embed, color_list, get_prefix
 from AzamiDX.etc.etccont.verify import verify
+
+db = psycopg2.connect(
+	host="ec2-54-247-169-129.eu-west-1.compute.amazonaws.com",
+	database="dfjlvlcd4d8rh4",
+	user="pustxbwqtzxjbc",
+	password="7d746eeaa1de5ec2f6b6d5a24dd4fb138b8a8a8f53f7d63836831aec78cf4c84")
+mycursor = db.cursor()
 
 class AzamiBot(commands.AutoShardedBot):
 	# Subclassing Bot allows for more unique event handling
 
 	def __init__(self): # Fix all command_prefixes
-		self.db = db()
-		self.mycursor = mycursor()
+		self.db = db
+		self.mycursor = mycursor
 		self.command_prefix = get_prefix
 		self.description = "Azami, An all purpose bot!"
 		self.owner_id = 288022950576390144
