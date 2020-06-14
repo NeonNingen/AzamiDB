@@ -1,24 +1,22 @@
-import discord, os, psycopg2, random, time
+import discord, os, psycopg2, random, time 
 from discord.ext import commands, tasks
 from discord.ext.commands import CommandNotFound, CheckFailure, NoPrivateMessage, MissingRequiredArgument
 from asyncio import sleep
 from pathlib import Path
-from AzamiDX.core.utils import edit, error_on_message, pre_embed
+from AzamiDX.core.utils import edit, error_on_message, pre_embed, color_list, get_prefix, db, mycursor
+from AzamiDX.etc.etccont.verify import verify
 
 class AzamiBot(commands.AutoShardedBot):
 	# Subclassing Bot allows for more unique event handling
 
-	def __init__(self):
-		self.command_prefix = "a!"
+	def __init__(self): # Fix all command_prefixes
+		self.db = db()
+		self.mycursor = mycursor()
+		self.command_prefix = get_prefix
 		self.description = "Azami, An all purpose bot!"
 		self.owner_id = 288022950576390144
 		super().__init__(self.command_prefix)
-		self.db = psycopg2.connect(
-			host="ec2-54-247-169-129.eu-west-1.compute.amazonaws.com",
-			database="dfjlvlcd4d8rh4",
-			user="pustxbwqtzxjbc",
-			password="7d746eeaa1de5ec2f6b6d5a24dd4fb138b8a8a8f53f7d63836831aec78cf4c84")
-		self.mycursor = self.db.cursor()
+		
 
 		self.modules = []
 
@@ -27,7 +25,7 @@ class AzamiBot(commands.AutoShardedBot):
 			self.modules.append(mod)
 
 		self.start_time = time.time()
-		
+
 
 	@staticmethod
 	async def delete_message(message: discord.Message):
@@ -47,22 +45,29 @@ class AzamiBot(commands.AutoShardedBot):
 				except Exception as e:
 					print(f"Could not load cog '{mod}'' -> '{e}'")
 
+	async def original_prefix(self, azami, message):
+			prefix = await get_prefix(azami, message)
+			prefix = prefix[2]
+			return prefix
+
 	async def on_ready(self):
 		print(f"{self.user.name} has started!\n" \
 			f'Started at: {time.strftime("%I:%M %p")}\n')
+
+		self.og_command_prefix = await self.original_prefix(self, discord.Message)
 
 		if self.shard_count > 1:
 			for x in range(0, self.shard_count):
 				await self.change_presence(activity=discord.Activity(
 					name=(
-						 f'Use {self.command_prefix}help for help| Shard' \
+						 f'Use {self.og_command_prefix}help for help| Shard' \
 						 f'{x + 1}/{self.shard_count}'),
 					type=discord.ActivityType.playing), shard_id=x)
 				await sleep(5)
 		else:
 			await self.change_presence(activity=discord.Activity(
 				name=(
-					f"{self.command_prefix}help | {len(self.guilds)} guilds | V2.0"),
+					f"{self.og_command_prefix}help | {len(self.guilds)} guilds | V2.0"),
 				type=discord.ActivityType.listening))
 
 		print("Currently in these guilds:")
@@ -77,12 +82,37 @@ class AzamiBot(commands.AutoShardedBot):
 
 
 	async def on_member_join(self, member):
-		print(f"{member} has joined the guild")
+		print(f"{member} has joined {member.guild}")
+		channel = self.get_channel(718406709814624288)
+		em = discord.Embed()
+		em.title = f"Welcome! {member.name}"
+		em.description = verify(self, channel, member)
+		em.color = color_list()
+		em.set_thumbnail(url=member.avatar_url)
+		em.set_image(url='https://media0.giphy.com/media/83KcvGkJuNfoY/source.gif')
+		message = await channel.send(embed=em)
 
-
+		role = discord.utils.get(member.guild.roles, name="Users")
+		emoji = u"\u2705"
+		await message.add_reaction(emoji)
+		while True:
+			reaction, user = await self.wait_for('reaction_add', check=lambda r, u: member)
+			await user.add_roles(role)
+			if user == member:
+				await message.remove_reaction(emoji, user)
+				await message.clear_reaction(emoji)
+				await channel.send(f"You have successful verified: {member.name}!")
+				return
+			elif str(user) == f"{self.user.name}#{self.user.discriminator}":
+				pass
+			else:
+				await message.remove_reaction(emoji, user)
+				await channel.send(f"{member.name} has to react not you: {user.name}!", delete_after=3)
+	
 	async def on_member_leave(self, member):
-		print(f"{member} has left/kick from the guild")
+		print(f"{member} has left/kick from {member.guild}")
 
+	'''
 	async def on_command_error(self, ctx, error):
 		if isinstance(error, NoPrivateMessage):
 			await edit(ctx, content='\N{HEAVY EXCLAMATION MARK SYMBOL} Only usable on Servers', ttl=5)
@@ -92,8 +122,7 @@ class AzamiBot(commands.AutoShardedBot):
 			await edit(ctx, content='\N{HEAVY EXCLAMATION MARK SYMBOL} Missing Argument', ttl=5)
 		elif isinstance(error, CommandNotFound):
 			await edit(ctx, content='Invalid command, did you type that right?', ttl=10)
-
-
+	'''
 	async def on_message(self, message):
 		if not message.author.bot:
 			if message.guild == None:
@@ -120,11 +149,11 @@ class AzamiBot(commands.AutoShardedBot):
 				value1 = f"I'm an all purpose bot with currently:\n **{len(cogs)} cogs** and **{store} commands**"
 				value2 = f"It's a pleasure to make your Acquaintance, {guild.owner.mention}"
 				embed.add_field(name=f"Hi, my name is {self.user.name}", value=value1)
-				embed.add_field(name=f"To read about my commands, do {self.command_prefix}help", value=value2)
+				embed.add_field(name=f"To read about my commands, do {self.og_command_prefix}help", value=value2)
 				await channel.send(embed=embed)
 			break
 
 	async def on_guild_leave(self, guild: discord.Guild):
 		print(f"{self.user.name} has left {guild.name}")
 
-
+	

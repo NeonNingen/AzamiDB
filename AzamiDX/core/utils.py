@@ -1,4 +1,5 @@
-import aiohttp, discord, json, logging, os, random
+import aiohttp, discord, json, logging, os, psycopg2, random
+from discord.ext import commands
 from discord.abc import Messageable
 from asyncio import sleep
 
@@ -73,6 +74,28 @@ def color_list():
 				 discord.Color.light_grey(), discord.Color.dark_gold()]
 	colorList = random.choice(colorList)
 	return colorList
+
+db = psycopg2.connect(
+	host="ec2-54-247-169-129.eu-west-1.compute.amazonaws.com",
+	database="dfjlvlcd4d8rh4",
+	user="pustxbwqtzxjbc",
+	password="7d746eeaa1de5ec2f6b6d5a24dd4fb138b8a8a8f53f7d63836831aec78cf4c84")
+mycursor = db.cursor()
+
+async def get_prefix(azami, msg):
+	try:
+		mycursor.execute(f'SELECT command_prefix FROM prefix WHERE guild_id = {msg.guild.id}')
+		custom_prefix = mycursor.fetchone()
+		custom_prefix = custom_prefix[0]
+	except:
+		custom_prefix = "ab!"
+	return commands.when_mentioned_or(custom_prefix)(azami, msg)
+
+def db():
+	return db
+
+def mycursor():
+	return mycursor
 
 
 

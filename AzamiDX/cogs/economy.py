@@ -9,13 +9,12 @@ class Economy(commands.Cog):
 	@commands.command(description="Earn your money today!")
 	@commands.cooldown(1, 900, commands.BucketType.user)
 	async def daily(self, ctx):
-		DiscordID = ctx.author.id
 		user_exists = self.azami.mycursor.execute(f"SELECT * FROM economy WHERE DiscordID = {ctx.author.id}")
 		user_exists = self.azami.mycursor.fetchone()
 		if user_exists:
 			await ctx.send(f"Welcome back, {ctx.author.mention}! Here's some cash!:"\
 			                " 50 Rings")
-			self.azami.mycursor.execute(f"UPDATE economy SET Balance = {user_exists[1] + 50} WHERE DiscordID = {DiscordID}")
+			self.azami.mycursor.execute(f"UPDATE economy SET Balance = {user_exists[1] + 50} WHERE DiscordID = {ctx.author.id}")
 
 		else:
 			await ctx.send(f"Hello {ctx.author.mention}! I see this is your first time"\

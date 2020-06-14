@@ -12,7 +12,7 @@ def to_upper(argument):
 
 class Fun(commands.Cog):
 
-	def __init__(self, azami):
+	def __init__(self, azami): # Marriage command add
 		self.azami = azami
 
 	class Slapper(commands.Converter):

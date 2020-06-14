@@ -1,7 +1,7 @@
 import discord, aiohttp, time
 from discord.ext import commands
 from random import choice
-from AzamiDX.core.utils import hastebin, color_list, edit
+from AzamiDX.core.utils import hastebin, color_list, edit, get_prefix
 color_list = color_list()
 
 class Server(commands.Cog):
@@ -80,6 +80,8 @@ class Server(commands.Cog):
 
 	@commands.command(description='This will display info about Azami!', aliases=["bi"])
 	async def botinfo(self, ctx):
+		command_prefix = await get_prefix(self.azami, ctx)
+		command_prefix = command_prefix[2]
 		guild_url = "https://discord.gg/rRb23dt"
 		em = discord.Embed(title=self.azami.user.name,
 						   description="My name is Azami, please to meet you! I hope we can get along!",
@@ -87,9 +89,9 @@ class Server(commands.Cog):
 		em.add_field(name="Azami's ID", value=self.azami.user.id, inline=True)
 		em.add_field(name='Owner of Azami', value="El Clear#9765", inline=True)
 		em.add_field(name="Azami's Guild", value=f"[Azami's Society]({guild_url})", inline=True)
-		em.add_field(name="Azami's Default Prefix", value="a!", inline=True)
-		em.add_field(name="Azami's Guild Prefix", value=self.azami.command_prefix, inline=True)
-		em.add_field(name="Azami's Help Command", value=f"{self.azami.command_prefix}help", inline=True)
+		em.add_field(name="Azami's Default Prefix", value=self.azami.og_command_prefix, inline=True)
+		em.add_field(name="Azami's Guild Prefix", value=command_prefix, inline=True)
+		em.add_field(name="Azami's Help Command", value=f"{command_prefix}help", inline=True)
 		em.set_thumbnail(url=self.azami.user.avatar_url)
 		em.set_footer(text=f"Requested by {ctx.message.author.name} - Today at: " + (
 							  time.strftime("%I:%M %p")))

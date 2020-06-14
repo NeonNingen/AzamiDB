@@ -77,6 +77,25 @@ class Mod(commands.Cog):
 	async def purge(self, ctx, amount: int = 5):
 		await ctx.channel.purge(limit = amount + 1)
 
+	@commands.command(description='You can change my prefix OwO',
+					  usage='This command only works for moderators',
+					  aliases=['prefix', 'updateprefix'])
+	@commands.has_permissions(manage_guild=True)
+	async def changeprefix(self, ctx, prefix: str):
+		guild = ctx.message.guild
+		try:
+			guild_exists = self.azami.mycursor.execute(f"SELECT * FROM prefix WHERE guild_id = {guild.id}")
+			guild_exists = self.azami.mycursor.fetchone()
+			if guild_exists:
+				self.azami.mycursor.execute(f"UPDATE prefix SET command_prefix = '{prefix}' WHERE guild_id = {guild.id}")
+				await ctx.send(f"Your prefix has been updated to: {prefix}")
+			else:
+				self.azami.mycursor.execute(f"INSERT INTO prefix (command_prefix, guild_id) VALUES ('{prefix}', {guild.id})")
+				await ctx.send(f"Your prefix has been updated to: {prefix}")
+			self.azami.db.commit()
+		except:
+			await ctx.send("An Error has occurred, you cannot change your prefix at this current time. Please try again later")
+
 	@commands.command(description='Give a role!', aliases=["ar", "giverole", "gr"],
 					  usage='This command only works for moderators')
 	@commands.has_permissions(manage_roles=True)
