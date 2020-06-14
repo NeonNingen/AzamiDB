@@ -16,7 +16,7 @@ mycursor = db.cursor()
 class AzamiBot(commands.AutoShardedBot):
 	# Subclassing Bot allows for more unique event handling
 
-	def __init__(self): # Fix all command_prefixes
+	def __init__(self): 
 		self.db = db
 		self.mycursor = mycursor
 		self.command_prefix = get_prefix

@@ -24,7 +24,6 @@ class Help(commands.Cog):
 							  icon_url=self.azami.user.avatar_url)
 
 		cogs = [c for c in self.azami.cogs.keys()]
-		cogs.remove('Waifu')
 		cogs.remove('Owner')
 
 		if cog == 'all':
