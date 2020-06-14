@@ -112,7 +112,7 @@ class AzamiBot(commands.AutoShardedBot):
 	async def on_member_leave(self, member):
 		print(f"{member} has left/kick from {member.guild}")
 
-	'''
+	
 	async def on_command_error(self, ctx, error):
 		if isinstance(error, NoPrivateMessage):
 			await edit(ctx, content='\N{HEAVY EXCLAMATION MARK SYMBOL} Only usable on Servers', ttl=5)
@@ -122,7 +122,7 @@ class AzamiBot(commands.AutoShardedBot):
 			await edit(ctx, content='\N{HEAVY EXCLAMATION MARK SYMBOL} Missing Argument', ttl=5)
 		elif isinstance(error, CommandNotFound):
 			await edit(ctx, content='Invalid command, did you type that right?', ttl=10)
-	'''
+	
 	async def on_message(self, message):
 		if not message.author.bot:
 			if message.guild == None:
