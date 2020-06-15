@@ -2,7 +2,7 @@ import discord, json
 from discord.ext import commands
 from selenium import webdriver
 from AzamiDX.core.webdriver import get_driver
-from AzamiDX.etc.waifu.searchhtml import waifufind, newwaifufind
+from AzamiDX.etc.waifu.searchhtml import newwaifufind
 
 class Waifu(commands.Cog):
 
