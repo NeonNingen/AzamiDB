@@ -3,13 +3,11 @@ from discord.ext import commands
 from discord.ext.commands import MissingRequiredArgument
 from random import randint
 from asyncio import sleep
-from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from AzamiDX.etc.dnd.dndetc import return_results, hiddenrolls
 from AzamiDX.etc.dnd.searchjson import startEquipment, levelling, spellfind, simpleclassfind, classfind
 from AzamiDX.core.utils import color_list, hastebin, edit
-from AzamiDX.core.webdriver import get_driver
 
 
 
@@ -17,11 +15,6 @@ class Dnd(commands.Cog): # Work on Embed Rolls also modifier addon
 
 	def __init__(self, azami):
 		self.azami = azami
-		try:
-			self.driver = get_driver()
-		except:
-			self.driver = webdriver.Chrome('./chromedriver')
-		self.driver.minimize_window()
 
 	@commands.command(description=f'The format must be NdN',
 					  usage='To roll any dice, any amount of times')
@@ -230,7 +223,7 @@ class Dnd(commands.Cog): # Work on Embed Rolls also modifier addon
 					  usage="spellsearch is written together when using the command",
 					  aliases=['ss', 'spellsearch'])
 	async def spellsearch(self, ctx, *, content):
-		spell_em = spellfind(self.driver, content, ctx, self.azami)
+		spell_em = spellfind(self.azami.driver, content, ctx, self.azami)
 		await ctx.send(embed=spell_em)
 	
 	@commands.command(name="simple classes search",
@@ -238,7 +231,7 @@ class Dnd(commands.Cog): # Work on Embed Rolls also modifier addon
 					  usage="simpleclassessearch is written together when using the command",
 					  aliases=['scs', 'simpleclassessearch'])
 	async def simpleclassessearch(self, ctx, *, content):
-		class_em = await simpleclassfind(self.driver, content, ctx, self.azami)
+		class_em = await simpleclassfind(self.azami.driver, content, ctx, self.azami)
 		await ctx.send(embed=class_em)
 
 	@commands.command(name="classes search",
@@ -246,7 +239,7 @@ class Dnd(commands.Cog): # Work on Embed Rolls also modifier addon
 					  usage="classessearch is written together when using the command",
 					  aliases=['cs', 'classessearch'])
 	async def classessearch(self, ctx, *, content):
-		class_em = classfind(self.driver, content, ctx, self.azami)
+		class_em = classfind(self.azami.driver, content, ctx, self.azami)
 		await ctx.send(embed=class_em)
 
 	@commands.command(name='dnd menu', description=f'A DND Menu',
@@ -299,7 +292,7 @@ class Dnd(commands.Cog): # Work on Embed Rolls also modifier addon
 				player = await self.azami.wait_for('message', check=check)
 				playercont = player.content
 				await player.delete()
-				spell_em = spellfind(self.driver, playercont, ctx, self.azami)
+				spell_em = spellfind(self.azami.driver, playercont, ctx, self.azami)
 				await ctx.send(embed=spell_em)
 				return
 			elif num == 5:
@@ -307,7 +300,7 @@ class Dnd(commands.Cog): # Work on Embed Rolls also modifier addon
 				player = await self.azami.wait_for('message', check=check)
 				playercont = player.content
 				await player.delete()
-				class_em = classfind(self.driver, playercont, ctx, self.azami)
+				class_em = classfind(self.azami.driver, playercont, ctx, self.azami)
 				await ctx.send(embed=class_em)
 				return
 			elif num == 6:
@@ -315,7 +308,7 @@ class Dnd(commands.Cog): # Work on Embed Rolls also modifier addon
 				player = await self.azami.wait_for('message', check=check)
 				playercont = player.content
 				await player.delete()
-				spell_em = await simpleclassfind(self.driver, playercont, ctx, self.azami)
+				spell_em = await simpleclassfind(self.azami.driver, playercont, ctx, self.azami)
 				await ctx.send(embed=spell_em)
 				return
 			elif num == 7:
@@ -374,7 +367,7 @@ class Dnd(commands.Cog): # Work on Embed Rolls also modifier addon
 				player = await self.azami.wait_for('message', check=check)
 				playercont = player.content
 				await player.delete()
-				spell_em = spellfind(self.driver, playercont, ctx, self.azami)
+				spell_em = spellfind(self.azami.driver, playercont, ctx, self.azami)
 				await ctx.send(embed=spell_em)
 				break
 			elif player.content == "5":
@@ -386,7 +379,7 @@ class Dnd(commands.Cog): # Work on Embed Rolls also modifier addon
 				player = await self.azami.wait_for('message', check=check)
 				playercont = player.content
 				await player.delete()
-				class_em = classfind(self.driver, playercont, ctx, self.azami)
+				class_em = classfind(self.azami.driver, playercont, ctx, self.azami)
 				await ctx.send(embed=class_em)
 				break
 			elif player.content == "6":
@@ -398,7 +391,7 @@ class Dnd(commands.Cog): # Work on Embed Rolls also modifier addon
 				player = await self.azami.wait_for('message', check=check)
 				playercont = player.content
 				await player.delete()
-				spell_em = await simpleclassfind(self.driver, playercont, ctx, self.azami)
+				spell_em = await simpleclassfind(self.azami.driver, playercont, ctx, self.azami)
 				await ctx.send(embed=spell_em)
 				break
 

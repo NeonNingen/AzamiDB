@@ -3,15 +3,17 @@ from discord.ext import commands, tasks
 from discord.ext.commands import CommandNotFound, CheckFailure, NoPrivateMessage, MissingRequiredArgument
 from asyncio import sleep
 from pathlib import Path
+from selenium import webdriver
+from AzamiDX.core.webdriver import get_driver
 from AzamiDX.core.utils import edit, error_on_message, pre_embed, color_list, get_prefix
 from AzamiDX.etc.etccont.verify import verify
 
 try:
 	db = psycopg2.connect(
-	host="ec2-54-247-169-129.eu-west-1.compute.amazonaws.com",
-	database="dfjlvlcd4d8rh4",
-	user="pustxbwqtzxjbc",
-	password="7d746eeaa1de5ec2f6b6d5a24dd4fb138b8a8a8f53f7d63836831aec78cf4c84")
+	host="ec2-54-75-248-49.eu-west-1.compute.amazonaws.com",
+	database="defh9ng1qcsr3r",
+	user="yaffdhqkqalpvx",
+	password="4bd878bee114c6476d9775135dfb8a28f324a3ac17f4996053df95072d7fcc38")
 	mycursor = db.cursor()
 	print("The database has loaded")
 except:
@@ -25,6 +27,12 @@ class AzamiBot(commands.AutoShardedBot):
 	def __init__(self): 
 		self.db = db
 		self.mycursor = mycursor
+		try:
+			self.driver = get_driver()
+		except:
+			self.driver = webdriver.Chrome('./chromedriver')
+		self.driver.minimize_window()
+
 		self.command_prefix = get_prefix
 		self.description = "Azami, An all purpose bot!"
 		self.owner_id = 288022950576390144
