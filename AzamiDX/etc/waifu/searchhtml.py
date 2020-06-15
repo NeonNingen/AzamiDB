@@ -13,7 +13,8 @@ def waifufind(driver, content, ctx, name):
 	desc = wait.until(EC.presence_of_element_located((By.XPATH, '//*[@id="description"]'))).text
 	image = wait.until(EC.presence_of_element_located((By.XPATH, '//*[@id="app"]/div/div/div[2]/div[2]/div'))).get_attribute('style')[56:-3]
 	popular = wait.until(EC.presence_of_element_located((By.XPATH, '//*[@id="popularity-rank"]'))).text[13:18]
-		
+	
+	tag = wait.until(EC.presence_of_element_located((By.XPATH, '//*[@id="app"]/div[1]/div/div[1]/div/div/div'))).text	
 	place_of_og = wait.until(EC.presence_of_element_located((By.XPATH, '//*[@id="origin"]'))).text
 	age = wait.until(EC.presence_of_element_located((By.XPATH, '//*[@id="age"]'))).text
 	date_of_birth = wait.until(EC.presence_of_element_located((By.XPATH, '//*[@id="birthday"]'))).text
@@ -30,6 +31,9 @@ def waifufind(driver, content, ctx, name):
 	em.set_image(url=image)
 	em.add_field(name="Popularity", value=popular)
 	em.add_field(name="Appears in", value=appears)
+
+	if tag:
+		em.add_field(name="Tag", value=tag)
 
 	if place_of_og:
 		em.add_field(name="Place Of Origin", value=place_of_og)
