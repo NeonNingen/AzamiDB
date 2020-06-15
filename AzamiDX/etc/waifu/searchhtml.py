@@ -14,7 +14,10 @@ def waifufind(driver, content, ctx, name):
 	image = wait.until(EC.presence_of_element_located((By.XPATH, '//*[@id="app"]/div/div/div[2]/div[2]/div'))).get_attribute('style')[56:-3]
 	popular = wait.until(EC.presence_of_element_located((By.XPATH, '//*[@id="popularity-rank"]'))).text[13:18]
 	
-	tag = wait.until(EC.presence_of_element_located((By.XPATH, '//*[@id="app"]/div[1]/div/div[1]/div/div/div'))).text	
+	try:
+		tag = wait.until(EC.presence_of_element_located((By.XPATH, '//*[@id="app"]/div[1]/div/div[1]/div/div/div'))).text	
+	except:
+		tag = ''
 	place_of_og = wait.until(EC.presence_of_element_located((By.XPATH, '//*[@id="origin"]'))).text
 	age = wait.until(EC.presence_of_element_located((By.XPATH, '//*[@id="age"]'))).text
 	date_of_birth = wait.until(EC.presence_of_element_located((By.XPATH, '//*[@id="birthday"]'))).text
@@ -26,8 +29,8 @@ def waifufind(driver, content, ctx, name):
 	hip = wait.until(EC.presence_of_element_located((By.XPATH, '//*[@id="hip"]'))).text
 
 	em = discord.Embed(title=f"{name}",
-						   description=f"{desc}",
-						   color=color_list())
+					   description=f"{desc}",
+					   color=color_list())
 	em.set_image(url=image)
 	em.add_field(name="Popularity", value=popular)
 	em.add_field(name="Appears in", value=appears)
@@ -106,9 +109,6 @@ async def newwaifufind(driver, content, ctx, azami):
 				return msg.edit(embed=em2)
 				
 	except:
-		em.description("An Error Occurred")
-		return ctx.send(embed=em)
-		
-			
-		# waifu = wait.until(EC.presence_of_element_located((By.XPATH, '//*[@id="app"]/div/div/div[1]/div/div/div[4]/div[1]/table/tbody/tr[1]/td[1]/a'))).get_attribute('href')
-		# driver.get(waifu)
+		error_em = discord.Embed(title=f"An Error Occurred",
+								 color=color_list())
+		return msg.edit(embed=error_em)
