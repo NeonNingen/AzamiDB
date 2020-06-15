@@ -75,12 +75,16 @@ def color_list():
 	colorList = random.choice(colorList)
 	return colorList
 
-db = psycopg2.connect(
+try:
+	db = psycopg2.connect(
 	host="ec2-54-247-169-129.eu-west-1.compute.amazonaws.com",
 	database="dfjlvlcd4d8rh4",
 	user="pustxbwqtzxjbc",
 	password="7d746eeaa1de5ec2f6b6d5a24dd4fb138b8a8a8f53f7d63836831aec78cf4c84")
-mycursor = db.cursor()
+	mycursor = db.cursor()
+except:
+	db = ""
+	mycursor = ""
 
 async def get_prefix(azami, msg):
 	try:
@@ -88,7 +92,7 @@ async def get_prefix(azami, msg):
 		custom_prefix = mycursor.fetchone()
 		custom_prefix = custom_prefix[0]
 	except:
-		custom_prefix = "a!"
+		custom_prefix = "ab!"
 	return commands.when_mentioned_or(custom_prefix)(azami, msg)
 
 

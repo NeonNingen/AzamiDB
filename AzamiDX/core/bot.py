@@ -6,12 +6,16 @@ from pathlib import Path
 from AzamiDX.core.utils import edit, error_on_message, pre_embed, color_list, get_prefix
 from AzamiDX.etc.etccont.verify import verify
 
-db = psycopg2.connect(
+try:
+	db = psycopg2.connect(
 	host="ec2-54-247-169-129.eu-west-1.compute.amazonaws.com",
 	database="dfjlvlcd4d8rh4",
 	user="pustxbwqtzxjbc",
 	password="7d746eeaa1de5ec2f6b6d5a24dd4fb138b8a8a8f53f7d63836831aec78cf4c84")
-mycursor = db.cursor()
+	mycursor = db.cursor()
+except:
+	db = ""
+	mycursor = ""
 
 class AzamiBot(commands.AutoShardedBot):
 	# Subclassing Bot allows for more unique event handling
@@ -84,6 +88,11 @@ class AzamiBot(commands.AutoShardedBot):
 		print()
 		self.load_modules(self.modules)
 		finished_time = time.time() - self.start_time
+
+		if not db:
+			print("None database mode activated")
+		else:
+			print("The database has loaded")
 
 		print(f"Finished loading! Azami took: {round(finished_time, 3)} seconds\n")
 

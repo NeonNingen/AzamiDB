@@ -9,31 +9,37 @@ class Economy(commands.Cog):
 	@commands.command(description="Earn your money today!")
 	@commands.cooldown(1, 900, commands.BucketType.user)
 	async def daily(self, ctx):
-		user_exists = self.azami.mycursor.execute(f"SELECT * FROM economy WHERE DiscordID = {ctx.author.id}")
-		user_exists = self.azami.mycursor.fetchone()
-		if user_exists:
-			await ctx.send(f"Welcome back, {ctx.author.mention}! Here's some cash!:"\
-			                " 50 Rings")
-			self.azami.mycursor.execute(f"UPDATE economy SET Balance = {user_exists[1] + 50} WHERE DiscordID = {ctx.author.id}")
+		try:
+			user_exists = self.azami.mycursor.execute(f"SELECT * FROM economy WHERE DiscordID = {ctx.author.id}")
+			user_exists = self.azami.mycursor.fetchone()
+			if user_exists:
+				await ctx.send(f"Welcome back, {ctx.author.mention}! Here's some cash!:"\
+			                	" 50 Rings")
+				self.azami.mycursor.execute(f"UPDATE economy SET Balance = {user_exists[1] + 50} WHERE DiscordID = {ctx.author.id}")
 
-		else:
-			await ctx.send(f"Hello {ctx.author.mention}! I see this is your first time"\
-				            " getting money. So here 100 rings on the house!")
-			Balance = 100
-			self.azami.mycursor.execute(f"INSERT INTO economy (DiscordID, Balance) VALUES ({DiscordID}, {Balance})")
-		self.azami.db.commit()
+			else:
+				await ctx.send(f"Hello {ctx.author.mention}! I see this is your first time"\
+				            	" getting money. So here 100 rings on the house!")
+				Balance = 100
+				self.azami.mycursor.execute(f"INSERT INTO economy (DiscordID, Balance) VALUES ({DiscordID}, {Balance})")
+			self.azami.db.commit()
+		except:
+			await ctx.send("An Error Occurred, you cannot do this right now. Please try again later")
 
 	@commands.command(description="How much balance do you have?",
 					  aliases=['bal'])
 	async def balance(self, ctx):
-		user_exists = self.azami.mycursor.execute(f"SELECT * FROM economy WHERE DiscordID = {ctx.author.id}")
-		user_exists = self.azami.mycursor.fetchone()
-		if user_exists:
-			balance = self.azami.mycursor.execute(f"SELECT * FROM economy WHERE DiscordID = {ctx.author.id}")
-			balance = self.azami.mycursor.fetchone()
-			balance = balance[1]
-			await ctx.send(f"This is your balance: {balance} rings")
-
+		try:
+			user_exists = self.azami.mycursor.execute(f"SELECT * FROM economy WHERE DiscordID = {ctx.author.id}")
+			user_exists = self.azami.mycursor.fetchone()
+			if user_exists:
+				balance = self.azami.mycursor.execute(f"SELECT * FROM economy WHERE DiscordID = {ctx.author.id}")
+				balance = self.azami.mycursor.fetchone()
+				balance = balance[1]
+				await ctx.send(f"This is your balance: {balance} rings")
+		except:
+			await ctx.send("An Error Occurred, you cannot do this right now. Please try again later")
+	
 	@daily.error
 	async def daily_error(self, ctx, error):
 		if isinstance(error, commands.CommandOnCooldown):
