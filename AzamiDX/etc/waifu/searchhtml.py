@@ -58,6 +58,7 @@ async def newwaifufind(driver, content, ctx, azami):
 	try:
 		em2 = discord.Embed(title=f"{content.capitalize()}",
 					       color=color_list())
+		bot_msg = await ctx.send("Please wait...")
 		driver.get(f"https://mywaifulist.moe/browse")
 		wait = WebDriverWait(driver, 5)
 		inputElement = wait.until(EC.presence_of_element_located((By.XPATH, '//*[@id="app"]/div/div/div[1]/div/div/div[1]/div[1]/input')))
@@ -76,6 +77,7 @@ async def newwaifufind(driver, content, ctx, azami):
 				num += 1
 		except:
 			pass
+		await bot_msg.delete()
 		em.description = f"{num} options were found!"
 		msg = await ctx.send(embed=em)
 		bot_msg = await ctx.send(f"Pick an option from 1 to {num}! or q to quit")
