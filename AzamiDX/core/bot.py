@@ -13,9 +13,11 @@ try:
 	user="pustxbwqtzxjbc",
 	password="7d746eeaa1de5ec2f6b6d5a24dd4fb138b8a8a8f53f7d63836831aec78cf4c84")
 	mycursor = db.cursor()
+	print("The database has loaded")
 except:
 	db = ""
 	mycursor = ""
+	print("None database mode activated")
 
 class AzamiBot(commands.AutoShardedBot):
 	# Subclassing Bot allows for more unique event handling
@@ -88,11 +90,6 @@ class AzamiBot(commands.AutoShardedBot):
 		print()
 		self.load_modules(self.modules)
 		finished_time = time.time() - self.start_time
-
-		if not db:
-			print("None database mode activated")
-		else:
-			print("The database has loaded")
 
 		print(f"Finished loading! Azami took: {round(finished_time, 3)} seconds\n")
 
