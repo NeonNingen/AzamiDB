@@ -128,6 +128,7 @@ class Owner(commands.Cog, command_attrs=dict(hidden=True)):
 	@commands.is_owner()
 	async def shutdown(self, ctx):
 		await edit(ctx, content="Goodbye!")
+		self.azami.driver.close()
 		await ctx.bot.close()
 
 	@commands.command(aliases=['et'])
