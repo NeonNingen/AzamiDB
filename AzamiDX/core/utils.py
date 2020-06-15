@@ -92,7 +92,7 @@ async def get_prefix(azami, msg):
 		custom_prefix = mycursor.fetchone()
 		custom_prefix = custom_prefix[0]
 	except:
-		custom_prefix = "ab!"
+		custom_prefix = "a!"
 	return commands.when_mentioned_or(custom_prefix)(azami, msg)
 
 
