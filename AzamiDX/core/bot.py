@@ -99,7 +99,7 @@ class AzamiBot(commands.AutoShardedBot):
 		em.set_image(url='https://media0.giphy.com/media/83KcvGkJuNfoY/source.gif')
 		message = await channel.send(embed=em)
 
-		role = discord.utils.get(member.guild.roles, name="Lumas")
+		role = discord.utils.get(member.guild.roles, name="Toads")
 		emoji = u"\u2705"
 		await message.add_reaction(emoji)
 		while True:
