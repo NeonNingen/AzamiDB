@@ -100,17 +100,23 @@ class AzamiBot(commands.AutoShardedBot):
 		message = await channel.send(embed=em)
 
 		role = discord.utils.get(member.guild.roles, name="Toads")
+		bot_role = discord.utils.get(member.guild.roles, name="Starship Bots")
+		already_role = discord.utils.get(member.guild.roles, name="Toads")
 		emoji = u"\u2705"
 		await message.add_reaction(emoji)
 		while True:
 			reaction, user = await self.wait_for('reaction_add', check=lambda r, u: member)
-			await user.add_roles(role)
 			if user == member:
+				await user.add_roles(role)
 				await message.remove_reaction(emoji, user)
 				await message.clear_reaction(emoji)
 				await channel.send(f"You have successful verified: {member.name}!")
 				return
 			elif str(user) == f"{self.user.name}#{self.user.discriminator}":
+				pass
+			elif bot_role in user.roles:
+				pass
+			elif already_role in user.roles:
 				pass
 			else:
 				await message.remove_reaction(emoji, user)
