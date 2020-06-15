@@ -1,7 +1,7 @@
 import discord
 
 def verify(azami, channel, member):
-	rules = azami.get_channel(718406709814624288)
+	rules = azami.get_channel(699997840985948222)
 	hub = azami.get_channel(699998325113356388)
 	makers = azami.get_channel(718286296849842278)
 	msg = (
