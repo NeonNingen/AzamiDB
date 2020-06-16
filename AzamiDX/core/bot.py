@@ -21,10 +21,11 @@ except:
 	mycursor = ""
 	print("None database mode activated")
 
+
 class AzamiBot(commands.AutoShardedBot):
 	# Subclassing Bot allows for more unique event handling
 
-	def __init__(self): 
+	def __init__(self): # Fix all command_prefixes
 		self.db = db
 		self.mycursor = mycursor
 		try:
@@ -32,7 +33,7 @@ class AzamiBot(commands.AutoShardedBot):
 		except:
 			self.driver = webdriver.Chrome('./chromedriver')
 		self.driver.minimize_window()
-
+		
 		self.command_prefix = get_prefix
 		self.description = "Azami, An all purpose bot!"
 		self.owner_id = 288022950576390144
@@ -102,42 +103,47 @@ class AzamiBot(commands.AutoShardedBot):
 		print(f"Finished loading! Azami took: {round(finished_time, 3)} seconds\n")
 
 
+
 	async def on_member_join(self, member):
 		print(f"{member} has joined {member.guild}")
 		channel = self.get_channel(718406709814624288)
-		em = discord.Embed()
-		em.title = f"Welcome! {member.name}"
-		em.description = verify(self, channel, member)
-		em.color = color_list()
-		em.set_thumbnail(url=member.avatar_url)
-		em.set_image(url='https://media0.giphy.com/media/83KcvGkJuNfoY/source.gif')
-		message = await channel.send(embed=em)
+		guild = self.get_guild(699997006277509260)
 
-		role = discord.utils.get(member.guild.roles, name="Toads")
-		bot_role = discord.utils.get(member.guild.roles, name="Starship Bots")
-		already_role = discord.utils.get(member.guild.roles, name="Toads")
-		emoji = u"\u2705"
-		await message.add_reaction(emoji)
-		while True:
-			reaction, user = await self.wait_for('reaction_add', check=lambda r, u: member)
-			if user == member:
-				await user.add_roles(role)
-				await message.remove_reaction(emoji, user)
-				await message.clear_reaction(emoji)
-				await channel.send(f"You have successful verified: {member.name}!")
-				return
-			elif str(user) == f"{self.user.name}#{self.user.discriminator}":
-				pass
-			elif bot_role in user.roles:
-				pass
-			elif already_role in user.roles:
-				pass
-			else:
-				await message.remove_reaction(emoji, user)
-				await channel.send(f"{member.name} has to react not you: {user.name}!", delete_after=3)
-	
+		if member.guild != guild:
+			em = discord.Embed()
+			em.title = f"Welcome! {member.name}"
+			em.description = verify(self, channel, member)
+			em.color = color_list()
+			em.set_thumbnail(url=member.avatar_url)
+			em.set_image(url='https://media0.giphy.com/media/83KcvGkJuNfoY/source.gif')
+			message = await channel.send(embed=em)
+
+			role = discord.utils.get(member.guild.roles, name="Lumas")
+			bot_role = discord.utils.get(member.guild.roles, name="Starship Bots")
+			already_role = discord.utils.get(member.guild.roles, name="Toads")
+			emoji = u"\u2705"
+			await message.add_reaction(emoji)
+			while True:
+				reaction, user = await self.wait_for('reaction_add', check=lambda r, u: member)
+				if user == member:
+					await user.add_roles(role)
+					await message.remove_reaction(emoji, user)
+					await message.clear_reaction(emoji)
+					await channel.send(f"You have successful verified: {member.name}!")
+					return
+				elif str(user) == f"{self.user.name}#{self.user.discriminator}":
+					pass
+				elif bot_role in user.roles:
+					pass
+				elif already_role in user.roles:
+					pass
+				else:
+					await message.remove_reaction(emoji, user)
+					await channel.send(f"{member.name} has to react not you: {user.name}!", delete_after=3)
+			
 	async def on_member_leave(self, member):
 		print(f"{member} has left/kick from {member.guild}")
+		
 
 	
 	async def on_command_error(self, ctx, error):
