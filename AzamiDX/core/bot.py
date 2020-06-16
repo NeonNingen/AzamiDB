@@ -106,10 +106,8 @@ class AzamiBot(commands.AutoShardedBot):
 
 	async def on_member_join(self, member):
 		print(f"{member} has joined {member.guild}")
-		channel = self.get_channel(718406709814624288)
-		guild = self.get_guild(699997006277509260)
-
-		if member.guild != guild:
+		if member.guild.id == 699997006277509260:
+			channel = self.get_channel(718406709814624288)
 			em = discord.Embed()
 			em.title = f"Welcome! {member.name}"
 			em.description = verify(self, channel, member)
