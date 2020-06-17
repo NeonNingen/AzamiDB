@@ -1,9 +1,9 @@
 Mega Rehaul Update!
 
-Azami has now been completely rehauled were all her inner workings have changed! Also addition of new cogs and updated cogs.
+Azami has now been completely rehauled were all her inner workings have changed! Also the addition of new cogs and updated cogs.
 And most error checks were removed because most can be solved in on_command_error
 
-- core/bot.py (The main file for the bot. That makes the bot class orientated as it is a autoshared bot. Aswell as new way to load cogs and a personal server welcome message made for the Azami server!)
+- core/bot.py (The main file for the bot. That makes the bot class orientated as it is an autoshardedbot. Aswell as new way to load cogs and a personal server welcome message made for the Azami server!)
 
 - cogs/basic.py: [invite, supportserver] (Now a way to invite people to your guild and invite people to your supportserver)
 - cogs/economy.py: [daily, balance] (Get money! Rings are used as a placeholder for the money)
@@ -16,4 +16,4 @@ And most error checks were removed because most can be solved in on_command_erro
 - core/utils.py (Utils for the bot making things easier in the long run, like for example a custom message maker that checks if the bot has perms to send messages or use embeds)
 - core/webdriver.py (The webdriver from Heroku)
 - etc (A bunch of extra files to make cogs run smoother)
-- Small note: Database changed in this update from MySQL to PostgresSQL due to heroku has better support with PostgresSQL also a music cog was made for the bot but will not be implemented publically yet due to lavalink issues.
+- Small note: Database changed in this update from MySQL to PostgresSQL due to Heroku has better support with PostgresSQL also a music cog was made for the bot but will not be implemented publically yet due to lavalink issues.

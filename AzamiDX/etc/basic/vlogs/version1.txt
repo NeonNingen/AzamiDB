@@ -2,13 +2,13 @@ New Beginnings Update!
 
 This is the very first update of Azami with over 150 commits.
 Azami was born!
-Had error checks on all commands with an a cog.
+Had error checks on all commands with each cog.
 
 This is now an outdated version of Azami
 [] <- added commands, () <- comments
-But all following things were made in this update:
+But all the following things were made in this update:
 
-- main.py (contains the start up for events.py)
+- main.py (contains the start-up for events.py)
 - events.py (commands.Bot(), contains status changes, Join and leave member messages from guild, os cog loop, on guild join message)
 - cogs/basic.py: [hello, ping] (Simple commands)
 - cogs/dnd.py: [roll, initiative, spellsearch, simpleclassessearch, classessearch, dndmenu] (Importing multiple first and third party lib. Functions for creating hastebin links also roll returns.)
@@ -18,10 +18,10 @@ But all following things were made in this update:
 - cogs/maths.py: [add, minus, times, divide] (mathematical cog)
 - cogs/mod.py; [kick, ban, unban, mute, unmute, clear, addrole, removerole, selfrole] (Mod only commands)
 - cogs/server.py: [serverinfo, userinfo]
-- cogs/test.py: [bbi, restart, shutdown2, python, searchbar, dndsearch] (Cogs that were actually set up to try selenium and some were used for the next version of azami!)
+- cogs/test.py: [bbi, restart, shutdown2, python, searchbar, dndsearch] (Cogs that were set up to try selenium and some were used for the next version of Azami!)
 
 - diceimg (holds dice image links for what face the dice as rolled on)
--searchjson (search dnd 5e api for dnd spells and classes)
+-searchjson (search dnd 5e API for dnd spells and classes)
 - status_quotes.txt (Quotes to be used in the status)
 
 
