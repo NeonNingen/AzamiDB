@@ -56,7 +56,6 @@ async def mainembed(azami, ctx):
 			num = 1
 			em = updateembeds(azami, ctx, num)
 			reaction_em = await message.edit(embed=em)
-			return reaction_em
 			break
 		elif str(reaction) == str(emoji2) and user == member:
 			for i in range(1, 4):
@@ -65,7 +64,6 @@ async def mainembed(azami, ctx):
 			num = 2
 			em = updateembeds(azami, ctx, num)
 			reaction_em = await message.edit(embed=em)
-			return reaction_em
 			break
 		elif str(reaction) == str(emoji3) and user == member:
 			for i in range(1, 4):
@@ -74,7 +72,6 @@ async def mainembed(azami, ctx):
 			num = 3
 			em = updateembeds(azami, ctx, num)
 			reaction_em = await message.edit(embed=em)
-			return reaction_em
 			break
 		elif user == azami.user:
 			pass 
