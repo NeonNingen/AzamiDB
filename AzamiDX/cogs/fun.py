@@ -33,15 +33,6 @@ class Fun(commands.Cog):
 		embed.set_image(url = randomimg.slap())
 		await edit(ctx, embed=embed)
 
-	@commands.command(name='8 or 8ball', aliases=['8ball', '8'], 
-					  description='What answers do you seek?',
-					  usage='Have your questions answered!')
-	async def _8ball(self, ctx, *, question):
-		with open('AzamiDX/etc/fun/responses_fun.txt', 'r') as f:
-			responses = f.read().splitlines()
-			
-		await edit(ctx, content=f"Questions: {question}\nAnswer: {choice(responses)}")
-
 	@commands.command(description='azami -> AZAMI',
 					  usage='Basically capitalizes anything you say')
 	async def up(self, ctx, *, content: to_upper):
@@ -97,8 +88,7 @@ class Fun(commands.Cog):
 					   		 ctx=ctx)
 		await edit(ctx, embed=em)
 
-	@commands.command(description="Let's play a game of Jan Ken Pon!",
-					  aliases=['rockpaperscissors', 'rock'])
+	@commands.command(description="Let's play a game of Jan Ken Pon!")
 	async def rps(self, ctx):
 		with open('AzamiDX/etc/fun/url_fun.txt', 'r') as f:
 			url = f.read().splitlines()
@@ -243,6 +233,15 @@ class Fun(commands.Cog):
 				await sleep(4)
 				await msg.edit(embed=you_lose_em)
 				losses += 1
+
+	@commands.command(name='8ball', aliases=['8'], 
+					  description='What answers do you seek?',
+					  usage='Have your questions answered!')
+	async def _8ball(self, ctx, *, question):
+		with open('AzamiDX/etc/fun/responses_fun.txt', 'r') as f:
+			responses = f.read().splitlines()
+			
+		await edit(ctx, content=f"Questions: {question}\nAnswer: {choice(responses)}")
 
 	@commands.command(aliases=['me'], description="Make your own custom embed!")
 	async def makeembed(self, ctx): # Add parameters in the future 1 for like 1 add field

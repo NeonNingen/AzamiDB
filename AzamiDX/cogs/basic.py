@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 from AzamiDX.core.utils import edit
+from AzamiDX.etc.basic.updateembed import mainembed
 
 class Basic(commands.Cog):
 
@@ -27,11 +28,16 @@ class Basic(commands.Cog):
 						   "was created due to no existing server invite")
 			await edit(ctx, content=f"This guild's invite link: {invite}")
 
-	@commands.command(description="Gets the Azami's Society invite link",
-					  aliases=['sserv', 'supportinvite'])
+	@commands.command(description="Gets Azami's support invite link",
+					  aliases=['sserv'])
 	async def supportserver(self, ctx):
 		await edit(ctx, content="The support server invite: https://discord.gg/rRb23dt")
 
+	@commands.command(description="My update logs!",
+					  aliases=['ulogs'])
+	async def updatelogs(self, ctx):
+		updatelog_em = await mainembed(self.azami, ctx)
+		await edit(ctx, embed=updatelog_em)
 
 	@invite.error
 	async def invite_error(self, ctx, error):

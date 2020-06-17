@@ -89,7 +89,7 @@ class AzamiBot(commands.AutoShardedBot):
 		else:
 			await self.change_presence(activity=discord.Activity(
 				name=(
-					f"{self.og_command_prefix}help | {len(self.guilds)} guilds | V2.0"),
+					f"{self.og_command_prefix}help | {len(self.guilds)} guilds | V2.1"),
 				type=discord.ActivityType.listening))
 
 		print("Currently in these guilds:")
@@ -105,7 +105,11 @@ class AzamiBot(commands.AutoShardedBot):
 
 
 	async def on_member_join(self, member):
-		print(f"{member} has joined {member.guild}")
+		if member.guild.id == 110373943822540800:
+			pass
+		else:
+			print(f"{member} has joined {member.guild}")
+
 		if member.guild.id == 699997006277509260:
 			channel = self.get_channel(718406709814624288)
 			em = discord.Embed()
@@ -116,7 +120,7 @@ class AzamiBot(commands.AutoShardedBot):
 			em.set_image(url='https://media0.giphy.com/media/83KcvGkJuNfoY/source.gif')
 			message = await channel.send(embed=em)
 
-			role = discord.utils.get(member.guild.roles, name="Lumas")
+			role = discord.utils.get(member.guild.roles, name="Toads")
 			bot_role = discord.utils.get(member.guild.roles, name="Starship Bots")
 			already_role = discord.utils.get(member.guild.roles, name="Toads")
 			emoji = u"\u2705"
@@ -142,8 +146,6 @@ class AzamiBot(commands.AutoShardedBot):
 	async def on_member_leave(self, member):
 		print(f"{member} has left/kick from {member.guild}")
 		
-
-	
 	async def on_command_error(self, ctx, error):
 		if isinstance(error, NoPrivateMessage):
 			await edit(ctx, content='\N{HEAVY EXCLAMATION MARK SYMBOL} Only usable on Servers', ttl=5)

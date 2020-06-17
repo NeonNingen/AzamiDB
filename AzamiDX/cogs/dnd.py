@@ -218,33 +218,28 @@ class Dnd(commands.Cog): # Work on Embed Rolls also modifier addon
 
 	
 
-	@commands.command(name="spell search",
-					  description="Search from spells across all of dnd 5e",
-					  usage="spellsearch is written together when using the command",
-					  aliases=['ss', 'spellsearch'])
+	@commands.command(description="Search from spells across all of dnd 5e",
+					  aliases=['ss'])
 	async def spellsearch(self, ctx, *, content):
 		spell_em = spellfind(self.azami.driver, content, ctx, self.azami)
 		await ctx.send(embed=spell_em)
 	
-	@commands.command(name="simple classes search",
-					  description="Search from classes across all of dnd 5e. Just Simpler. Using aiohttp",
-					  usage="simpleclassessearch is written together when using the command",
-					  aliases=['scs', 'simpleclassessearch'])
-	async def simpleclassessearch(self, ctx, *, content):
-		class_em = await simpleclassfind(self.azami.driver, content, ctx, self.azami)
-		await ctx.send(embed=class_em)
+	
 
-	@commands.command(name="classes search",
-					  description="Search from classes across all of dnd 5e.",
-					  usage="classessearch is written together when using the command",
-					  aliases=['cs', 'classessearch'])
+	@commands.command(description="Search from classes across all of dnd 5e.",
+					  aliases=['cs'])
 	async def classessearch(self, ctx, *, content):
 		class_em = classfind(self.azami.driver, content, ctx, self.azami)
 		await ctx.send(embed=class_em)
 
-	@commands.command(name='dnd menu', description=f'A DND Menu',
-					  aliases=['dndm', 'mdnd'],
-					  usage='dndmenu is written together when using the command')
+	@commands.command(description="Search from classes across all of dnd 5e. Just Simpler. Using http links!",
+					  aliases=['hcs'])
+	async def httpclassessearch(self, ctx, *, content):
+		class_em = await simpleclassfind(self.azami.driver, content, ctx, self.azami)
+		await ctx.send(embed=class_em)
+
+	@commands.command(description=f'A DND Menu',
+					  aliases=['dndm'])
 	async def dndmenu(self, ctx, num=0):
 		menu_em = discord.Embed(title="Welcome to the DND Menu, traveller!",
 								description="So what would you like adventurer?",
@@ -260,7 +255,7 @@ class Dnd(commands.Cog): # Work on Embed Rolls also modifier addon
 		"3) a!initiative - Rolling for initiative\n" \
 		"4) a!spellsearch - Search for any spell in DND 5e\n" \
 		"5) a!classessearch - Search for any class in DND 5e\n" \
-		"6) a!simpleclassessearch - A cleaner way to search for classes in 5e\n" \
+		"6) a!htmlclasssearch - A cleaner way to search for classes in 5e\n" \
 		"7) Quit - Exit Menu"
 
 		menu_em.add_field(name="Menu Commands", value=menumessage)
@@ -406,8 +401,8 @@ class Dnd(commands.Cog): # Work on Embed Rolls also modifier addon
 		if isinstance(error, commands.CommandInvokeError):
 			await ctx.send(f"Incorrect Class given")
 
-	@simpleclassessearch.error
-	async def simpleclassessearch_error(self, ctx, error):
+	@httpclassessearch.error
+	async def httpclassessearch_error(self, ctx, error):
 		if isinstance(error, commands.CommandInvokeError):
 			await ctx.send(f"Incorrect Class given")
 

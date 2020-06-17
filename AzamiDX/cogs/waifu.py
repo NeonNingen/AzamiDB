@@ -10,7 +10,7 @@ class Waifu(commands.Cog):
 	@commands.command(description="Find a waifu!",
 					  usage="Just do a!ws {waifu_name}",
 					  aliases=['ws'])
-	async def waifusearch(self, ctx, *, content):
+	async def waifu(self, ctx, *, content):
 		waifu_em = await newwaifufind(self.azami.driver, content, ctx, self.azami)
 		await waifu_em
 

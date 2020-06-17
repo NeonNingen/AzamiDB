@@ -78,10 +78,9 @@ class Mod(commands.Cog):
 		await ctx.channel.purge(limit = amount + 1)
 
 	@commands.command(description='You can change my prefix OwO',
-					  usage='This command only works for moderators',
-					  aliases=['prefix', 'updateprefix'])
+					  usage='This command only works for moderators')
 	@commands.has_permissions(manage_guild=True)
-	async def changeprefix(self, ctx, prefix: str):
+	async def prefix(self, ctx, prefix: str):
 		guild = ctx.message.guild
 		try:
 			guild_exists = self.azami.mycursor.execute(f"SELECT * FROM prefix WHERE guild_id = {guild.id}")
@@ -96,10 +95,10 @@ class Mod(commands.Cog):
 		except:
 			await ctx.send("An Error has occurred, you cannot change your prefix at this current time. Please try again later")
 
-	@commands.command(description='Give a role!', aliases=["ar", "giverole", "gr"],
+	@commands.command(description='Give a role!', aliases=["gr"],
 					  usage='This command only works for moderators')
 	@commands.has_permissions(manage_roles=True)
-	async def addrole(self, ctx, user: discord.Member, role: discord.Role):
+	async def giverole(self, ctx, user: discord.Member, role: discord.Role):
 		await user.add_roles(role)
 		await edit(ctx, content=f"Hey {ctx.author.name}, {user.name} has been given a role called: {role.name}")
 
