@@ -1,5 +1,5 @@
 Current Update!
 
-This update is currently being worked on and has just realised!
+This update is currently being worked on and has just released!
 
 Currently have added reinvented the help menu to be simpler including a dm version of the help menu. This update will mainly be working on improving older commands and start new commands for version 2.2. So this update is WIP. So check back here in the future for any new updates!
