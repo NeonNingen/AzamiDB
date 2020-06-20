@@ -110,38 +110,41 @@ class AzamiBot(commands.AutoShardedBot):
 		else:
 			print(f"{member} has joined {member.guild}")
 
-		if member.guild.id == 699997006277509260:
-			channel = self.get_channel(718406709814624288)
-			em = discord.Embed()
-			em.title = f"Welcome! {member.name}"
-			em.description = verify(self, channel, member)
-			em.color = color_list()
-			em.set_thumbnail(url=member.avatar_url)
-			em.set_image(url='https://media0.giphy.com/media/83KcvGkJuNfoY/source.gif')
-			message = await channel.send(embed=em)
+		if member.bot:
+			pass
+		else:
+			if member.guild.id == 699997006277509260:
+				channel = self.get_channel(718406709814624288)
+				em = discord.Embed()
+				em.title = f"Welcome! {member.name}"
+				em.description = verify(self, channel, member)
+				em.color = color_list()
+				em.set_thumbnail(url=member.avatar_url)
+				em.set_image(url='https://media0.giphy.com/media/83KcvGkJuNfoY/source.gif')
+				message = await channel.send(embed=em)
 
-			role = discord.utils.get(member.guild.roles, name="Toads")
-			bot_role = discord.utils.get(member.guild.roles, name="Starship Bots")
-			already_role = discord.utils.get(member.guild.roles, name="Toads")
-			emoji = u"\u2705"
-			await message.add_reaction(emoji)
-			while True:
-				reaction, user = await self.wait_for('reaction_add', check=lambda r, u: member)
-				if user == member:
-					await user.add_roles(role)
-					await message.remove_reaction(emoji, user)
-					await message.clear_reaction(emoji)
-					await channel.send(f"You have successful verified: {member.name}!")
-					return
-				elif str(user) == f"{self.user.name}#{self.user.discriminator}":
-					pass
-				elif bot_role in user.roles:
-					pass
-				elif already_role in user.roles:
-					pass
-				else:
-					await message.remove_reaction(emoji, user)
-					await channel.send(f"{member.name} has to react not you: {user.name}!", delete_after=3)
+				role = discord.utils.get(member.guild.roles, name="Toads")
+				bot_role = discord.utils.get(member.guild.roles, name="Starship Bots")
+				already_role = discord.utils.get(member.guild.roles, name="Toads")
+				emoji = u"\u2705"
+				await message.add_reaction(emoji)
+				while True:
+					reaction, user = await self.wait_for('reaction_add', check=lambda r, u: member)
+					if user == member:
+						await user.add_roles(role)
+						await message.remove_reaction(emoji, user)
+						await message.clear_reaction(emoji)
+						await channel.send(f"You have successful verified: {member.name}!")
+						return
+					elif str(user) == f"{self.user.name}#{self.user.discriminator}":
+						pass
+					elif bot_role in user.roles:
+						pass
+					elif already_role in user.roles:
+						pass
+					else:
+						await message.remove_reaction(emoji, user)
+						await channel.send(f"{member.name} has to react not you: {user.name}!", delete_after=3)
 			
 	async def on_member_leave(self, member):
 		print(f"{member} has left/kick from {member.guild}")
