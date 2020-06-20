@@ -17,6 +17,8 @@ class Emoji(commands.Cog):
 					  aliases=['el'])
 	@commands.has_permissions(manage_emojis=True)
 	async def emojilist(self, ctx):
+		emoji_em1 = discord.Embed(title=f"{ctx.message.guild}'s emojis Page 1")
+		emoji_em2 = discord.Embed(title=f"{ctx.message.guild}'s emojis Page 2")
 		emoji_str = ''
 		server = ctx.message.guild
 		emoji_count = len(server.emojis)
@@ -29,9 +31,17 @@ class Emoji(commands.Cog):
 			emoji_img = str(emoji_img).split(':')
 			emoji_img = emoji_img[1]
 			emoji_list.append(emoji_img)
-		for i in range(0, emoji_count):
-			emoji_str += f"{emoji_list[i]} <- **{emoji_list[i+emoji_count]}**\n"
-		await ctx.send(emoji_str)
+		try:
+			for i in range(0, 25):
+				emoji_str = f"{emoji_list[i]} <- **{emoji_list[i+emoji_count]}**\n"
+				emoji_em1.add_field(name=f"{i+1}", value=emoji_str)
+			for i in range(25, 51):
+				emoji_str = f"{emoji_list[i]} <- **{emoji_list[i+emoji_count]}**\n"
+				emoji_em2.add_field(name=f"{i+1}", value=emoji_str)
+		except:
+			pass
+		await ctx.send(embed=emoji_em1)
+		await ctx.send(embed=emoji_em2)
 
 def setup(azami):
 	azami.add_cog(Emoji(azami))
