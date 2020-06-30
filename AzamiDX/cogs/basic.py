@@ -35,7 +35,7 @@ class Basic(commands.Cog):
 
 	@commands.command(description="My update logs!",
 					  aliases=['ulogs'])
-	async def updatelogs(self, ctx):
+	async def updatelogs(self, ctx): # Logs
 		await mainembed(self.azami, ctx)
 	@invite.error
 	async def invite_error(self, ctx, error):
