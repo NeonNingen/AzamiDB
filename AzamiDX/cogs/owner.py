@@ -123,12 +123,15 @@ class Owner(commands.Cog, command_attrs=dict(hidden=True)):
 	@commands.command(description='Owner of Azami Only', aliases=['gl'])
 	@commands.is_owner()
 	async def guildlist(self, ctx):
-		guild_list = []
-		await edit(ctx, content="Currently in these guilds:\n")
+		em = discord.Embed(title="Currently in these guilds:")
+		num = 0
 		async for guild in self.azami.fetch_guilds():
-			guild_list.append(f"{guild}")
-		_all = '\n'.join(guild_list)
-		await edit(ctx, content=f"{_all}")
+			invite = await guild.invites()
+			try:
+				em.add_field(name=f"{num+1}", value=f"[{guild}]({invite[0]})")
+			except:
+				em.add_field(name=f"{num+1}", value=f"{guild}")
+		await edit(ctx, embed=em)
 
 	@commands.command(description='Owner of Azami Only', aliases=['die'])
 	@commands.is_owner()
