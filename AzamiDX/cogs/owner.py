@@ -1,6 +1,6 @@
 import discord, sys
 from discord.ext import commands
-from AzamiDX.core.utils import edit
+from AzamiDX.core.utils import edit, pre_embed
 from pathlib import Path
 
 class Owner(commands.Cog, command_attrs=dict(hidden=True)):

@@ -203,6 +203,11 @@ class AzamiBot(commands.AutoShardedBot):
 				value2 = f"It's a pleasure to make your Acquaintance, {guild.owner.mention}"
 				embed.add_field(name=f"Hi, my name is {self.user.name}", value=value1)
 				embed.add_field(name=f"To read about my commands, do {self.og_command_prefix}help", value=value2)
+				embed.add_field(name=f"My owner is: ", value='<@288022950576390144>')
+				try:
+					embed.add_field(name=f"My support server is: ", value='[Gusty Garden](https://discord.gg/rRb23dt)')
+				except:
+					pass
 				await channel.send(embed=embed)
 			break
 
