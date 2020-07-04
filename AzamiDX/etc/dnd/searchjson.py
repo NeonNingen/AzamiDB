@@ -126,7 +126,8 @@ def spellfind(driver, content, ctx, azami):
 	spell_em.add_field(name="Classes", value=valueClasses)
 	return spell_em
 
-async def simpleclassfind(driver, content, ctx, azami):
+
+async def classfind(driver, content, ctx, azami, num):
 	content = content.lower().replace(' ', '-')
 	wait = WebDriverWait(driver, 5)
 	driver.get(f"https://www.dnd5eapi.co/api/classes/{content}")
@@ -134,12 +135,8 @@ async def simpleclassfind(driver, content, ctx, azami):
 	y = json.loads(body)
 
 	try:
-		if content == "monk":
-			valueProfSpells = [y['proficiency_choices'][2]['from'][x]['name'] for x in range(len(y['proficiency_choices'][2]['from']))]
-			valueProfSpells = '\n'.join(p for p in valueProfSpells)
-		else:
-			valueProfSpells = [y['proficiency_choices'][0]['from'][x]['name'] for x in range(len(y['proficiency_choices'][0]['from']))]
-			valueProfSpells = '\n'.join(p for p in valueProfSpells)
+		valueProfSpells = [y['proficiency_choices'][0]['from'][x]['name'] for x in range(len(y['proficiency_choices'][0]['from']))]
+		valueProfSpells = '\n'.join(p for p in valueProfSpells)
 	except:
 		class_em = discord.Embed(title="Incorrect Class Given",
 								 description="Error Occurred!",
@@ -147,13 +144,8 @@ async def simpleclassfind(driver, content, ctx, azami):
 		class_em.set_thumbnail(url=azami.user.avatar_url)
 		return class_em
 	try:
-		if content == "monk":
-			valueProfItems1 = [y['proficiency_choices'][1]['from'][x]['name'] for x in range(len(y['proficiency_choices'][1]['from']))]
-			valueProfItems2 = [y['proficiency_choices'][0]['from'][x]['name'] for x in range(len(y['proficiency_choices'][0]['from']))]
-			valueProfItems = '\n'.join(p for p in valueProfItems1) + "\nor\n" + '\n'.join(p for p in valueProfItems2)
-		else:
-			valueProfItems = [y['proficiency_choices'][1]['from'][x]['name'] for x in range(len(y['proficiency_choices'][1]['from']))]
-			valueProfItems = '\n'.join(p for p in valueProfItems)
+		valueProfItems = [y['proficiency_choices'][1]['from'][x]['name'] for x in range(len(y['proficiency_choices'][1]['from']))]
+		valueProfItems = '\n'.join(p for p in valueProfItems)
 	except:
 		valueProfItems = 'N/A'
 	valueProfGeneral = [y['proficiencies'][x]['name'] for x in range(len(y['proficiencies']))]
@@ -188,87 +180,59 @@ async def simpleclassfind(driver, content, ctx, azami):
 							 description=f"Information on: {y['name']}",
 							 color=discord.Color.blue())
 	class_em.set_thumbnail(url=ctx.message.author.avatar_url)
+	
 	class_em.add_field(name="Name", value=y['name'])
-		
 	class_em.add_field(name="Hit Die", value=y['hit_die'])
 	class_em.add_field(name="(Proficient in skills) Choose up to", value=valueLevel4)
-	class_em.add_field(name="Proficiencies in Skills", value=url1)
+
+	if num == 1:
+		class_em.add_field(name="Proficiencies in Skills", value=url1)
+	else:
+		if content == "monk":
+			valueProfSpells = [y['proficiency_choices'][2]['from'][x]['name'] for x in range(len(y['proficiency_choices'][2]['from']))]
+			valueProfSpells = '\n'.join(p for p in valueProfSpells)
+			class_em.add_field(name="Proficiencies in Skills", value=valueProfSpells)
+		else:
+			class_em.add_field(name="Proficiencies in Skills", value=valueProfSpells)
+
 	class_em.add_field(name="(Proficient in Items) Choose up to", value=y['proficiency_choices'][0]['choose'])
-	class_em.add_field(name="Proficiencies in Items", value=url2)
-	class_em.add_field(name="Proficient in Armour and Weapons", value=url3)
+	if num == 1:
+		class_em.add_field(name="Proficiencies in Items", value=url2)
+	else:
+		if content == "monk":
+			valueProfItems1 = [y['proficiency_choices'][1]['from'][x]['name'] for x in range(len(y['proficiency_choices'][1]['from']))]
+			valueProfItems2 = [y['proficiency_choices'][0]['from'][x]['name'] for x in range(len(y['proficiency_choices'][0]['from']))]
+			valueProfItems = '\n'.join(p for p in valueProfItems1) + "\nor\n" + '\n'.join(p for p in valueProfItems2)
+			class_em.add_field(name="Proficiencies in Items", value=valueProfItems)
+		else:
+			class_em.add_field(name="Proficiencies in Items", value=valueProfItems)
+
+	if num == 1:
+		class_em.add_field(name="Proficient in Armour and Weapons", value=url3)
+	else:
+		class_em.add_field(name="Proficient in Armour and Weapons", value=valueProfGeneral)
+
 	class_em.add_field(name="Saving Throws", value=savingThrow)
 	if content != 'fighter':
-		class_em.add_field(name="Default Starting Equipment", value=url4)
+		if num == 1:
+			class_em.add_field(name="Default Starting Equipment", value=url4)
+		else:
+			class_em.add_field(name="Default Starting Equipment", value=valueStartEquipmentDef)
+
 	class_em.add_field(name="(Starting Equipment) Choose up to: ", value=valueStartEquipmentChoose)
-	class_em.add_field(name="Starting Equipment Choice 1", value=url5)
-	class_em.add_field(name="Starting Equipment Choice 2", value=url6)
-	class_em.add_field(name="Starting Equipment Choice 3", value=url7)	
-	class_em.add_field(name="Class Levels", value=url8)
-	class_em.add_field(name="Ability Score per Level", value=url9)
-	class_em.add_field(name="Proficiencies per Level", value=url10)
-	return class_em
-
-
-def classfind(driver, content, ctx, azami):
-	content = content.lower().replace(' ', '-')
-	wait = WebDriverWait(driver, 5)
-	driver.get(f"https://www.dnd5eapi.co/api/classes/{content}")
-	body = driver.find_element_by_xpath('/html/body/pre').text
-	y = json.loads(body)
-
-	try:
-		valueProfSpells = [y['proficiency_choices'][0]['from'][x]['name'] for x in range(len(y['proficiency_choices'][0]['from']))]
-		valueProfSpells = '\n'.join(p for p in valueProfSpells)
-	except:
-		class_em = discord.Embed(title="Incorrect Class Given",
-								 description="Error Occurred!",
-								 color=discord.Color.red())
-		class_em.set_thumbnail(url=azami.user.avatar_url)
-		return class_em
-	try:
-		valueProfItems = [y['proficiency_choices'][1]['from'][x]['name'] for x in range(len(y['proficiency_choices'][1]['from']))]
-		valueProfItems = '\n'.join(p for p in valueProfItems)
-	except:
-		valueProfItems = 'N/A'
-	valueProfGeneral = [y['proficiencies'][x]['name'] for x in range(len(y['proficiencies']))]
-	valueProfGeneral = '\n'.join(p for p in valueProfGeneral)
-	savingThrow = [y['saving_throws'][x]['name'] for x in range(len(y['saving_throws']))]
-	savingThrow = ', '.join(p for p in savingThrow)
-	valueStartEquipmentDef, valueStartEquipmentChoose, valueStartEquipmentChoiceA, valueStartEquipmentChoiceB, valueStartEquipmentChoiceC = startEquipment(driver, body)
-	valueLevel1, valueLevel2, valueLevel3, valueLevel4 = levelling(driver, body)
-
-	class_em = discord.Embed(title="So here's the class Information, traveller!",
-							 description=f"Information on: {y['name']}",
-							 color=discord.Color.blue())
-	class_em.set_thumbnail(url=ctx.message.author.avatar_url)
-	class_em.add_field(name="Name", value=y['name'])
-		
-	class_em.add_field(name="Hit Die", value=y['hit_die'])
-	class_em.add_field(name="(Proficient in skills) Choose up to", value=valueLevel4)
-	if content == "monk":
-		valueProfSpells = [y['proficiency_choices'][2]['from'][x]['name'] for x in range(len(y['proficiency_choices'][2]['from']))]
-		valueProfSpells = '\n'.join(p for p in valueProfSpells)
-		class_em.add_field(name="Proficiencies in Skills", value=valueProfSpells)
+	if num == 1:
+		class_em.add_field(name="Starting Equipment Choice 1", value=url5)
+		class_em.add_field(name="Starting Equipment Choice 2", value=url6)
+		class_em.add_field(name="Starting Equipment Choice 3", value=url7)	
+		class_em.add_field(name="Class Levels", value=url8)
+		class_em.add_field(name="Ability Score per Level", value=url9)
+		class_em.add_field(name="Proficiencies per Level", value=url10)
 	else:
-		class_em.add_field(name="Proficiencies in Skills", value=valueProfSpells)
-	class_em.add_field(name="(Proficient in Items) Choose up to", value=y['proficiency_choices'][0]['choose'])
-	if content == "monk":
-		valueProfItems1 = [y['proficiency_choices'][1]['from'][x]['name'] for x in range(len(y['proficiency_choices'][1]['from']))]
-		valueProfItems2 = [y['proficiency_choices'][0]['from'][x]['name'] for x in range(len(y['proficiency_choices'][0]['from']))]
-		valueProfItems = '\n'.join(p for p in valueProfItems1) + "\nor\n" + '\n'.join(p for p in valueProfItems2)
-		class_em.add_field(name="Proficiencies in Items", value=valueProfItems)
-	else:
-		class_em.add_field(name="Proficiencies in Items", value=valueProfItems)
-	class_em.add_field(name="Proficient in Armour and Weapons", value=valueProfGeneral)
-	class_em.add_field(name="Saving Throws", value=savingThrow)
-	if content != 'fighter':
-		class_em.add_field(name="Default Starting Equipment", value=valueStartEquipmentDef)
-	class_em.add_field(name="(Starting Equipment) Choose up to: ", value=valueStartEquipmentChoose)
-	class_em.add_field(name="Starting Equipment Choice 1", value=valueStartEquipmentChoiceA)
-	class_em.add_field(name="Starting Equipment Choice 2", value=valueStartEquipmentChoiceB)
-	class_em.add_field(name="Starting Equipment Choice 3", value=valueStartEquipmentChoiceC)
-	if content != 'warlock':
-		class_em.add_field(name="Class Levels", value=valueLevel1)
-	class_em.add_field(name="Ability Score per Level", value=valueLevel2)
-	class_em.add_field(name="Proficiencies per Level", value=valueLevel3)
+		class_em.add_field(name="Starting Equipment Choice 1", value=valueStartEquipmentChoiceA)
+		class_em.add_field(name="Starting Equipment Choice 2", value=valueStartEquipmentChoiceB)
+		class_em.add_field(name="Starting Equipment Choice 3", value=valueStartEquipmentChoiceC)
+		if content != 'warlock':
+			class_em.add_field(name="Class Levels", value=valueLevel1)
+		class_em.add_field(name="Ability Score per Level", value=valueLevel2)
+		class_em.add_field(name="Proficiencies per Level", value=valueLevel3)
 	return class_em
