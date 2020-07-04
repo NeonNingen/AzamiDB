@@ -19,6 +19,7 @@ class CommandErrorHandler(commands.Cog):
 								 color=discord.Color.red())
 		error_em.add_field(name="Invoking Command", value=f'`{ctx.message.content}`')
 		error_em.add_field(name="Author", value=f'`{ctx.message.author}`')
+		error_em.add_field(name="Guild", value=f'`{ctx.message.guild}`')
 		await channel.send(embed=error_em)
 
 		if isinstance(error, NoPrivateMessage):
