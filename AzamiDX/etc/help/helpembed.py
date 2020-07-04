@@ -5,11 +5,19 @@ from AzamiDX.core.utils import color_list
 def default_help_embed(azami, ctx):
 	cogs = [c for c in azami.cogs.keys()] # list of all cogs
 	cogs.remove('Owner') # Remove cog(s) that are not used
+	cogs.remove('CommandErrorHandler')
+
+	store = 0
+	for cog in cogs:
+		cogc = azami.get_cog(cog).get_commands()
+		store += len(cogc)
 	cog_num = len(cogs)
+
 	url = "https://discord.gg/rRb23dt"
 	desc = "The [] of each command contains an aliases for that command\n" \
 			f"Use `{azami.og_command_prefix}help [cog] to get more help!` Example: `{azami.og_command_prefix}help Basic`\n" \
-		 	f"For further help, join my [support server]({url})."
+		 	f"For further help, join my [support server]({url})\n" \
+		 	f"**Cogs: {len(cogs)} | Commands: {store}**"
 
 	em = discord.Embed(title="Help",
 					   description=desc,

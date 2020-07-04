@@ -116,9 +116,17 @@ class AzamiBot(commands.AutoShardedBot):
 
 		print(f"Finished loading! Azami took: {round(finished_time, 3)} seconds\n")
 
+		cogs = [c for c in self.cogs.keys()]
+		store = 0
+		for cog in cogs:
+			cogc = self.get_cog(cog).get_commands()
+			store += len(cogc)
+
 		em = discord.Embed(title="Azami has started!", color=discord.Color.blurple())
 		em.add_field(name="Currently in: ", value=f"{num} guilds")
 		em.add_field(name="Version: ", value="V2.1")
+		em.add_field(name="Cogs Loaded", value=f'**{len(cogs)} cogs**')
+		em.add_field(name="Commands Loaded", value=f'**{store} commands**')
 		em.add_field(name="Start Date and Time: ", value=f'{start_time}')
 		em.add_field(name="Load Time", value=f"{round(finished_time, 2)} seconds")
 		em.set_thumbnail(url=self.user.avatar_url)
