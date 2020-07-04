@@ -15,10 +15,12 @@ try:
 	password="4bd878bee114c6476d9775135dfb8a28f324a3ac17f4996053df95072d7fcc38")
 	mycursor = db.cursor()
 	print("The database has loaded")
+	db_msg = "Database is Active"
 except:
 	db = ""
 	mycursor = ""
 	print("None database mode activated")
+	db_msg = "Database is not Active"
 
 
 class AzamiBot(commands.AutoShardedBot):
@@ -125,10 +127,11 @@ class AzamiBot(commands.AutoShardedBot):
 		em = discord.Embed(title="Azami has started!", color=discord.Color.blurple())
 		em.add_field(name="Currently in: ", value=f"{num} guilds")
 		em.add_field(name="Version: ", value="V2.1")
+		em.add_field(name="Database Status: ", value=f'{db_msg}')
 		em.add_field(name="Cogs Loaded", value=f'**{len(cogs)} cogs**')
 		em.add_field(name="Commands Loaded", value=f'**{store} commands**')
 		em.add_field(name="Start Date and Time: ", value=f'{start_time}')
-		em.add_field(name="Load Time", value=f"{round(finished_time, 2)} seconds")
+		em.add_field(name="Load Time: ", value=f"{round(finished_time, 2)} seconds")
 		em.set_thumbnail(url=self.user.avatar_url)
 
 		channel = self.get_channel(728956265337978921)
