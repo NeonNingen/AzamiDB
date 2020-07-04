@@ -19,6 +19,8 @@ class Emoji(commands.Cog):
 	async def emojilist(self, ctx):
 		emoji_em1 = discord.Embed(title=f"{ctx.message.guild}'s emojis Page 1")
 		emoji_em2 = discord.Embed(title=f"{ctx.message.guild}'s emojis Page 2")
+		emoji_em3 = discord.Embed(title=f"{ctx.message.guild}'s emojis Page 3")
+		emoji_em4 = discord.Embed(title=f"{ctx.message.guild}'s emojis Page 4")
 		emoji_str = ''
 		server = ctx.message.guild
 		emoji_count = len(server.emojis)
@@ -38,10 +40,21 @@ class Emoji(commands.Cog):
 			for i in range(25, 51):
 				emoji_str = f"{emoji_list[i]} <- **{emoji_list[i+emoji_count]}**\n"
 				emoji_em2.add_field(name=f"{i+1}", value=emoji_str)
+			for i in range(51, 76):
+				emoji_str = f"{emoji_list[i]} <- **{emoji_list[i+emoji_count]}**\n"
+				emoji_em3.add_field(name=f"{i+1}", value=emoji_str)
+			for i in range(76, 101):
+				emoji_str = f"{emoji_list[i]} <- **{emoji_list[i+emoji_count]}**\n"
+				emoji_em4.add_field(name=f"{i+1}", value=emoji_str)
 		except:
 			pass
 		await ctx.send(embed=emoji_em1)
-		await ctx.send(embed=emoji_em2)
+		if emoji_count > 25:
+			await ctx.send(embed=emoji_em2)
+		if emoji_count > 50:
+			await ctx.send(embed=emoji_em3)
+		if emoji_count > 75:
+			await ctx.send(embed=emoji_em4)
 
 def setup(azami):
 	azami.add_cog(Emoji(azami))

@@ -1,11 +1,10 @@
 import discord, os, psycopg2, random, time 
 from discord.ext import commands, tasks
-from discord.ext.commands import CommandNotFound, CheckFailure, NoPrivateMessage, MissingRequiredArgument
 from asyncio import sleep
 from pathlib import Path
 from selenium import webdriver
 from AzamiDX.core.webdriver import get_driver
-from AzamiDX.core.utils import edit, error_on_message, pre_embed, color_list, get_prefix
+from AzamiDX.core.utils import error_on_message, pre_embed, color_list, get_prefix
 from AzamiDX.etc.etccont.verify import verify
 
 try:
@@ -25,7 +24,7 @@ except:
 class AzamiBot(commands.AutoShardedBot):
 	# Subclassing Bot allows for more unique event handling
 
-	def __init__(self): # Fix all command_prefixes
+	def __init__(self): 
 		self.db = db
 		self.mycursor = mycursor
 		try:
@@ -38,15 +37,25 @@ class AzamiBot(commands.AutoShardedBot):
 		self.description = "Azami, An all purpose bot!"
 		self.owner_id = 288022950576390144
 		super().__init__(self.command_prefix)
-		
 
 		self.modules = []
+		self.id_store = []
 
 		for i in [x.stem for x in Path('AzamiDX/cogs').glob('*.py')]:
 			mod = f"AzamiDX.cogs.{i}"
 			self.modules.append(mod)
 
 		self.start_time = time.time()
+
+		
+	async def restrictor(self, ctx):
+		id_list = set(self.id_store)
+		if ctx.message.author.id in id_list:
+			await ctx.send("This command is already active or another command is in use")
+			return True
+		else:
+			self.id_store.append(ctx.message.author.id)
+			return False
 
 
 	@staticmethod
@@ -103,7 +112,7 @@ class AzamiBot(commands.AutoShardedBot):
 		print(f"Finished loading! Azami took: {round(finished_time, 3)} seconds\n")
 
 
-
+	
 	async def on_member_join(self, member):
 		if member.guild.id == 110373943822540800:
 			pass
@@ -138,26 +147,17 @@ class AzamiBot(commands.AutoShardedBot):
 						return
 					elif str(user) == f"{self.user.name}#{self.user.discriminator}":
 						pass
-					elif bot_role in user.roles:
+					elif user.bot:
 						pass
 					elif already_role in user.roles:
 						pass
 					else:
 						await message.remove_reaction(emoji, user)
 						await channel.send(f"{member.name} has to react not you: {user.name}!", delete_after=3)
-			
+
 	async def on_member_leave(self, member):
 		print(f"{member} has left/kick from {member.guild}")
 		
-	async def on_command_error(self, ctx, error):
-		if isinstance(error, NoPrivateMessage):
-			await edit(ctx, content='\N{HEAVY EXCLAMATION MARK SYMBOL} Only usable on Servers', ttl=5)
-		elif isinstance(error, CheckFailure):
-			await edit(ctx, content='\N{HEAVY EXCLAMATION MARK SYMBOL} No Permissions to use this command', ttl=5)
-		elif isinstance(error, MissingRequiredArgument):
-			await edit(ctx, content='\N{HEAVY EXCLAMATION MARK SYMBOL} Missing Argument', ttl=5)
-		elif isinstance(error, CommandNotFound):
-			await edit(ctx, content='Invalid command, did you type that right?', ttl=10)
 	
 	async def on_message(self, message):
 		if not message.author.bot:
