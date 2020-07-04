@@ -126,8 +126,8 @@ class Owner(commands.Cog, command_attrs=dict(hidden=True)):
 		em = discord.Embed(title="Currently in these guilds:")
 		num = 0
 		async for guild in self.azami.fetch_guilds():
-			invite = await guild.invites()
 			try:
+				invite = await guild.invites()
 				em.add_field(name=f"{num+1}", value=f"[{guild}]({invite[0]})")
 			except:
 				em.add_field(name=f"{num+1}", value=f"{guild}")
