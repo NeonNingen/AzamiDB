@@ -1,4 +1,4 @@
-import discord, os, psycopg2, random, time 
+import datetime, discord, os, psycopg2, random, time 
 from discord.ext import commands, tasks
 from asyncio import sleep
 from pathlib import Path
@@ -133,8 +133,6 @@ class AzamiBot(commands.AutoShardedBot):
 				message = await channel.send(embed=em)
 
 				role = discord.utils.get(member.guild.roles, name="Toads")
-				bot_role = discord.utils.get(member.guild.roles, name="Starship Bots")
-				already_role = discord.utils.get(member.guild.roles, name="Toads")
 				emoji = u"\u2705"
 				await message.add_reaction(emoji)
 				while True:
@@ -149,7 +147,7 @@ class AzamiBot(commands.AutoShardedBot):
 						pass
 					elif user.bot:
 						pass
-					elif already_role in user.roles:
+					elif role in user.roles:
 						pass
 					else:
 						await message.remove_reaction(emoji, user)
@@ -168,6 +166,25 @@ class AzamiBot(commands.AutoShardedBot):
 
 
 	async def on_guild_join(self, guild: discord.Guild):
+
+		channel = self.get_channel(728911918483505163)
+		date = datetime.datetime.now().strftime(f"%a %d %B %Y %H:%M:%S")
+		join_em = discord.Embed(title=f"{guild.name}",
+								description=f"Date Joined: {date}",
+								color=discord.Color.green())
+		join_em.add_field(name="Owner", value=guild.owner)
+		join_em.add_field(name="Members", value=guild.member_count)
+		join_em.add_field(name="Region", value=guild.region)
+		join_em.set_thumbnail(url=guild.icon_url)
+		try:
+			invite = await guild.invites()
+			invite = invite[0]
+			join_em.add_field(name="Invite", value=f"[Invite Link]({invite})")
+		except:
+			pass
+
+		await channel.send(embed=join_em)
+
 		print(f"{self.user.name} has joined {guild.name}")
 		cogs = [c for c in self.cogs.keys()]
 		cogs.remove('Owner')
@@ -189,7 +206,17 @@ class AzamiBot(commands.AutoShardedBot):
 				await channel.send(embed=embed)
 			break
 
-	async def on_guild_leave(self, guild: discord.Guild):
+	async def on_guild_remove(self, guild: discord.Guild):
+		channel = self.get_channel(728911934291837020)
+		date = datetime.datetime.now().strftime(f"%a %d %B %Y %H:%M:%S")
+		leave_em = discord.Embed(title=f"{guild.name}",
+								description=f"Date Left: {date}",
+								color=discord.Color.orange())
+
+		leave_em.set_thumbnail(url=guild.icon_url)
+
+		await channel.send(embed=leave_em)
+
 		print(f"{self.user.name} has left {guild.name}")
 
 	

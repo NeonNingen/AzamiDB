@@ -110,19 +110,25 @@ class Owner(commands.Cog, command_attrs=dict(hidden=True)):
 	@commands.command(description='Owner of Azami Only', aliases=['leave'])
 	@commands.is_owner()
 	async def guildleave(self, ctx, *, guild_name):
-		guild = discord.utils.get(self.azami.guilds, name=guild_name)
-		if guild is None:
-			await edit(ctx, content="I don't recongize this guild")
-		to_leave = ctx.bot.get_guild(guild.id)
-		await to_leave.leave()
-		await edit(ctx, content=f":ok_hand: Left guild: {guild.name}")
+		try:
+			guild = discord.utils.get(self.azami.guilds, name=guild_name)
+			if guild is None:
+				await edit(ctx, content="I don't recongize this guild")
+			to_leave = ctx.bot.get_guild(guild.id)
+			await to_leave.leave()
+			await edit(ctx, content=f":ok_hand: Left guild: {guild.name}")
+		except:
+			await edit(ctx, content=f"I'm not in the guild: {guild_name}")
 
 	@commands.command(description='Owner of Azami Only', aliases=['gl'])
 	@commands.is_owner()
 	async def guildlist(self, ctx):
+		guild_list = []
 		await edit(ctx, content="Currently in these guilds:\n")
 		async for guild in self.azami.fetch_guilds():
-			await edit(ctx, content=f"{guild.name}\n")
+			guild_list.append(f"{guild}")
+		_all = '\n'.join(guild_list)
+		await edit(ctx, content=f"{_all}")
 
 	@commands.command(description='Owner of Azami Only', aliases=['die'])
 	@commands.is_owner()
