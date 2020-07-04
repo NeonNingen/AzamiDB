@@ -82,6 +82,8 @@ class AzamiBot(commands.AutoShardedBot):
 			return prefix
 
 	async def on_ready(self):
+		start_time = datetime.datetime.now().strftime(f"%a %d %B %Y %H:%M:%S")
+
 		print(f"{self.user.name} has started!\n" \
 			f'Started at: {time.strftime("%I:%M %p")}\n')
 
@@ -101,8 +103,11 @@ class AzamiBot(commands.AutoShardedBot):
 					f"{self.og_command_prefix}help | {len(self.guilds)} guilds | V2.1"),
 				type=discord.ActivityType.listening))
 
+		num = 0
+
 		print("Currently in these guilds:")
 		async for guild in self.fetch_guilds():
+			num += 1
 			print(f"{guild.name}")
 
 		print()
@@ -110,6 +115,16 @@ class AzamiBot(commands.AutoShardedBot):
 		finished_time = time.time() - self.start_time
 
 		print(f"Finished loading! Azami took: {round(finished_time, 3)} seconds\n")
+
+		em = discord.Embed(title="Azami has started!", color=discord.Color.blurple())
+		em.add_field(name="Currently in: ", value=f"{num} guilds")
+		em.add_field(name="Version: ", value="V2.1")
+		em.add_field(name="Start Date and Time: ", value=f'{start_time}')
+		em.add_field(name="Load Time", value=f"{round(finished_time, 2)} seconds")
+		em.set_thumbnail(url=self.user.avatar_url)
+
+		channel = self.get_channel(728956265337978921)
+		await channel.send(embed=em)
 
 
 	
