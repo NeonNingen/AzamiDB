@@ -16,6 +16,9 @@ class Dnd(commands.Cog):
 	@commands.command(description=f'The format must be NdN',
 					  usage='To roll any dice, any amount of times')
 	async def roll(self, ctx, dice: str, mod=0):
+		exit = await self.azami.restrictor(ctx)
+		if exit == True: return
+		
 		try:
 			rolls, limit = map(int, dice.split('d'))
 		except Exception:
@@ -63,12 +66,17 @@ class Dnd(commands.Cog):
 
 		else:
 			await msg.edit(embed=result_em)
+		
+		self.azami.id_store.remove(ctx.message.author.id)
 
 
 	@commands.command(description='Rolling initiative',
 					  usage='This will decide who gets to attack first',
 					  aliases=['init'])
 	async def initiative(self, ctx):
+		exit = await self.azami.restrictor(ctx)
+		if exit == True: return
+
 		await ctx.send("How many players are playing?")
 		hastebin_list = []
 		while True:
@@ -117,39 +125,59 @@ class Dnd(commands.Cog):
 				await ctx.send("Time out")
 				break
 
+		self.azami.id_store.remove(ctx.message.author.id)
+
 
 	@commands.command(description="Search from spells across all of dnd 5e",
 					  aliases=['ss'])
 	async def spellsearch(self, ctx, *, content):
+		exit = await self.azami.restrictor(ctx)
+		if exit == True: return
+
 		spell_em = spellfind(self.azami.driver, content, ctx, self.azami)
 		await ctx.send(embed=spell_em)
+
+		self.azami.id_store.remove(ctx.message.author.id)
 
 	@commands.command(description="Search from classes across all of dnd 5e.",
 					  aliases=['cs'])
 	async def classessearch(self, ctx, *, content):
+		exit = await self.azami.restrictor(ctx)
+		if exit == True: return
+
 		class_em = await classfind(self.azami.driver, content, ctx, self.azami, 0)
 		await ctx.send(embed=class_em)
+
+		self.azami.id_store.remove(ctx.message.author.id)
 
 	@commands.command(description="Search from classes across all of dnd 5e. Just Simpler. Using http links!",
 					  aliases=['hcs'])
 	async def httpclassessearch(self, ctx, *, content):
+		exit = await self.azami.restrictor(ctx)
+		if exit == True: return
+
 		class_em = await classfind(self.azami.driver, content, ctx, self.azami, 1)
 		await ctx.send(embed=class_em)
+
+		self.azami.id_store.remove(ctx.message.author.id)
 
 	@spellsearch.error
 	async def spellsearch_error(self, ctx, error):
 		if isinstance(error, commands.CommandInvokeError):
 			await ctx.send(f"Incorrect Spell given")
+			self.azami.id_store.remove(ctx.message.author.id)
 
 	@classessearch.error
 	async def classessearch_error(self, ctx, error):
 		if isinstance(error, commands.CommandInvokeError):
 			await ctx.send(f"Incorrect Class given")
+			self.azami.id_store.remove(ctx.message.author.id)
 
 	@httpclassessearch.error
 	async def httpclassessearch_error(self, ctx, error):
 		if isinstance(error, commands.CommandInvokeError):
 			await ctx.send(f"Incorrect Class given")
+			self.azami.id_store.remove(ctx.message.author.id)
 
 def setup(azami):
 	azami.add_cog(Dnd(azami))

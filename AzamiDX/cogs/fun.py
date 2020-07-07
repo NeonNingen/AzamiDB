@@ -82,7 +82,11 @@ class Fun(commands.Cog):
 
 	@commands.command(description='And your next line is!')
 	async def say(self, ctx, *, content):
+		exit = await self.azami.restrictor(ctx)
+		if exit == True: return
+
 		await ctx.send(content)
+		self.azami.id_store.remove(ctx.message.author.id)
 
 	@commands.command(description='Kinda self explanatory, read usage on how to use',
 					  usage='Format: `a!timer NhNmNs` replace N with the desired number')
@@ -99,7 +103,8 @@ class Fun(commands.Cog):
 								 	 f", **{time[1]}** minute(s) and **{time[2]}** second(s)")
 				self.timer_arr.append(ctx.message.author.id)
 				await sleep((int(time[0]) * 3600) + (int(time[1]) * 60) + (int(time[2])))
-				await msg.edit(content=f"{ctx.message.author.mention}, time is up!")
+				await ctx.send(f"{ctx.message.author.mention}, time is up!")
+				await msg.delete()
 				self.timer_arr.remove(ctx.message.author.id)
 			except Exception:
 				await ctx.send('The format has to be in NhNNmNs!', delete_after=5)
@@ -202,10 +207,14 @@ class Fun(commands.Cog):
 					  description='What answers do you seek?',
 					  usage='Have your questions answered!')
 	async def _8ball(self, ctx, *, question):
+		exit = await self.azami.restrictor(ctx)
+		if exit == True: return
 		with open('AzamiDX/etc/fun/responses_fun.txt', 'r') as f:
 			responses = f.read().splitlines()
 			
 		await ctx.send(ctx, content=f"Questions: {question}\nAnswer: {choice(responses)}")
+
+		self.azami.id_store.remove(ctx.message.author.id)
 
 	@commands.command(aliases=['me'], description="Make your own custom embed!")
 	async def makeembed(self, ctx):
@@ -349,6 +358,16 @@ class Fun(commands.Cog):
 								 color=discord.Color.red(),
 								 ctx=ctx)
 			await edit(ctx, embed=em)
+			self.azami.id_store.remove(ctx.message.author.id)
+
+	@makeembed.error
+	async def makeembed_error(self, ctx, error):
+			em = await pre_embed(titl='An Error Occured',
+								 desc=f"{error}",
+								 color=discord.Color.red(),
+								 ctx=ctx)
+			await edit(ctx, embed=em)
+			self.azami.id_store.remove(ctx.message.author.id)
 	
 
 def setup(azami):
