@@ -105,7 +105,7 @@ class Owner(commands.Cog, command_attrs=dict(hidden=True)):
 	@commands.is_owner()
 	async def botinvite(self, ctx):
 		await edit(ctx, content="Here's the bot invite:\n" \
-		"https://discord.com/oauth2/authorize?client_id=639574438794231818&permissions=8&scope=bot")
+		"https://discord.com/oauth2/authorize?client_id=639574438794231818&permissions=268663927&scope=bot")
 
 	@commands.command(description='Owner of Azami Only', aliases=['leave'])
 	@commands.is_owner()
