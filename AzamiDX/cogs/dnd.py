@@ -23,14 +23,17 @@ class Dnd(commands.Cog):
 			rolls, limit = map(int, dice.split('d'))
 		except Exception:
 			await edit(ctx, content='The format has to be in NdN!', ttl=5)
+			self.azami.id_store.remove(ctx.message.author.id)
 			return
 
 		if limit <= 0:
 			await ctx.send("Please roll a dice higher than 0")
+			self.azami.id_store.remove(ctx.message.author.id)
 			return
 
 		if rolls > 10:
 			await ctx.send("Cannot roll more than 10 dices")
+			self.azami.id_store.remove(ctx.message.author.id)
 			return
 
 		roll_em = discord.Embed(title=f"Rolling {rolls} dice(s)",

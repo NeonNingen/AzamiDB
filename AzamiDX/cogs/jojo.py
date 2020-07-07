@@ -23,7 +23,7 @@ class Jojo(commands.Cog):
 	@tomare.error
 	async def tomare_error(self, ctx, error):
 		if isinstance(error, commands.CommandInvokeError):
-			await ctx.send("Please assign 'manage_messages' permissions to this bot")
+			await ctx.send("Please assign 'manage_messages' and 'manage_channel' permissions to this bot")
 
 def setup(azami):
 	azami.add_cog(Jojo(azami))

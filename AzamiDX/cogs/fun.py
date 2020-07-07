@@ -209,10 +209,11 @@ class Fun(commands.Cog):
 	async def _8ball(self, ctx, *, question):
 		exit = await self.azami.restrictor(ctx)
 		if exit == True: return
+
 		with open('AzamiDX/etc/fun/responses_fun.txt', 'r') as f:
 			responses = f.read().splitlines()
 			
-		await ctx.send(ctx, content=f"Questions: {question}\nAnswer: {choice(responses)}")
+		await ctx.send(f"Questions: {question}\nAnswer: {choice(responses)}")
 
 		self.azami.id_store.remove(ctx.message.author.id)
 
@@ -362,12 +363,17 @@ class Fun(commands.Cog):
 
 	@makeembed.error
 	async def makeembed_error(self, ctx, error):
+		if isinstance(error, commands.BotMissingPermissions):
+			em = await pre_embed(titl='Error Occured due to lack of Manage Message Perms',
+								 color=discord.Color.red(),
+								 ctx=ctx)
+		else:
 			em = await pre_embed(titl='An Error Occured',
 								 desc=f"{error}",
 								 color=discord.Color.red(),
 								 ctx=ctx)
-			await edit(ctx, embed=em)
-			self.azami.id_store.remove(ctx.message.author.id)
+		await edit(ctx, embed=em)
+		self.azami.id_store.remove(ctx.message.author.id)
 	
 
 def setup(azami):

@@ -35,13 +35,13 @@ class Basic(commands.Cog):
 
 	@commands.command(description="My update logs!",
 					  aliases=['ulogs'])
-	async def updatelogs(self, ctx): # Logs
+	async def updatelogs(self, ctx):
 		await mainembed(self.azami, ctx)
-		
+
 	@invite.error
 	async def invite_error(self, ctx, error):
 		if isinstance(error, commands.CommandInvokeError):
-			await ctx.send("Please assign 'create_invite' permissions to this bot")
+			await ctx.send("Please assign 'create invite' and 'manage server' permissions to this bot")
 
 def setup(azami):
 	azami.add_cog(Basic(azami))

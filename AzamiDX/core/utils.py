@@ -9,7 +9,7 @@ async def edit(ctx, content=None, embed=None, ttl=None):
 	ttl = None if ctx.message.content.endswith(' stay') else ttl
 	try:
 		if ttl and perms:
-			await ctx.message.edit(content=content, embed=embed)
+			await ctx.send(content=content, embed=embed)
 			await sleep(ttl)
 			try:
 				await ctx.message.delete()
@@ -17,14 +17,14 @@ async def edit(ctx, content=None, embed=None, ttl=None):
 				log.error(f'Failed to delete Message in {ctx.guild.name}, #{ctx.channel.name}')
 				pass
 		elif ttl is None and perms:
-			await ctx.message.send(content=content, embed=embed)
+			await ctx.send(content=content, embed=embed)
 		elif embed is None:
-			await ctx.message.edit(content=content, embed=embed)
+			await ctx.send(content=content, embed=embed)
 		elif embed and not perms:
-			await ctx.message.edit(content='\N{HEAVY EXCLAMATION MARK SYMBOL} No Perms for Embeds', delete_after=5)
+			await ctx.send(content='\N{HEAVY EXCLAMATION MARK SYMBOL} No Perms for Embeds', delete_after=5)
 	except:
 		if embed and not perms:
-			await ctx.message.edit(content='\N{HEAVY EXCLAMATION MARK SYMBOL} No Perms for Embeds', delete_after=5)
+			await ctx.send(content='\N{HEAVY EXCLAMATION MARK SYMBOL} No Perms for Embeds', delete_after=5)
 		else:
 			await ctx.send(content=content, embed=embed, delete_after=ttl, file=None)
 
@@ -84,7 +84,7 @@ async def get_prefix(azami, msg):
 		custom_prefix = mycursor.fetchone()
 		custom_prefix = custom_prefix[0]
 	except:
-		custom_prefix = "a!"
+		custom_prefix = "ab!"
 	return commands.when_mentioned_or(custom_prefix)(azami, msg)
 
 
