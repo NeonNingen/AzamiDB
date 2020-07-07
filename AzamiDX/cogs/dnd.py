@@ -70,11 +70,12 @@ class Dnd(commands.Cog):
 					  aliases=['init'])
 	async def initiative(self, ctx):
 		await ctx.send("How many players are playing?")
+		hastebin_list = []
 		while True:
 			def check(m):
 				return m.author == ctx.author and m.channel == ctx.channel
 			try:
-				player = await self.azami.wait_for('message', check=check, timeout=3)
+				player = await self.azami.wait_for('message', check=check, timeout=120)
 				playercont = int(player.content)
 				await player.delete()
 				order = []
@@ -82,10 +83,10 @@ class Dnd(commands.Cog):
 					for i in range(0, playercont):
 						msg = await ctx.send(f'Player {i + 1}')
 						msg2 = await ctx.send("Enter your name!")
-						player_name = await self.azami.wait_for('message')
+						player_name = await self.azami.wait_for('message', timeout=120)
 						player_namecont = player_name.content
 						msg3 = await ctx.send("Enter your dex modifier")
-						mod = await self.azami.wait_for('message', check=check)
+						mod = await self.azami.wait_for('message', check=check, timeout=120)
 						modcont = int(mod.content)
 						result = return_results(0, -1,modcont)
 						line = f"{player_namecont},"+str(result)
@@ -98,7 +99,6 @@ class Dnd(commands.Cog):
 						await msg3.delete()
 						order.sort(key=lambda x: x[1], reverse=True)
 					break
-				hastebin_list = []
 				for name, score in order:
 					line = f"{name}, {score}"
 					await ctx.send(line)

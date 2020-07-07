@@ -272,8 +272,8 @@ class Fun(commands.Cog):
 				return
 
 			if str(reaction) == str(emoji_list[8][1]) and user == member:
-				await ctx.send("Complete")
 				self.azami.id_store.remove(ctx.message.author.id)
+				await message.delete()
 				em = await funembed.final_embed(ctx, list_var, field_name, field_value)
 				await edit(ctx, embed=em)
 				return
