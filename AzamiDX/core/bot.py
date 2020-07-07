@@ -4,7 +4,7 @@ from asyncio import sleep
 from pathlib import Path
 from selenium import webdriver
 from AzamiDX.core.webdriver import get_driver
-from AzamiDX.core.utils import error_on_message, pre_embed, color_list, get_prefix
+from AzamiDX.core.utils import pre_embed, color_list, get_prefix
 from AzamiDX.etc.etccont.verify import verify
 
 try:
@@ -53,21 +53,12 @@ class AzamiBot(commands.AutoShardedBot):
 	async def restrictor(self, ctx):
 		id_list = set(self.id_store)
 		if ctx.message.author.id in id_list:
-			await ctx.send("This command is already active or another command is in use")
+			await ctx.send("This command is already active " \
+						   "or the last command is still in use", delete_after=5)
 			return True
 		else:
 			self.id_store.append(ctx.message.author.id)
 			return False
-
-
-	@staticmethod
-	async def delete_message(message: discord.Message):
-		if not isinstance(message.channel, discord.DMChannel):
-			try:
-				return await message.delete()
-			except discord.Forbidden:
-				error_on_message(message, "No permissions to delete message")
-
 	
 	def load_modules(self, modules_list: list):
 		if len(modules_list) > 0:

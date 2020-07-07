@@ -1,11 +1,9 @@
-import discord, io
+import discord, io, re
 from discord.ext import commands
 from random import choice, randint
-from asyncio import sleep
-from AzamiDX.core.utils import pre_embed, edit
-from AzamiDX.etc.etccont.color_str_embed import return_color_str_to_color_emb
-from AzamiDX.etc.fun import randomimg
-
+from asyncio import sleep, TimeoutError
+from AzamiDX.core.utils import color_list, edit, pre_embed
+from AzamiDX.etc.fun import randomimg, funembed
 
 def to_upper(argument):
 	return argument.upper()
@@ -14,24 +12,38 @@ class Fun(commands.Cog):
 
 	def __init__(self, azami): # Marriage command add
 		self.azami = azami
-
-	class Slapper(commands.Converter):
-		async def convert(self, ctx, argument):
-			to_slap = choice(ctx.guild.members)
-			return f'{ctx.author} slapped {to_slap} because *{argument}*'
-
-	@commands.command(description="It's your fault!")
-	async def blame(self, ctx, *, reason: Slapper):
-		await edit(ctx, content=reason)
+		self.timer_arr = []
 
 	@commands.command(description='This is gonna hurt!')
-	async def slap(self, ctx, user):
-		embed = discord.Embed(
-			title = "That hurts!",
-			description = f"{ctx.author.mention} slapped {user}",
-			colour = discord.Color.dark_red())
-		embed.set_image(url = randomimg.slap())
-		await edit(ctx, embed=embed)
+	async def slap(self, ctx, *members: discord.Member):
+		exit = await self.azami.restrictor(ctx)
+		if exit == True: return
+
+		if not members: # Built in error check
+			await ctx.send("You gotta give me someone to slap!")
+			return
+
+		slapped = funembed.slapper(ctx)
+		key2 = randint(1, 2)
+
+		for member in members:
+			if member == self.azami.user:
+				em = await pre_embed(titl=slapped['azami'][key2]['title'],
+									 desc=slapped['azami'][key2]['desc'],
+									 color=slapped['azami'][1]['color'],
+									 image_url=slapped['azami'][key2]['url'])
+			elif member == ctx.author:
+				em = await pre_embed(titl=slapped['self'][key2]['title'],
+									 desc=slapped['self'][key2]['desc'],
+									 color=slapped['self'][1]['color'],
+									 image_url=slapped['self'][key2]['url'])
+			else:
+				em = await pre_embed(titl=slapped['others']['title'],
+									 desc=slapped['others']['desc'],
+									 image_url=slapped['others']['url'])
+			await edit(ctx, embed=em)
+
+		self.azami.id_store.remove(ctx.message.author.id)
 
 	@commands.command(description='azami -> AZAMI',
 					  usage='Basically capitalizes anything you say')
@@ -41,198 +53,150 @@ class Fun(commands.Cog):
 	@commands.command(description='Bang and the dirt is gone',
 					  usage='You can suicide, shoot others or shoot Azami!')
 	async def shoot(self, ctx, *members: discord.Member):
-		if not members: # Built in error check
+		exit = await self.azami.restrictor(ctx)
+		if exit == True: return
+
+		if not members:
 			await edit(ctx, content="You gotta give me someone to shoot!")
 			return
+
 		for member in members:
+			shooter = funembed.shoot(member, ctx)
 			if member == self.azami.user:
-				embed = discord.Embed(
-					title = "Dodged it!",
-					description = f"You attempted to shoot me {ctx.author.mention}, but I dodged it!",
-					colour = discord.Color.green())
-				embed.set_image(url = randomimg.shoot(1))
-				await edit(ctx, embed=embed)
+				em = await pre_embed(titl=shooter['azami']['title'],
+									 desc=shooter['azami']['desc'],
+									 color=shooter['azami']['color'],
+									 image_url=shooter['azami']['url'])
 			elif member == ctx.author:
-				embed = discord.Embed(
-					title = "You died! Better luck next time!",
-					description = f"{ctx.author.name} committed suicide!",
-					colour = discord.Color.red())
-				embed.set_image(url = randomimg.shoot(2))
-				await edit(ctx, embed=embed)
+				em = await pre_embed(titl=shooter['self']['title'],
+									 desc=shooter['self']['desc'],
+									 color=shooter['self']['color'],
+									 image_url=shooter['self']['url'])
 			else:
-				embed = discord.Embed(
-					title = "It's a hit!",
-					description = f"{member.name} was shot dead by the mighty {ctx.author.name}",
-					colour = discord.Color.gold())
-				embed.set_image(url = randomimg.shoot(3))
-				await edit(ctx, embed=embed)
+				em = await pre_embed(titl=shooter['others']['title'],
+									 desc=shooter['others']['desc'],
+									 image_url=shooter['others']['url'])
+			await edit(ctx, embed=em)
+
+		self.azami.id_store.remove(ctx.message.author.id)
 
 	@commands.command(description='And your next line is!')
 	async def say(self, ctx, *, content):
-		await edit(ctx, content=content)
+		await ctx.send(content)
 
-	@commands.command(name="1h",
-					  description='Used as a hour reminder')
-	async def _1h(self, ctx):
-		msg = await ctx.send("Oki see you in an hour!")
-		await sleep(3600)
-		await msg.delete()
-		await ctx.send(f"{ctx.message.author.mention}, an hour is up!")
+	@commands.command(description='Kinda self explanatory, read usage on how to use',
+					  usage='Format: `a!timer NhNmNs` replace N with the desired number')
+	async def timer(self, ctx, time: str):
+		id_list = set(self.timer_arr)
+		if ctx.message.author.id in id_list:
+			await ctx.send("You already have set up a timer", delete_after=5)
+			return
+		else:
+			try:
+				time = re.split('h|m|s', time)
+				timecheck = int(time[0] + time[1] + time[2])
+				msg = await ctx.send(f"Timer to set off in **{time[0]}** hour(s)" \
+								 	 f", **{time[1]}** minute(s) and **{time[2]}** second(s)")
+				self.timer_arr.append(ctx.message.author.id)
+				await sleep((int(time[0]) * 3600) + (int(time[1]) * 60) + (int(time[2])))
+				await msg.edit(content=f"{ctx.message.author.mention}, time is up!")
+				self.timer_arr.remove(ctx.message.author.id)
+			except Exception:
+				await ctx.send('The format has to be in NhNNmNs!', delete_after=5)
 
 	@commands.command(description='Nice avatar bro')
 	async def avatar(self, ctx, *, user: discord.User):
+		exit = await self.azami.restrictor(ctx)
+		if exit == True: return
+
 		em = await pre_embed(titl=f"{user.name}'s avatar",
 					   		 desc="I hope they don't mind!",
 					   		 color=None,
 					   		 image_url=f'{user.avatar_url}',
 					   		 ctx=ctx)
 		await edit(ctx, embed=em)
+		self.azami.id_store.remove(ctx.message.author.id)
 
 	@commands.command(description="Let's play a game of Jan Ken Pon!")
 	async def rps(self, ctx):
-		with open('AzamiDX/etc/fun/url_fun.txt', 'r') as f:
-			url = f.read().splitlines()
-		hello_em = discord.Embed(title=f"Hello {ctx.message.author.name}",
-								 description="Let's play Rock, paper, scissors!",
-								 color=discord.Color.green())
-		hello_em.set_image(url=f'{url[0]}')
-		hello_em.set_thumbnail(url=ctx.message.author.avatar_url)
-		hello_em.set_footer(text="Your opponent is me!",
-							   icon_url=self.azami.user.avatar_url)
-		msg = await ctx.send(embed=hello_em)
+		exit = await self.azami.restrictor(ctx)
+		if exit == True: return
 
+		def check(m):
+			return m.author == ctx.author and m.channel == ctx.channel and m.content.lower() in ['r', 'p', 's', 'q']
 
 		wins = 0
 		losses = 0
 		ties = 0
 
-		user_rock_em = discord.Embed(title="You threw out a rock",
-									 description="Rock against...",
-									 color=discord.Color.greyple())
-		user_rock_em.set_image(url=f"{url[1]}")
-		user_rock_em.set_thumbnail(url=ctx.message.author.avatar_url)
+		rpsci = funembed.rockpapsci(ctx)
 
-		user_pap_em = discord.Embed(title="You hit me with paper",
-									 description="Paper against...",
-									 color=discord.Color.teal())
-		user_pap_em.set_image(url=f"{url[2]}")
-		user_pap_em.set_thumbnail(url=ctx.message.author.avatar_url)
 		
-		user_sci_em = discord.Embed(title="You slashed out some scissors",
-									 description="Scissors against...",
-									 color=discord.Color.red())
-		user_sci_em.set_image(url=f"{url[3]}")
-		user_sci_em.set_thumbnail(url=ctx.message.author.avatar_url) 
+		em = discord.Embed(title=rpsci['default']['title'],
+						   description=rpsci['default']['desc'],
+						   color=color_list())
+		em.set_image(url=rpsci['default']['url'])
+		em.set_thumbnail(url=ctx.message.author.avatar_url)
+		em.set_footer(text=rpsci['default']['footer'])
 
-		comp_rock_em = discord.Embed(title="Rock!",
-									 color=discord.Color.greyple())
-		comp_rock_em.set_image(url=f"{url[4]}")
-		comp_rock_em.set_thumbnail(url=self.azami.user.avatar_url)
-
-		comp_pap_em = discord.Embed(title="Paper!",
-									 color=discord.Color.teal())
-		comp_pap_em.set_image(url=f"{url[5]}")
-		comp_pap_em.set_thumbnail(url=self.azami.user.avatar_url)
-
-		comp_sci_em = discord.Embed(title="Scissors!",
-									 color=discord.Color.red())
-		comp_sci_em.set_image(url=f"{url[6]}")
-		comp_sci_em.set_thumbnail(url=self.azami.user.avatar_url)
-
-		you_win_em = discord.Embed(title="Congrats you win!",
-									 description="I'll get you next time!",
-									 color=discord.Color.gold())
-		you_win_em.set_image(url=f"{url[7]}")
-		you_win_em.set_thumbnail(url=ctx.message.author.avatar_url)
-
-		you_lose_em = discord.Embed(title="Better luck next time!",
-									 description="Ha! You lost!",
-									 color=discord.Color.dark_red())
-		you_lose_em.set_image(url=f"{url[8]}")
-		you_lose_em.set_thumbnail(url=self.azami.user.avatar_url)
-
-		tie_em = discord.Embed(title="It's a tie...",
-									 description="Prepare to lose next time!",
-									 color=discord.Color.purple())
-		tie_em.set_image(url=f"{url[9]}")
-		tie_em.set_thumbnail(url=ctx.message.author.avatar_url)
-
+		msg = await ctx.send(embed=em)
+		
 		while True:
-			await ctx.send(f'Wins: {wins}, Losses: {losses}, Ties: {ties}', delete_after=5)
-			while True:
-				def check(m):
-					return m.author == ctx.author and m.channel == ctx.channel
-				msg2 = await ctx.send("What do you choose (r)ock, (p)aper, (s)cissors or (q)uit")
-				player = await self.azami.wait_for('message', check=check)
+			rpsci = funembed.rockpapsci(ctx)
+			em = discord.Embed(title="What do you choose (r)ock, (p)aper, (s)cissors or (q)uit")
+			choicemsg = await ctx.send(embed=em)
+
+			try:
+				player = await self.azami.wait_for('message', check=check, timeout=120)
 				if player.content == 'q':
-					await ctx.send("See you next time")
+					self.azami.id_store.remove(ctx.message.author.id)
+					await ctx.send("See you next time!")
 					return
-				if player.content == 'r' or player.content == 'p' or player.content == 's':
-					break
-				await edit(ctx, content='Write r, p, s or q!', ttl=5)
 
-			if player.content == 'r':
-				await player.delete()
-				await msg2.delete()
-				await msg.edit(embed=user_rock_em)
-			elif player.content == 'p':
-				await player.delete()
-				await msg2.delete()
-				await msg.edit(embed=user_pap_em)
-			elif player.content == 's':
-				await player.delete()
-				await msg2.delete()
-				await msg.edit(embed=user_sci_em)
+			except TimeoutError:
+				await ctx.send('Timed out')
+				self.azami.id_store.remove(ctx.message.author.id)
+				return
 
-			randomnum = randint(1, 3)
-			if randomnum == 1:
-				computer = 'r'
-				await sleep(3)
-				await msg.edit(embed=comp_rock_em)
-			elif randomnum == 2:
-				computer = 'p'
-				await sleep(3)
-				await msg.edit(embed=comp_pap_em)
-			elif randomnum == 3:
-				computer = 's'
-				await sleep(3)
-				await msg.edit(embed=comp_sci_em)
+			await choicemsg.delete()
+			em = discord.Embed(title=rpsci[player.content][1]['title'],
+						   description=rpsci[player.content][1]['desc'])
+			em.set_image(url=rpsci[player.content][1]['url'])
+			await msg.edit(embed=em)
+			await sleep(3)
 
-			if player.content == computer:
-				await ctx.send("Please wait...", delete_after=4)
-				await sleep(4)
-				await msg.edit(embed=tie_em)
+			comp = choice(['r', 'p', 's'])
+
+			em = discord.Embed(title=rpsci[comp][2]['title'],
+							   description="Please wait....",
+							   color=rpsci[comp][1]['color'])
+			em.set_image(url=rpsci[comp][2]['url'])
+			await msg.edit(embed=em)
+
+			if player.content == comp:
+				em = discord.Embed(title=rpsci['end']['tie']['title'],
+								   color=rpsci['end']['tie']['color'])
+				em.set_image(url=rpsci['end']['tie']['url'])
 				ties += 1
-			elif player.content == 'r' and computer == 's':
-				await ctx.send("Please wait...", delete_after=4)
-				await sleep(4)
-				await msg.edit(embed=you_win_em)
+
+			elif rpsci[player.content][1]['beats'] == comp:
+				em = discord.Embed(title=rpsci['end']['winner']['title'],
+							   	   color=rpsci['end']['winner']['color'])
+				em.set_image(url=rpsci['end']['winner']['url'])
+				em.set_thumbnail(url=ctx.message.author.avatar_url)
 				wins += 1
-			elif player.content == 'r' and computer == 'p':
-				await ctx.send("Please wait...", delete_after=4)
-				await sleep(4)
-				await msg.edit(embed=you_lose_em)
+
+			else:
+				em = discord.Embed(title=rpsci['end']['loser']['title'],
+								   color=rpsci['end']['loser']['color'])
+				em.set_image(url=rpsci['end']['loser']['url'])
+				em.set_thumbnail(url=self.azami.user.avatar_url)
 				losses += 1
-			elif player.content == 'p' and computer == 'r':
-				await ctx.send("Please wait...", delete_after=4)
-				await sleep(4)
-				await msg.edit(embed=you_win_em)
-				wins += 1
-			elif player.content == 'p' and computer == 's':
-				await ctx.send("Please wait...", delete_after=4)
-				await sleep(4)
-				await msg.edit(embed=you_lose_em)
-				losses += 1
-			elif player.content == 's' and computer == 'p':
-				await ctx.send("Please wait...", delete_after=4)
-				await sleep(4)
-				await msg.edit(embed=you_win_em)
-				wins += 1
-			elif player.content == 's' and computer == 'r':
-				await ctx.send("Please wait...", delete_after=4)
-				await sleep(4)
-				await msg.edit(embed=you_lose_em)
-				losses += 1
+			
+			em.set_footer(text=f'Wins: {wins} | Losses: {losses} | Ties: {ties}')
+			await sleep(4)
+			await player.delete()
+			await msg.edit(embed=em)
 
 	@commands.command(name='8ball', aliases=['8'], 
 					  description='What answers do you seek?',
@@ -241,106 +205,141 @@ class Fun(commands.Cog):
 		with open('AzamiDX/etc/fun/responses_fun.txt', 'r') as f:
 			responses = f.read().splitlines()
 			
-		await edit(ctx, content=f"Questions: {question}\nAnswer: {choice(responses)}")
+		await ctx.send(ctx, content=f"Questions: {question}\nAnswer: {choice(responses)}")
 
 	@commands.command(aliases=['me'], description="Make your own custom embed!")
-	async def makeembed(self, ctx): # Add parameters in the future 1 for like 1 add field
-		await edit(ctx, content="Welcome to custom embed maker!", ttl=5)
-		await edit(ctx, content="Please follow each instuction to make your own embed!", ttl=10)
-		await edit(ctx, content="IMPORTANT: Make sure your url ends with .png, .jpg or .gif", ttl=20)
-		while True:
-			while True:
-				def check(m):
-					return m.author == ctx.author and m.channel == ctx.channel
-				msg = await ctx.send("Please enter your title",)
-				player = await self.azami.wait_for('message', check=check)
-				title = player.content
-				await player.delete()
-				await msg.delete()
-				msg = await ctx.send("Please enter your description",)
-				player = await self.azami.wait_for('message', check=check)
-				desc = player.content
-				await player.delete()
-				await msg.delete()
-				msg = await ctx.send("Please enter your colour of choice",)
-				msg2 = await ctx.send("Make sure it is like discord.Color.red()",)
-				msg3 = await ctx.send("Or you can just write None for a random one",)
-				player = await self.azami.wait_for('message', check=check)
-				color = player.content
-				if color == "None":
-					color = None
-				color = return_color_str_to_color_emb(color)
-				await player.delete()
-				await msg.delete()
-				await msg2.delete()
-				await msg3.delete()
-				msg = await ctx.send("Please enter your thumbnail url",)
-				msg2 = await ctx.send("If you don't want a url for this or the next urls"\
-										 " write None",)
-				player = await self.azami.wait_for('message', check=check)
-				thumb_url = player.content
-				if thumb_url == "None":
-					thumb_url = ""
-				await player.delete()
-				await msg.delete()
-				await msg2.delete()
-				msg = await ctx.send("Please enter your image url",)
-				player = await self.azami.wait_for('message', check=check)
-				image_url = player.content
-				if image_url == "None":
-					image_url = ""
-				await player.delete()
-				await msg.delete()
-				msg = await ctx.send("Please enter your footer text",)
-				msg2 = await ctx.send("If you don't want a footer text for this or the next urls"\
-										 " write None",)
-				player = await self.azami.wait_for('message', check=check)
-				foot_txt = player.content
-				if foot_txt == "None":
-					foot_txt = ""
-				await player.delete()
-				await msg.delete()
-				await msg2.delete()
-				msg = await ctx.send("Please enter your footer avatar url",)
-				player = await self.azami.wait_for('message', check=check)
-				foot_url = player.content
-				if foot_url == "None":
-					foot_url = ""
-				await player.delete()
-				await msg.delete()
-				msg = await ctx.send("Please Wait")
-				await sleep(2)
-				await msg.delete()
-				break
-			break
+	async def makeembed(self, ctx):
+		exit = await self.azami.restrictor(ctx)
+		if exit == True: return
 
-		em = await pre_embed(titl=title,
-					   		 desc=desc,
-					   		 color=color,
-					   		 thumb_url=thumb_url,
-					   		 image_url=image_url,
-					   		 text_em=foot_txt,
-					   		 foot_url=foot_url,
-					   		 ctx=ctx)
-		try:
-			await edit(ctx, embed=em)
-		except:
-			color = None
-			thumb_url = ''
-			image_url = ''
-			foot_url = ''
-			em = await pre_embed(titl=title,
-								 desc=desc,
-								 color=color,
-								 thumb_url=thumb_url,
-								 image_url=image_url,
-								 text_em=foot_txt,
-								 foot_url=foot_url,
-								 ctx=ctx)
-			await edit(ctx, embed=em)
-			await edit(ctx, content="There was an error in the URL(s). " \
-									"Recommend you put None when asked " \
-									"for the URL(s)")
+		def check(m):
+			return m.author == ctx.author and m.channel == ctx.channel
+
+		def intcheck(m):
+			return m.author == ctx.author and m.channel == ctx.channel and type(int(m.content)) == int
+
+		member = ctx.message.author
+		me = funembed.customem(ctx)
+		emoji_list = [['Title', '1⃣'], ['Description', '2⃣'], ['Color', '3⃣'],
+					 ['Thumbnail', '4⃣'], ['Image', '5⃣'], ['Footer Text', '6⃣'],
+					 ['Footer Image', '7⃣'], ['Fields', '8⃣'], ['Finished', '9⃣'], 
+					 ['Quit', '0⃣']]
+
+		list_var = {}
+
+		field_name = []
+		field_value = []
+
+		em = discord.Embed(title=f"Welcome to custom embed marker {ctx.message.author.name}!",
+						   description="Please press on a reaction to edit a certain part of your own embed\n"\
+						   			   "IMPORTANT: Make sure your url ends with .png, .jpg, .webm or .gif",
+						   color=color_list())
+
+		for i in range(0, 10):
+			em.add_field(name=emoji_list[i][0], value=emoji_list[i][1])
+		message = await ctx.send(embed=em)
+		for i in range(0, 10):
+			await message.add_reaction(emoji_list[i][1])
+
+		while True:
+			try:
+				reaction, user = await self.azami.wait_for('reaction_add', timeout=120, check=lambda r, u: member)
+			except TimeoutError:
+				await ctx.send("Timed out")
+				return
+
+			for i in range(0, 7):
+				if str(reaction) == str(emoji_list[i][1]) and user == member:
+
+					await message.remove_reaction(str(reaction), user)
+					em = discord.Embed(title=me[str(reaction)]['title'],
+									   description=me[str(reaction)]['desc'])
+					em.set_image(url=me[str(reaction)]['url'])
+					new_em = await ctx.send(embed=em)
+
+					try:
+						player = await self.azami.wait_for('message', check=check, timeout=120)
+						list_var[str(reaction)] = player.content
+						await new_em.delete()
+						await player.delete()
+					except TimeoutError:
+						await ctx.send("Timed out")
+						return
+
+			if str(reaction) == str(emoji_list[9][1]) and user == member:
+				await ctx.send("Custom Embed has ended")
+				self.azami.id_store.remove(ctx.message.author.id)
+				return
+
+			if str(reaction) == str(emoji_list[8][1]) and user == member:
+				await ctx.send("Complete")
+				self.azami.id_store.remove(ctx.message.author.id)
+				em = await funembed.final_embed(ctx, list_var, field_name, field_value)
+				await edit(ctx, embed=em)
+				return
+
+			if str(reaction) == str(emoji_list[7][1]) and user == member:
+				await message.remove_reaction(str(reaction), user)
+				em = discord.Embed(title=me[str(reaction)]['title'],
+									   description=me[str(reaction)]['desc'])
+				em.set_image(url=me[str(reaction)]['url'])
+				new_em = await ctx.send(embed=em)
+
+				list_var[str(reaction)] = ""
+
+				try:
+					player = await self.azami.wait_for('message', check=intcheck, timeout=120)
+					num = int(player.content)
+					await player.delete()
+				except ValueError:
+					await ctx.send("Incorrect Value, Leaving Field.", timeout=5)
+					num = 0
+				except TimeoutError:
+					await ctx.send("Timed out")
+					return
+
+				em = discord.Embed(title=f'Please enter {num} title(s) for each field')
+				await new_em.edit(embed=em)
+
+				for i in range(0, num):
+					count = await ctx.send(f'Title {i+1}')
+					try:
+						player = await self.azami.wait_for('message', check=check, timeout=120)
+						field_name.append(player.content)
+						await player.delete()
+						await count.delete()
+					except TimeoutError:
+						await ctx.send("Timed out")
+						return
+
+				em = discord.Embed(title=f'Please enter {num} description(s) for each field')
+				await new_em.edit(embed=em)
+
+				for i in range(0, num):
+					count = await ctx.send(f'Description {i+1}')
+					try:
+						player = await self.azami.wait_for('message', check=check, timeout=120)
+						field_value.append(player.content)
+						await player.delete()
+						await count.delete()
+					except TimeoutError:
+						await ctx.send("Timed out")
+						return
+
+				await new_em.delete()
+
+	class Slapper(commands.Converter):
+		async def convert(self, ctx, argument):
+			to_slap = choice(ctx.guild.members)
+			return f'{ctx.author} slapped {to_slap} because *{argument}*'
+
+	@commands.command(description="It's your fault!")
+	async def blame(self, ctx, *, reason: Slapper):
+		exit = await self.azami.restrictor(ctx)
+		if exit == True:
+			return
+		await edit(ctx, content=reason)
+		self.azami.id_store.remove(ctx.message.author.id)
 
 	@avatar.error
 	async def avatar_error(self, ctx, error):

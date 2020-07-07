@@ -148,6 +148,11 @@ class Owner(commands.Cog, command_attrs=dict(hidden=True)):
 					   		 ctx=ctx)
 		await edit(ctx, embed=em)
 
+	@commands.command(aliases=['fr', 'fq'])
+	async def forcereset(self, ctx):
+		self.azami.id_store.clear()
+		await ctx.send("Restrictor Reset")
+
 	@commands.command(description='Owner of Azami Only', 
 					  aliases=['ownerhelp', 'oh', 'ownerh'])
 	@commands.is_owner()

@@ -1,9 +1,7 @@
-import aiohttp, discord, json, logging, os, psycopg2, random
+import aiohttp, discord, json, os, psycopg2, random
 from discord.ext import commands
 from discord.abc import Messageable
 from asyncio import sleep
-
-log = logging.getLogger('LOG')
 	
 
 async def edit(ctx, content=None, embed=None, ttl=None):
@@ -40,7 +38,9 @@ async def hastebin(content, session=None):
 		else:
 			return f"Error with creating Hastebin, Status: {resp.status}"
 
-async def pre_embed(titl:str, desc:str="", color=None, thumb_url:str="", image_url:str="", text_em:str="", foot_url:str="", ctx=None):
+async def pre_embed(titl:str, desc:str="", color=None, thumb_url:str="",
+					image_url:str="", foot_txt:str="", foot_url:str="", ctx=None,
+					num=0, fields: list=[], values: list=[]):
 	if color == None:
 		color = color_list()
 
@@ -51,20 +51,12 @@ async def pre_embed(titl:str, desc:str="", color=None, thumb_url:str="", image_u
 	
 	embed.set_thumbnail(url=thumb_url)
 	embed.set_image(url=image_url)
-	embed.set_footer(text=text_em, icon_url=foot_url)
+	embed.set_footer(text=foot_txt, icon_url=foot_url)
+
+	for i in range(0, num):
+		embed.add_field(name=fields[i], value=values[i])
 	
 	return embed
-
-def str_cmd(s: str):
-	return s.encode("ascii", "replace").decode("ascii")
-
-def get_channel_and_guild_name(channel: Messageable):
-	return ('DM' if isinstance(channel, discord.DMChannel) else str_cmd(channel.guild.name)), str_cmd(str(channel))
-
-def error_on_message(m: discord.Message, error_message: str):
-	# Log an error caused by a message
-	guild_name, channel_name = get_channel_and_guild_name(m.channel)
-	print(f"{m} has {error_message} -> Server Name: {guild_name}, channel_name: {channel_name}")
 
 def color_list():
 	colorList = [discord.Color.red(), discord.Color.green(), discord.Color.blue(),
