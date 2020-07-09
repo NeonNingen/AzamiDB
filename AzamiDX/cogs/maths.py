@@ -9,25 +9,25 @@ class Maths(commands.Cog):
 
 	@commands.command(aliases = ['plus', '+'], 
 					  description='9 + 10 = ?',
-					  usage='Adding two numbers together')
+					  usage='`a!+ 9 10`')
 	async def add(self, ctx, a: float, b: float):
 		await ctx.send(f"{a} + {b} = {a + b}")
 
 	@commands.command(aliases = ['minus', '-'], 
 					  description='9 - 11 = ?',
-					  usage='Subtracting two numbers from each other')
+					  usage='`a!- 9 11`')
 	async def subtract(self, ctx, a: float, b: float):
 		await ctx.send(f"{a} - {b} = {a - b}")
 
 	@commands.command(aliases = ['times', '*'], 
 					  description='9 x 11 = ?',
-					  usage='Multiply two numbers together')
+					  usage='`a* 9 11`')
 	async def multiply(self, ctx, a: float, b: float):
 		await ctx.send(f"{a} * {b} = {a * b}")
 
 	@commands.command(aliases = ['division', '/'], 
 					  description='9 / 11 = ?',
-					  usage='Divide two numbers from each other')
+					  usage='`a/ 9 11`')
 	async def divide(self, ctx, a: float, b: float):
 		await ctx.send(f"{a} / {b} = {a / b}")
 
