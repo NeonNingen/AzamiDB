@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 from AzamiDX.etc.img import display
-from AzamiDX.core.utils import edit
+from AzamiDX.core.utils import pre_embed
 
 class Nagoomba(commands.Cog):
 
@@ -9,10 +9,9 @@ class Nagoomba(commands.Cog):
 		self.azami = azami
 
 	@commands.command(description='Stare')
-	def stare(self, ctx):
-		em = discord.Embed()
-		em.set_image(url=display.nagoombaimg('Stare'))
-		await edit(ctx, embed=em)
+	async def stare(self, ctx):
+		url = display.nagoombaimg('stare')
+		await pre_embed(image_url=url)
 
 def setup(azami):
 	azami.add_cog(Nagoomba(azami))
