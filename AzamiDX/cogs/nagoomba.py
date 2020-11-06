@@ -18,7 +18,7 @@ class Nagoomba(commands.Cog):
 
 	@commands.command()
 	async def ichifake(self, ctx):
-		await ctx.send(display.nagoombaimg('ichireal'))
+		await ctx.send(display.nagoombaimg('ichifake'))
 
 	@commands.command()
 	async def cbt(self, ctx):
