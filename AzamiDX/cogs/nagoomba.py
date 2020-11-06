@@ -15,4 +15,4 @@ class Nagoomba(commands.Cog):
 
 
 def setup(azami):
-	azami.add_cog(Nod(azami))
+	azami.add_cog(Nagoomba(azami))
