@@ -13,5 +13,10 @@ class Nagoomba(commands.Cog):
 		url = display.nagoombaimg('stare')
 		await ctx.send(url)
 
+	@commands.command(description='Stare')
+	async def ichireal(self, ctx):
+		url = display.nagoombaimg('ichireal')
+		await ctx.send(url)
+
 def setup(azami):
 	azami.add_cog(Nagoomba(azami))
