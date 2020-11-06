@@ -11,7 +11,7 @@ class Nagoomba(commands.Cog):
 	@commands.command(description='Stare')
 	async def stare(self, ctx):
 		url = display.nagoombaimg('stare')
-		await pre_embed(image_url=url)
+		await ctx.send(url)
 
 def setup(azami):
 	azami.add_cog(Nagoomba(azami))
