@@ -38,10 +38,10 @@ class Nagoomba(commands.Cog):
 
 	@commands.command()
 	async def pruebala(self, ctx):
-		em = await pre_embed(titl="es cocaina",
-							 image_url=display.nagoombaimg('pruebala'))
+		em = await pre_embed(titl="es cocaina")
 
 		await ctx.send(embed=em)
+		await ctx.send(display.nagoombaimg('pruebala'))
 
 	@commands.command()
 	async def basado(self, ctx):
