@@ -13,7 +13,5 @@ class Nagoomba(commands.Cog):
 		url = display.nagoombaimg('stare')
 		em = await pre_embed(image_url=url)
 
-
-
 def setup(azami):
 	azami.add_cog(Nagoomba(azami))
