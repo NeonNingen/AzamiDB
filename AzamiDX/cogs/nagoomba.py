@@ -27,5 +27,13 @@ class Nagoomba(commands.Cog):
 
 		await ctx.send(embed=em)
 
+	@commands.command()
+	async def basado(self, ctx):
+		em = await pre_embed(titl="Basado en que?",
+							 image_url=display.nagoombaimg('basado'))
+
+		await ctx.send(embed=em)
+		await ctx.send("https://www.youtube.com/watch?v=q-Rqdgna3Yw")
+
 def setup(azami):
 	azami.add_cog(Nagoomba(azami))
