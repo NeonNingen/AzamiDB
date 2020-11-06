@@ -48,4 +48,4 @@ def rpsimg(num):
 
 def nagoombaimg(word):
 	data = __file_open('nagoomba_image.json', True)
-	return data[word.upper()]
+	return data[word.capitalize()]
