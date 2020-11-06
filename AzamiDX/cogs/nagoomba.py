@@ -8,15 +8,16 @@ class Nagoomba(commands.Cog):
 	def __init__(self, azami):
 		self.azami = azami
 
+	@commands.command()
 	async def stare(self, ctx):
 		await ctx.send(display.nagoombaimg('stare'))
 
+	@commands.command()
 	async def ichireal(self, ctx):
-		url = display.nagoombaimg('ichireal')
-		await ctx.send(url)
+		await ctx.send(display.nagoombaimg('ichireal'))
 
+	@commands.command()
 	async def cbt(self, ctx):
-		url = display.nagoombaimg('cbt')
 		await pre_embed(titl="Just got CBT'd. Didn't like it.",
 						image_url=display.nagoombaimg('cbt'))
 
