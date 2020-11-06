@@ -21,9 +21,25 @@ class Nagoomba(commands.Cog):
 		await ctx.send(display.nagoombaimg('ichifake'))
 
 	@commands.command()
+	async def day(self, ctx):
+		await ctx.send(display.nagoombaimg('day'))
+
+	@commands.command()
+	async def basedbot(self, ctx):
+		await ctx.send(display.nagoombaimg('basedbot'))
+
+
+	@commands.command()
 	async def cbt(self, ctx):
 		em = await pre_embed(titl="Just got CBT'd. Didn't like it.",
 							 image_url=display.nagoombaimg('cbt'))
+
+		await ctx.send(embed=em)
+
+	@commands.command()
+	async def pruebala(self, ctx):
+		em = await pre_embed(titl="es cocaina",
+							 image_url=display.nagoombaimg('pruebala'))
 
 		await ctx.send(embed=em)
 
