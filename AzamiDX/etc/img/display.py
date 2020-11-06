@@ -45,3 +45,7 @@ def rpsimg(num):
 	if num == 5: return choice(data['Winner'])
 	if num == 6: return choice(data['Loser'])
 	if num == 7: return choice(data['Tie'])
+
+def nagoombaimg(word):
+	data = __file_open('nagoomba_image.json', True)
+	return data[name]
