@@ -1,4 +1,4 @@
-import random
+import discord
 from discord.ext import commands
 from AzamiDX.etc.img import display
 from AzamiDX.core.utils import pre_embed
