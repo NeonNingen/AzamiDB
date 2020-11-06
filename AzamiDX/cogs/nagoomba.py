@@ -25,7 +25,7 @@ class Nagoomba(commands.Cog):
 		em = await pre_embed(titl="Just got CBT'd. Didn't like it.",
 							 image_url=display.nagoombaimg('cbt'))
 
-		await ctx.send(em)
+		await ctx.send(embed=em)
 
 def setup(azami):
 	azami.add_cog(Nagoomba(azami))
