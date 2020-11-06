@@ -1,7 +1,7 @@
 import random
 from discord.ext import commands
 from AzamiDX.etc.img import display
-
+from AzamiDX.core.utils import pre_embed
 
 class Nagoomba(commands.Cog):
 
@@ -10,7 +10,8 @@ class Nagoomba(commands.Cog):
 
 	@commands.command(description='Stare')
 	def stare(self, ctx):
-		display.nagoombaimg('stare')
+		url = display.nagoombaimg('stare')
+		em = await pre_embed(image_url=url)
 
 
 
