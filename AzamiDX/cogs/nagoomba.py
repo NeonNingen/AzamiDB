@@ -17,9 +17,5 @@ class Nagoomba(commands.Cog):
 	async def ichifake(self, ctx):
 		await ctx.send(display.nagoombaimg('ichifake'))
 
-	async def cbt(self, ctx):
-		await pre_embed(titl="Just got CBT'd. Didn't like it.",
-						image_url=display.nagoombaimg('cbt'))
-
 def setup(azami):
 	azami.add_cog(Nagoomba(azami))
