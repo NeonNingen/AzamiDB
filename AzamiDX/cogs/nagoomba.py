@@ -51,5 +51,11 @@ class Nagoomba(commands.Cog):
 		await ctx.send(embed=em)
 		await ctx.send("https://www.youtube.com/watch?v=q-Rqdgna3Yw")
 
+	@commands.command()
+	async def cocke(self, ctx):
+		em = await pre_embed(titl="Haruka c-")
+		await ctx.send(embed=em)
+		await ctx.send("https://www.youtube.com/watch?v=q-Rqdgna3Yw")
+
 def setup(azami):
 	azami.add_cog(Nagoomba(azami))
