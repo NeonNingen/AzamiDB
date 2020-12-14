@@ -161,6 +161,45 @@ class Owner(commands.Cog, command_attrs=dict(hidden=True)):
 		commands = cog.get_commands()
 		await edit(ctx, content=[c.name for c in commands])
 
+	@commands.command()
+	async def dm(self, ctx, *, message):
+		def check(m):
+			return m.author == ctx.author and m.channel == ctx.channel
+
+		await ctx.send("Bring in the IDs")
+		while True:
+			try:
+				msg = await self.azami.wait_for('message', check=check)
+				if msg.content == 'q':
+					await ctx.send("See you next time!")
+					return
+				user = await self.azami.fetch_user(msg.content)
+				await user.send(message)
+			except:
+				await ctx.send("Skipping")
+
+	@commands.command(aliases=['tw'])
+	async def twitch(self, ctx):
+		def check(m):
+			return m.author == ctx.author and m.channel == ctx.channel
+		message = """Please follow <@!288022950576390144> (My owner's) Twitch!
+It would be a big help if you could!
+Thank you!
+https://twitch.tv/neonningen"""
+
+		await ctx.send("Bring in the IDs")
+		while True:
+			try:
+				msg = await self.azami.wait_for('message', check=check)
+				if msg.content == 'q':
+					await ctx.send("See you next time!")
+					return
+				user = await self.azami.fetch_user(msg.content)
+				await user.send(message)
+			except:
+				await ctx.send("Skipping")
+		
+
 	@load.error
 	async def load_error(self, ctx, error):
 		if isinstance(error, commands.CommandInvokeError):
