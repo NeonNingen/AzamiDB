@@ -7,7 +7,7 @@ class rank(commands.Cog):
 	def __init__(self, azami):
 		self.azami = azami
 
-	@commands.command(description='Hi!')
+	@commands.command(description='Yo')
 	async def hellotest(self, ctx):
 		await edit(ctx, content=f"Hello!, {ctx.author.mention}")
 
