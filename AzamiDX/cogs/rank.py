@@ -1,5 +1,6 @@
 import discord, json
 from discord.ext import commands
+from AzamiDX.core.utils import edit
 
 class rank(commands.Cog):
 
