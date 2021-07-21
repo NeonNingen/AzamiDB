@@ -128,6 +128,7 @@ class AzamiBot(commands.AutoShardedBot):
 		channel = self.get_channel(728956265337978921)
 		await channel.send(embed=em)
 
+		
 		channel_FGE = self.get_channel(867414698450223154)
 		await channel_FGE.send(embed=em)
 
