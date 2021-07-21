@@ -189,6 +189,7 @@ class AzamiBot(commands.AutoShardedBot):
 	async def on_guild_join(self, guild: discord.Guild):
 
 		channel = self.get_channel(728911918483505163)
+		channel_FGE = self.get_channel(867414720938901544)
 		date = datetime.datetime.now().strftime(f"%a %d %B %Y %H:%M:%S")
 		join_em = discord.Embed(title=f"{guild.name}",
 								description=f"Date Joined: {date}",
@@ -205,6 +206,7 @@ class AzamiBot(commands.AutoShardedBot):
 			pass
 
 		await channel.send(embed=join_em)
+		await channel_FGE.send(embed=join_em)
 
 		print(f"{self.user.name} has joined {guild.name}")
 		cogs = [c for c in self.cogs.keys()]
@@ -234,6 +236,7 @@ class AzamiBot(commands.AutoShardedBot):
 
 	async def on_guild_remove(self, guild: discord.Guild):
 		channel = self.get_channel(728911934291837020)
+		channel_FGE = self.get_channel(867414741412085790)
 		date = datetime.datetime.now().strftime(f"%a %d %B %Y %H:%M:%S")
 		leave_em = discord.Embed(title=f"{guild.name}",
 								description=f"Date Left: {date}",
@@ -242,6 +245,7 @@ class AzamiBot(commands.AutoShardedBot):
 		leave_em.set_thumbnail(url=guild.icon_url)
 
 		await channel.send(embed=leave_em)
+		await channel_FGE.send(embed=join_em)
 
 		print(f"{self.user.name} has left {guild.name}")
 

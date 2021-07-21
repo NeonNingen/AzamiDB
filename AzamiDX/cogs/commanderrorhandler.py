@@ -13,6 +13,7 @@ class CommandErrorHandler(commands.Cog):
 	@commands.Cog.listener()
 	async def on_command_error(self, ctx, error):
 		channel = self.azami.get_channel(728911961131319328)
+		channel_FGE = self.get_channel(867414751372771338)
 		self.num += 1
 		error_em = discord.Embed(title=f"⚠️ Error {self.num} ",
 								 description=f'```yaml\n{error}\n```',
@@ -21,6 +22,7 @@ class CommandErrorHandler(commands.Cog):
 		error_em.add_field(name="Author", value=f'`{ctx.message.author}`')
 		error_em.add_field(name="Guild", value=f'`{ctx.message.guild}`')
 		await channel.send(embed=error_em)
+		await channel_FGE.send(embed=error_em)
 
 		if isinstance(error, NoPrivateMessage):
 			await edit(ctx, content='\N{HEAVY EXCLAMATION MARK SYMBOL} Only usable on Servers', ttl=5)
