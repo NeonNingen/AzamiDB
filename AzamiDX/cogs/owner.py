@@ -140,6 +140,15 @@ class Owner(commands.Cog, command_attrs=dict(hidden=True)):
 		self.azami.driver.close()
 		await ctx.bot.close()
 
+	@commands.command(description='Watch me purge away!',
+					  usage='This command only works for moderators')
+	@commands.has_permissions(manage_messages=True)
+	async def purge(self, ctx, amount: int = 5):
+		try:
+			await ctx.channel.purge(limit = amount + 1)
+		except:
+			await ctx.send("Missing 'manage message' perm")
+
 	@commands.command(aliases=['et'])
 	async def embedtest(self, ctx):
 		em = await pre_embed(f"Epicyon#0150 is Epoke Dev",
