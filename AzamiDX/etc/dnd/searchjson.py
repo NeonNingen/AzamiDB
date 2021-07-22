@@ -102,8 +102,11 @@ def spellfind(driver, content, ctx, azami):
 		spell_em.set_thumbnail(url=azami.user.avatar_url)
 		return spell_em
 	valueDesc = '\n\n'.join(p for p in valueDesc)
-	valueHighLvl = y['higher_level']
-	valueHighLvl = '\n\n'.join(p for p in valueHighLvl)
+	try:
+		valueHighLvl = y['higher_level']
+		valueHighLvl = '\n\n'.join(p for p in valueHighLvl)
+	except:
+		valueHighLvl = 'N/A'
 	valueComp = y['components']
 	valueComp = ', '.join(p for p in valueComp)
 	valueClasses = [y['classes'][x]['name'] for x in range(len(y['classes']))]
