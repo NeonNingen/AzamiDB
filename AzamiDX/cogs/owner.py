@@ -142,8 +142,8 @@ class Owner(commands.Cog, command_attrs=dict(hidden=True)):
 
 	@commands.command(description='Watch me purge away!',
 					  usage='This command only works for moderators')
-	@commands.has_permissions(manage_messages=True)
-	async def purge(self, ctx, amount: int = 5):
+	@commands.has_permissions()
+	async def purge2(self, ctx, amount: int = 5):
 		try:
 			await ctx.channel.purge(limit = amount + 1)
 		except:
