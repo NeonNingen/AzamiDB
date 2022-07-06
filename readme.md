@@ -10,9 +10,11 @@ __Update log:__
 
 ```python
 Update #1 (31/05/2020) Keeping this private, working on V2
+
+Update #2 (06/07/2022) Open Sourcing
 ```
 
-### This bot is hosted on Heroku and is up 24/7.
+### This bot was hosted on Heroku, now it is open sourced
 
-__Note: The token.txt is not here because it's a private token for my bot and I don't want someone using my bot by duping the token__
-
+This bot is now open sourced. You can mess with the code and try out Azami
+06/07/2022 - I have offically ended support for Azami so i have decided to open source the bot
