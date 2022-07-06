@@ -19,4 +19,4 @@ Update #2 (06/07/2022) Open Sourcing
 This bot is now open sourced. You can mess with the code and try out Azami\
 06/07/2022 - I have offically ended support for Azami so i have decided to open source the bot
 
-Make a token.txt in the main repository to use her 
+Make a token.txt in the main repository to run the bot
